@@ -3,11 +3,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ControllerModule } from './controller/controller.module';
+import { DataBaseEnum } from './persistence/enum/data-base.enum';
 import { ServiceModule } from './service/service.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
-    type: 'postgres',
+    type: DataBaseEnum.POSTGRES,
     host: 'localhost',
     port: 5432,
     username: 'admin',
