@@ -5,22 +5,22 @@ import { UserService } from 'src/service/user/user.service';
 
 @Controller('user')
 export class UserController {
-    constructor(private userService:UserService){}
+    constructor(private userService: UserService) { }
 
     @Get()
-    async helloWorld(){
-       return this.userService.hello()
+    async helloWorld() {
+        return this.userService.hello()
     }
 
     @Post()
-    async createUser(@Body() registerUserDTO:RegisterUserDTO){
-return this.userService.registerUSer(registerUserDTO)
+    async createUser(@Body() registerUserDTO: RegisterUserDTO) {
+        return this.userService.registerUSer(registerUserDTO)
     }
 
 
     @Post('/token')
-    async loginUser(@Body() loginDTO:LoginDTO){
+    async loginUser(@Body() loginDTO: LoginDTO) {
         return this.userService.loginUser(loginDTO)
     }
-    
+
 }

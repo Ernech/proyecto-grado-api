@@ -8,5 +8,5 @@ import { DataBaseEnum } from 'src/persistence/enum/data-base.enum';
 
 @Module({
     imports:[TypeOrmModule.forFeature([UserEntity],DataBaseEnum.POSTGRES)],
-    providers:[UserService, TokenService, EncryptionService],exports:[UserService,TokenService, EncryptionService]})
+    providers:[UserService, TokenService, EncryptionService],exports:[UserService,TokenService,EncryptionService]})
 export class ServiceModule {}

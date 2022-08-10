@@ -12,7 +12,7 @@ export class UserEntity extends BaseEntity{
     @Column({name:'password',length:100})
     password:string;
 
-    @Column({type:'enum',name:'Role',default:RoleType.RECRUITER})
+    @Column({type:'enum',enum:RoleType,default:RoleType.RECRUITER})
     role:RoleType
 
 }

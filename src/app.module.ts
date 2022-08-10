@@ -8,6 +8,7 @@ import { ServiceModule } from './service/service.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
+    name: DataBaseEnum.POSTGRES,
     type: DataBaseEnum.POSTGRES,
     host: 'localhost',
     port: 5432,
