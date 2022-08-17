@@ -19,16 +19,19 @@ export class UserService {
         return {msg:'Hello World'}
     }
 
-    async loginUser(loginDTO:LoginDTO){
-        if(loginDTO.email == 'admin@test.com' && loginDTO.password=='1234abcd'){
-            const token = this.tokenservice.generateToken();
-            return {token};
-        }else{
+    async loginUser(email:string,password:string){
+        const user  = await this.userRepository.findOneBy({email,status:1})
+        if(!user){
             throw new UnauthorizedException('Credenciales incorrectas')
         }
+        const verifyPassword = await this.encryptionService.verifyPassword(password,user.password);
+        if(verifyPassword){
+            return this.tokenservice.generateToken(user);
+        }
+        return null
     }
 
-    async registerUSer(registerUserDTO:RegisterUserDTO){
+    async registerUser(registerUserDTO:RegisterUserDTO){
          registerUserDTO.password= await this.encryptionService.cryptPassword(registerUserDTO.password)
          const newUser = this.userRepository.create(registerUserDTO);
          return await this.userRepository.save(newUser).catch((error)=>{

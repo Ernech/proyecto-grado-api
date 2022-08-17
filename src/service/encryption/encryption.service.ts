@@ -10,4 +10,7 @@ export class EncryptionService {
     
         return cryptedPassword;
     }
+    async verifyPassword(password:string,encryptedPasswsord:string){
+        return await bcrypt.compare(password, encryptedPasswsord)
+    }
 }
