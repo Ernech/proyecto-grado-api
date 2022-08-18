@@ -10,7 +10,7 @@ import { TokenService } from '../token/token.service';
 
 @Injectable()
 export class UserService {
-    constructor(@InjectRepository(UserEntity,DataBaseEnum.POSTGRES)
+    constructor(@InjectRepository(UserEntity,DataBaseEnum.ORACLE)
         private userRepository:Repository<UserEntity>,
         private tokenservice:TokenService,
         private encryptionService:EncryptionService){}

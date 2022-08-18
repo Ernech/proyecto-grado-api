@@ -8,12 +8,12 @@ import { ServiceModule } from './service/service.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
-    name: DataBaseEnum.POSTGRES,
-    type: DataBaseEnum.POSTGRES,
+    name: DataBaseEnum.ORACLE,
+    type: DataBaseEnum.ORACLE,
     host: 'localhost',
-    port: 5432,
-    username: 'admin',
-    password: 'proyecto-grado-2022',
+    port: 1521,
+    username: 'SYSTEM',
+    password: 'TallerDeGrado-2022',
     database: 'ucb-rrhh',
     autoLoadEntities: true,
     synchronize: true,
