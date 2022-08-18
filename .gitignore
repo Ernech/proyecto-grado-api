@@ -2,6 +2,7 @@
 /dist
 /node_modules
 /http
+.env
 # Logs
 logs
 *.log

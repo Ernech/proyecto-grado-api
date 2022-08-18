@@ -1,12 +1,13 @@
 import * as jwt from 'jsonwebtoken';
 import { Injectable } from '@nestjs/common';
 import { UserEntity } from 'src/persistence/user.entity';
+require('dotenv').config();
 
 @Injectable()
 export class TokenService {
 
     generateToken(user:UserEntity){
-        const privateKey="456454545asddsadasdasfdasd4as54ffjiojfiJFSJFKSjfSJFJKJifoefsdadas"
+        const privateKey=process.env.PRIVATEKEY;
         const now = Math.floor(Date.now() / 1000);
         const payload={
             role:user.role,
