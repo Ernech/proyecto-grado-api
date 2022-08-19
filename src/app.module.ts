@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { ControllerModule } from './controller/controller.module';
 import { DataBaseEnum } from './persistence/enum/data-base.enum';
 import { ServiceModule } from './service/service.module';
+import { GuardModule } from './guard/guard.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -19,7 +20,7 @@ import { ServiceModule } from './service/service.module';
     synchronize: true,
     entities: [__dirname + '/persistence/*.entity{.ts,.js}']
   }),
-    ControllerModule, ServiceModule],
+    ControllerModule, ServiceModule, GuardModule],
   controllers: [AppController],
   providers: [AppService],
 })

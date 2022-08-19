@@ -3,6 +3,7 @@ import { AcademicTrainingEntity } from "./academic-training";
 import { AptitudeEntity } from "./aptitude.entity";
 import { BaseEntity } from "./base.entity";
 import { ExperienceEntity } from "./experience.entity";
+import { JobFunctionEntity } from "./job-function.entity";
 
 @Entity('job_call')
 export class JobCallEntity extends BaseEntity{
@@ -13,7 +14,7 @@ export class JobCallEntity extends BaseEntity{
     @Column({name:'job_call_number', length:300})
     jobCallNumber:string;
 
-    @Column({name:'job_call_obj',type:'text'})
+    @Column({name:'job_call_obj',length:400})
     jobCallObj:string;
 
     @Column({name:'job_manual_file', length:300})
@@ -31,6 +32,9 @@ export class JobCallEntity extends BaseEntity{
     
     @Column({name:'closing_date', type:'timestamp'})
     closingDate: Date;
+
+    @OneToMany(()=> JobFunctionEntity, (jobFunctions)=> jobFunctions.jobCall,{cascade:true})
+    jobFunctions: JobFunctionEntity[]
 
     @OneToMany(()=> ExperienceEntity, (experience)=> experience.jobCall,{cascade:true})
     experiences: ExperienceEntity[]
