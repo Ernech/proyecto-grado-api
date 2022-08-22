@@ -11,11 +11,7 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class JobCallService {
 
-    constructor(@InjectRepository (JobCallEntity,DataBaseEnum.ORACLE) private jobCallRepository:Repository<JobCallEntity>,
-    // @InjectRepository (ExperienceEntity,DataBaseEnum.ORACLE) private experienceRepository:Repository<ExperienceEntity>,
-    // @InjectRepository (AcademicTrainingEntity,DataBaseEnum.ORACLE) private academicTrainingRepository:Repository<AcademicTrainingEntity>,
-    // @InjectRepository (AptitudeEntity,DataBaseEnum.ORACLE) private aptitudeRepository:Repository<AptitudeEntity>,
-    ){
+    constructor(@InjectRepository (JobCallEntity,DataBaseEnum.ORACLE) private jobCallRepository:Repository<JobCallEntity>){
     }
 
 

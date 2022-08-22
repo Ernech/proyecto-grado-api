@@ -1,9 +1,10 @@
 import { Column, Entity, OneToMany } from "typeorm";
-import { AcademicTrainingEntity } from "./academic-training";
+import { AcademicTrainingEntity } from "./academic-training.entity";
 import { AptitudeEntity } from "./aptitude.entity";
 import { BaseEntity } from "./base.entity";
 import { ExperienceEntity } from "./experience.entity";
 import { JobFunctionEntity } from "./job-function.entity";
+import { RequiredKnowledgeEntity } from "./required-knowledge.entity";
 
 @Entity('job_call')
 export class JobCallEntity extends BaseEntity{
@@ -41,6 +42,9 @@ export class JobCallEntity extends BaseEntity{
 
     @OneToMany(()=> AcademicTrainingEntity, (academicTraining)=> academicTraining.jobCall,{cascade:true})
     academicTrainings: AcademicTrainingEntity[]
+
+    @OneToMany(()=> RequiredKnowledgeEntity, (requiredKnowledge)=> requiredKnowledge.jobCall,{cascade:true})
+    requiredKnowledge: RequiredKnowledgeEntity[]
    
     @OneToMany(()=> AptitudeEntity, (aptitude)=> aptitude.jobCall,{cascade:true})
     aptitudes: AptitudeEntity[]

@@ -10,7 +10,7 @@ export class AptitudeEntity extends BaseEntity{
     @Column({name:'aptitude',length:100})
     aptitude:string;
 
-    @Column({name:'aptotude_type',length:100})
+    @Column({name:'aptitude_type',length:100})
     aptitudeType:string;
 
     @Column({name:'desired_level',length:100})
