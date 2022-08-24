@@ -7,6 +7,10 @@ export class ExperienceDTO{
     @IsInt()
     yearsOfExperience:number;
 
+    @IsNotEmpty()
+    @IsString()
+    description:string;
+
    @IsNotEmpty()
    @IsString()
     requirement:string;

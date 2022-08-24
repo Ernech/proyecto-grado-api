@@ -9,6 +9,9 @@ export class ExperienceEntity extends BaseEntity{
     @Column({name:'years_of_experience'})
     yearsOfExperience:number;
 
+    @Column({name:'description',length:300})
+    description:string;
+
     @Column({name:'requirement', length:300})
     requirement:string;
 

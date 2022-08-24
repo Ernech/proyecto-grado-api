@@ -13,8 +13,7 @@ export class JobCallController {
     @Post()
     @Roles(RoleType.RECRUITER)
     async createJobCall(@Body() jobCallDTO:JobCallDTO ){
-        return 'new job call';
-        // return await this.jobCallService.newJobCall(jobCallDTO)
+        return await this.jobCallService.newJobCall(jobCallDTO)
         
     }
 }

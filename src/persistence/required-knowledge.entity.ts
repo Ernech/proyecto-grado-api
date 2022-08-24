@@ -2,7 +2,7 @@ import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
 import { BaseEntity } from "./base.entity";
 import { JobCallEntity } from "./job-call.entity";
 
-@Entity('required-knowledge')
+@Entity('required_knowledge')
 export class RequiredKnowledgeEntity extends BaseEntity {
 
     @Column({ name: 'description', length: 300 })

@@ -3,6 +3,7 @@ import { AcademicTrainingDTO } from "./academic-training.dto";
 import { AptitudeDTO } from "./aptitude.dto";
 import { ExperienceDTO } from "./experience.dto";
 import { JobFunctionDTO } from "./job-function.dto";
+import { RequiredKnowledgeDTO } from "./required-knowledge.dto";
 
 
 
@@ -52,4 +53,8 @@ export class JobCallDTO {
     @IsNotEmpty()
     @IsArray()
     aptitudes: AptitudeDTO[]
+
+    @IsNotEmpty()
+    @IsArray()
+    requiredKnowledge:RequiredKnowledgeDTO[]
 }
