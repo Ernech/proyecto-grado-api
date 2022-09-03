@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post, Put } from '@nestjs/common';
-import { Param } from '@nestjs/common/decorators';
+import { Param, Patch } from '@nestjs/common/decorators';
 import { ParseUUIDPipe } from '@nestjs/common/pipes';
 import { Roles } from 'src/decorator/role.decorator';
 import { JobCallDTO } from 'src/dto/job-call.dto';
@@ -31,5 +31,11 @@ export class JobCallController {
         @Param('id',new ParseUUIDPipe()) id:string,
         @Body() jobcallDto:JobCallDTO){
         return await this.jobCallService.editJobCall(id,jobcallDto)
+    }
+    @Patch('/:id')
+    @Roles(RoleType.RECRUITER)
+    async publishJobCall(@Param('id',new ParseUUIDPipe()) id:string){
+        this.jobCallService.publishJobCall(id)
+
     }
 }
