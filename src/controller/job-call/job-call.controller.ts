@@ -1,4 +1,6 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Put } from '@nestjs/common';
+import { Param } from '@nestjs/common/decorators';
+import { ParseUUIDPipe } from '@nestjs/common/pipes';
 import { Roles } from 'src/decorator/role.decorator';
 import { JobCallDTO } from 'src/dto/job-call.dto';
 import { RoleType } from 'src/persistence/enum/role-type.enum';
@@ -21,5 +23,13 @@ export class JobCallController {
     @Roles(RoleType.RECRUITER)
     async getSavedJobCalls(){
         return this.jobCallService.getJobCalls(JobCallStatusEnum.SAVED)
+    }
+
+    @Put('/:id')
+    @Roles(RoleType.RECRUITER)
+    async editJobCall(
+        @Param('id',new ParseUUIDPipe()) id:string,
+        @Body() jobcallDto:JobCallDTO){
+        return await this.jobCallService.editJobCall(id,jobcallDto)
     }
 }

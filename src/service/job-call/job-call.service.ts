@@ -47,7 +47,45 @@ export class JobCallService {
         .getMany();
         return savedJobCalls;
     }
+    async editJobCall(jobCallId:string, newJobCall:JobCallDTO){
+        const jobCall = await this.getJobCallById(jobCallId);
+        const newJobCallEntity = this.jobCallRepository.create(newJobCall)
+        this.jobCallRepository.merge(jobCall,newJobCall)
+        jobCall.aptitudes=newJobCallEntity.aptitudes;
+        jobCall.experiences=newJobCallEntity.experiences;
+        jobCall.academicTrainings=newJobCallEntity.academicTrainings;
+        jobCall.jobFunctions=newJobCallEntity.jobFunctions;
+        jobCall.requiredKnowledge=newJobCallEntity.requiredKnowledge
+        return await this.jobCallRepository.save(jobCall)
 
+    }
+    async getJobCallById(jobCallId:string){
+        const savedJobCall: JobCallEntity= await 
+        this.jobCallRepository.createQueryBuilder('jobCall').select([
+            'jobCall.id',
+            'jobCall.jobCallName',
+            'jobCall.jobCallNumber',
+            'jobCall.jobCallObj',
+            'jobCall.jobManualFile',
+            'jobCall.jobInfoFile',
+            'jobCall.openingDate',
+            'jobCall.closingDate',
+           
+        ]).innerJoinAndSelect('jobCall.aptitudes','aptitude')
+        .innerJoinAndSelect('jobCall.jobFunctions','jobFunction')
+        .innerJoinAndSelect('jobCall.experiences','experience')
+        .innerJoinAndSelect('jobCall.academicTrainings','academicTraining')
+        .innerJoinAndSelect('jobCall.requiredKnowledge','requiredKnowledge')
+        .andWhere('jobCall.status=:status',{status: 1})
+        .andWhere('aptitude.status=:status', { status: 1 })
+        .andWhere('jobFunction.status=:status', { status: 1 })
+        .andWhere('experience.status=:status', { status: 1 })
+        .andWhere('academicTraining.status=:status', { status: 1 })
+        .andWhere('requiredKnowledge.status=:status', { status: 1 })
+        .andWhere('jobCall.id=:id',{id:jobCallId})
+        .getOne();
+        return savedJobCall;
+    }
     async getAptitudesFromJobCall(jobCallId: string) {
         const aptitudes: AptitudeEntity[] = await this.aptitudeRepository
             .createQueryBuilder('aptitude').innerJoinAndSelect('aptitude.jobCall', 'jobCall').
@@ -62,4 +100,5 @@ export class JobCallService {
             .getMany();
         return aptitudes;
     }
+  
 }
