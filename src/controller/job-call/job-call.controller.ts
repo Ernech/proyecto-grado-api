@@ -14,7 +14,7 @@ export class JobCallController {
 
     @Post()
     @Roles(RoleType.RECRUITER)
-    async createJobCall(@Body() jobCallDTO:JobCallDTO ){
+    async createJobCall(@Body() jobCallDTO:JobCallDTO){
         return await this.jobCallService.newJobCall(jobCallDTO)
         
     }
@@ -24,7 +24,12 @@ export class JobCallController {
     async getSavedJobCalls(){
         return this.jobCallService.getJobCalls(JobCallStatusEnum.SAVED)
     }
-
+    @Get('/pending')
+    @Roles(RoleType.RECRUITER)
+    async getPendingJobCalls(){
+        return this.jobCallService.getJobCalls(JobCallStatusEnum.PENDING)
+    }
+    
     @Put('/:id')
     @Roles(RoleType.RECRUITER)
     async editJobCall(
