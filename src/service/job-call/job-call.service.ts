@@ -6,18 +6,20 @@ import { DataBaseEnum } from 'src/persistence/enum/data-base.enum';
 import { JobCallStatusEnum } from 'src/persistence/enum/job-call-status.enum';
 import { JobCallEntity } from 'src/persistence/job-call.entity';
 import { Repository } from 'typeorm';
-
+import { CronJob } from 'cron';
+import { SchedulerRegistry } from '@nestjs/schedule';
 @Injectable()
 export class JobCallService {
 
     constructor(@InjectRepository(JobCallEntity, DataBaseEnum.ORACLE) private jobCallRepository: Repository<JobCallEntity>,
-        @InjectRepository(AptitudeEntity, DataBaseEnum.ORACLE) private aptitudeRepository: Repository<AptitudeEntity>) {
+        @InjectRepository(AptitudeEntity, DataBaseEnum.ORACLE) private aptitudeRepository: Repository<AptitudeEntity>,
+        private readonly schedulerRegistry: SchedulerRegistry) {
     }
 
 
     async newJobCall(jobCallDTO: JobCallDTO) {
         const newJobCall: JobCallEntity = this.jobCallRepository.create(jobCallDTO);
-        if(newJobCall.openingDate<=newJobCall.closingDate){
+        if (newJobCall.openingDate >= newJobCall.closingDate) {
             throw new BadRequestException("Fecha de apertura incorrecta")
         }
         newJobCall.jobCallStatus = "SAVED";
@@ -97,33 +99,47 @@ export class JobCallService {
     async publishJobCall(id: string) {
         const jobCall: JobCallEntity = await this.getJobCallById(id);
         const today = new Date()
+        today.setHours(today.getHours() - 4)
         if (jobCall.openingDate < today) {
-                throw new BadRequestException("Fecha de apertura incorrecta")
+            throw new BadRequestException("Fecha de apertura incorrecta")
         }
-        else if(jobCall.openingDate===today){
-            jobCall.jobCallStatus=JobCallStatusEnum.OPEN
+        else if (jobCall.openingDate === today) {
+            jobCall.jobCallStatus = JobCallStatusEnum.OPEN
         }
-        else if(jobCall.openingDate>today){
-            jobCall.jobCallStatus=JobCallStatusEnum.PENDING
+        else if (jobCall.openingDate > today) {
+            jobCall.jobCallStatus = JobCallStatusEnum.PENDING
+            this.openJobCall(jobCall.openingDate, jobCall.id)
+            this.closeJobCall(jobCall.closingDate, jobCall.id)
         }
         await this.jobCallRepository.save(jobCall)
 
 
     };
 
-    async getAptitudesFromJobCall(jobCallId: string) {
-        const aptitudes: AptitudeEntity[] = await this.aptitudeRepository
-            .createQueryBuilder('aptitude').innerJoinAndSelect('aptitude.jobCall', 'jobCall').
-            select([
-                'aptitude.id',
-                'aptitude.aptitude',
-                'aptitude.aptitudeType',
-                'aptitude.desiredLevel'
-            ]).where('jobCall.id=:id', { id: jobCallId })
-            .andWhere('jobCall.status=:status', { status: 1 })
-            .andWhere('aptitude.status=:status', { status: 1 })
-            .getMany();
-        return aptitudes;
+    async openJobCallById(jobCallId: string) {
+        const jobCall: JobCallEntity = await this.getJobCallById(jobCallId);
+        jobCall.jobCallStatus = JobCallStatusEnum.OPEN
+        await this.jobCallRepository.save(jobCall)
     }
 
+    async closeJobCallById(jobCallId: string) {
+        const jobCall: JobCallEntity = await this.getJobCallById(jobCallId);
+        jobCall.jobCallStatus = JobCallStatusEnum.CLOSED
+        await this.jobCallRepository.save(jobCall)
+    }
+
+    openJobCall(openingDate: Date, jobCallId: string) {
+        const openJobCall = new CronJob(openingDate, async () => {
+            await this.openJobCallById(jobCallId)
+        })
+        this.schedulerRegistry.addCronJob(`open-job-call-${jobCallId}`, openJobCall)
+        openJobCall.start()
+    }
+    closeJobCall(closingDate: Date, jobCallId: string) {
+        const closeJobCall = new CronJob(closingDate, async () => {
+            await this.closeJobCallById(jobCallId)
+        })
+        this.schedulerRegistry.addCronJob(`close-job-call-${jobCallId}`, closeJobCall)
+        closeJobCall.start()
+    }
 }

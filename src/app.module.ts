@@ -7,8 +7,10 @@ import { DataBaseEnum } from './persistence/enum/data-base.enum';
 import { ServiceModule } from './service/service.module';
 import { GuardModule } from './guard/guard.module';
 
+import { ScheduleModule } from '@nestjs/schedule';
 @Module({
-  imports: [TypeOrmModule.forRoot({
+  imports: [
+    TypeOrmModule.forRoot({
     name: DataBaseEnum.ORACLE,
     type: DataBaseEnum.ORACLE,
     host: 'localhost',
@@ -20,6 +22,7 @@ import { GuardModule } from './guard/guard.module';
     synchronize: true,
     entities: [__dirname + '/persistence/*.entity{.ts,.js}']
   }),
+  ScheduleModule.forRoot(),
     ControllerModule, ServiceModule, GuardModule],
   controllers: [AppController],
   providers: [AppService],
