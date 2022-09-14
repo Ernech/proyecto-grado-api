@@ -15,8 +15,7 @@ export class JobCallController {
     @Post()
     @Roles(RoleType.RECRUITER)
     async createJobCall(@Body() jobCallDTO:JobCallDTO){
-        return await this.jobCallService.newJobCall(jobCallDTO)
-        
+        return await this.jobCallService.newJobCall(jobCallDTO)  
     }
 
     @Get('/saved')
@@ -29,7 +28,16 @@ export class JobCallController {
     async getPendingJobCalls(){
         return this.jobCallService.getJobCalls(JobCallStatusEnum.PENDING)
     }
-    
+    @Get('/opened')
+    @Roles(RoleType.RECRUITER)
+    async getOpenedJobCalls(){
+        return this.jobCallService.getJobCalls(JobCallStatusEnum.OPEN)
+    }
+    @Get('/closed')
+    @Roles(RoleType.RECRUITER)
+    async getClosedJobCalls(){
+        return this.jobCallService.getJobCalls(JobCallStatusEnum.CLOSED)
+    }
     @Put('/:id')
     @Roles(RoleType.RECRUITER)
     async editJobCall(
@@ -37,10 +45,22 @@ export class JobCallController {
         @Body() jobcallDto:JobCallDTO){
         return await this.jobCallService.editJobCall(id,jobcallDto)
     }
-    @Patch('/:id')
+    @Patch('pending/:id')
     @Roles(RoleType.RECRUITER)
     async publishJobCall(@Param('id',new ParseUUIDPipe()) id:string){
         this.jobCallService.publishJobCall(id)
+
+    }
+    @Patch('opened/:id')
+    @Roles(RoleType.RECRUITER)
+    async openJobCall(@Param('id',new ParseUUIDPipe()) id:string){
+        this.jobCallService.openJobCallById(id)
+
+    }
+    @Patch('closed/:id')
+    @Roles(RoleType.RECRUITER)
+    async closeJobCall(@Param('id',new ParseUUIDPipe()) id:string){
+        this.jobCallService.closeJobCallById(id)
 
     }
 }
