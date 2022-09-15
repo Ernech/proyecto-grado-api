@@ -1,17 +1,17 @@
 import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LoginDTO } from 'src/dto/login.dto';
-import { RegisterUserDTO } from 'src/dto/register-user.dto';
+import { RegisterRecruiterDTO } from 'src/dto/register-recuiter.dto';
 import { DataBaseEnum } from 'src/persistence/enum/data-base.enum';
-import { UserEntity } from 'src/persistence/user.entity';
+import { RecruiterEntity } from 'src/persistence/recruiter.entity';
 import { Repository } from 'typeorm';
 import { EncryptionService } from '../encryption/encryption.service';
 import { TokenService } from '../token/token.service';
 
 @Injectable()
 export class UserService {
-    constructor(@InjectRepository(UserEntity,DataBaseEnum.ORACLE)
-        private userRepository:Repository<UserEntity>,
+    constructor(@InjectRepository(RecruiterEntity,DataBaseEnum.ORACLE)
+        private recuiterRepository:Repository<RecruiterEntity>,
         private tokenservice:TokenService,
         private encryptionService:EncryptionService){}
 
@@ -20,7 +20,7 @@ export class UserService {
     }
 
     async loginUser(email:string,password:string){
-        const user  = await this.userRepository.findOneBy({email,status:1})
+        const user  = await this.recuiterRepository.findOneBy({email,status:1})
         if(!user){
             throw new UnauthorizedException('Credenciales incorrectas')
         }
@@ -31,10 +31,10 @@ export class UserService {
         return null
     }
 
-    async registerUser(registerUserDTO:RegisterUserDTO){
+    async registerRecuiter(registerUserDTO:RegisterRecruiterDTO){
          registerUserDTO.password= await this.encryptionService.cryptPassword(registerUserDTO.password)
-         const newUser = this.userRepository.create(registerUserDTO);
-         return await this.userRepository.save(newUser).catch((error)=>{
+         const newUser = this.recuiterRepository.create(registerUserDTO);
+         return await this.recuiterRepository.save(newUser).catch((error)=>{
             throw new ConflictException('Hubo un error al registrar al usuario')
          })
 

@@ -1,18 +1,18 @@
 import * as jwt from 'jsonwebtoken';
 import { Injectable } from '@nestjs/common';
-import { UserEntity } from 'src/persistence/user.entity';
+import { RecruiterEntity } from 'src/persistence/recruiter.entity';
 require('dotenv').config();
 
 @Injectable()
 export class TokenService {
 
-    generateToken(user:UserEntity){
+    generateToken(recruiter:RecruiterEntity){
         const privateKey=process.env.PRIVATEKEY;
         const now = Math.floor(Date.now() / 1000);
         const payload={
-            role:user.role,
-            id:user.id,
-            email:user.email,
+            role:recruiter.role,
+            id:recruiter.id,
+            email:recruiter.email,
             iat: now,
         }
         return jwt.sign(payload,privateKey,{expiresIn:'2h'})

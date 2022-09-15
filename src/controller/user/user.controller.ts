@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, UnauthorizedException } from '@nestjs/common';
 import { Authorization } from 'src/decorator/auth.decorator';
 import { LoginDTO } from 'src/dto/login.dto';
-import { RegisterUserDTO } from 'src/dto/register-user.dto';
+import { RegisterRecruiterDTO } from 'src/dto/register-recuiter.dto';
 import { UserService } from 'src/service/user/user.service';
 
 @Controller('user')
@@ -14,8 +14,8 @@ export class UserController {
     }
 
     @Post()
-    async createUser(@Body() registerUserDTO: RegisterUserDTO) {
-        return this.userService.registerUser(registerUserDTO)
+    async createUser(@Body() registerUserDTO: RegisterRecruiterDTO) {
+        return this.userService.registerRecuiter(registerUserDTO)
     }
 
     @Authorization(false)

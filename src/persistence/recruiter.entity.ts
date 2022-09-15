@@ -3,8 +3,17 @@ import { BaseEntity } from "./base.entity";
 
 
 
-@Entity('user')
-export class UserEntity extends BaseEntity{
+@Entity('recuiter')
+export class RecruiterEntity extends BaseEntity{
+
+    @Column({name:'name',length:100})
+    name:string;
+
+    @Column({name:'last_name',length:100})
+    lastName:string;
+    
+    @Column({name:'position',length:100})
+    position:string;
 
     @Column({name:'email',length:100})
     email:string;
