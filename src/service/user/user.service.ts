@@ -34,6 +34,17 @@ export class UserService {
         }
         return null
     }
+    async loginCandidate(email:string,password:string){
+        const user  = await this.candidateRepository.findOneBy({email,status:1})
+        if(!user){
+            throw new UnauthorizedException('Credenciales incorrectas')
+        }
+        const verifyPassword = await this.encryptionService.verifyPassword(password,user.password);
+        if(verifyPassword){
+            return this.tokenservice.generateCandidateToken(user);
+        }
+        return null
+    }
 
     async registerRecuiter(registerUserDTO:RegisterRecruiterDTO){
          registerUserDTO.password= await this.encryptionService.cryptPassword(registerUserDTO.password)
@@ -46,9 +57,10 @@ export class UserService {
     async registerCandidate(registerUserDTO:RegisterCandidateDTO){
         registerUserDTO.password= await this.encryptionService.cryptPassword(registerUserDTO.password)
         const newUser = this.candidateRepository.create(registerUserDTO);
-        return await this.candidateRepository.save(newUser).catch((error)=>{
+         await this.candidateRepository.save(newUser).catch((error)=>{
            throw new ConflictException('Hubo un error al registrar al usuario')
         })
+        return {token:this.tokenservice.generateCandidateToken(newUser)};
 
    }
 }

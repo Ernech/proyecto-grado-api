@@ -19,15 +19,27 @@ export class UserController {
         return this.userService.registerRecuiter(registerUserDTO)
     }
 
+    @Authorization(false)
     @Post('/candidate')
     async createCandidate(@Body() registerUserDTO: RegisterCandidateDTO) {
-        return this.userService.registerCandidate(registerUserDTO)
+        return await this.userService.registerCandidate(registerUserDTO)
     }
 
     @Authorization(false)
     @Post('/token')
     async loginUser(@Body() loginDTO: LoginDTO) {
         const token = await this.userService.loginUser(loginDTO.email,loginDTO.password)
+        if(token){
+           
+            return {token}
+        }
+        throw new UnauthorizedException('Contraseña Incorrecta')
+    }
+
+    @Authorization(false)
+    @Post('/candidate/token')
+    async loginCandidate(@Body() loginDTO: LoginDTO) {
+        const token = await this.userService.loginCandidate(loginDTO.email,loginDTO.password)
         if(token){
            
             return {token}
