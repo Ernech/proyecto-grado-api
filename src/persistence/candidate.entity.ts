@@ -3,8 +3,8 @@ import { BaseEntity } from "./base.entity";
 
 
 
-@Entity('recruiter')
-export class RecruiterEntity extends BaseEntity{
+@Entity('candidate')
+export class CandidateEntity extends BaseEntity{
 
     @Column({name:'name',length:100})
     name:string;
@@ -12,9 +12,6 @@ export class RecruiterEntity extends BaseEntity{
     @Column({name:'last_name',length:100})
     lastName:string;
     
-    @Column({name:'position',length:100})
-    position:string;
-
 
     @Column({name:'email',length:100})
     email:string;
@@ -22,7 +19,7 @@ export class RecruiterEntity extends BaseEntity{
     @Column({name:'password',length:100})
     password:string;
 
-    @Column({default:'RECRUITER',length:100})
+    @Column({default:'CANDIDATE',length:100})
     role:string
 
 }
