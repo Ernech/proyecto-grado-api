@@ -1,5 +1,7 @@
-import { Column, Entity } from "typeorm";
+import { Column, Entity, JoinColumn, OneToMany, OneToOne } from "typeorm";
 import { BaseEntity } from "./base.entity";
+import { CVDataEntity } from "./cv-data.entity";
+import { PersonalDataEntity } from "./personal-data.entity";
 
 
 
@@ -11,7 +13,6 @@ export class CandidateEntity extends BaseEntity{
 
     @Column({name:'last_name',length:100})
     lastName:string;
-    
 
     @Column({name:'email',length:100})
     email:string;
@@ -21,5 +22,12 @@ export class CandidateEntity extends BaseEntity{
 
     @Column({default:'CANDIDATE',length:100})
     role:string
+
+    @OneToOne(()=>PersonalDataEntity,(personalData)=>personalData.candidate)
+    @JoinColumn()
+    personalData:PersonalDataEntity;
+
+    @OneToMany(()=> CVDataEntity, (cvData)=> cvData.candidate,{cascade:true})
+    cvData: CVDataEntity[]
 
 }
