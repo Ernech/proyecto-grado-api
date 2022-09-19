@@ -18,7 +18,8 @@ import { CVDataEntity } from 'src/persistence/cv-data.entity';
 import { CvService } from './cv/cv.service';
 
 @Module({
-    imports:[TypeOrmModule.forFeature([RecruiterEntity,CandidateEntity,JobCallEntity,AcademicTrainingEntity,ExperienceEntity,AptitudeEntity,JobFunctionEntity,RequiredKnowledgeEntity,PersonalDataEntity,CVDataEntity],DataBaseEnum.ORACLE)],
-    providers:[UserService, TokenService, EncryptionService, JobCallService, CvService]
-    ,exports:[UserService,TokenService,EncryptionService,JobCallService,CvService]})
-export class ServiceModule {}
+    imports: [TypeOrmModule.forFeature([RecruiterEntity, CandidateEntity, JobCallEntity, AcademicTrainingEntity, ExperienceEntity, AptitudeEntity, JobFunctionEntity, RequiredKnowledgeEntity, PersonalDataEntity, CVDataEntity], DataBaseEnum.ORACLE)],
+    providers: [UserService, TokenService, EncryptionService, JobCallService, CvService]
+    , exports: [UserService, TokenService, EncryptionService, JobCallService, CvService]
+})
+export class ServiceModule { }

@@ -20,8 +20,14 @@ export class CVDataEntity extends BaseEntity{
     @Column({name:'degree',length:300,default:'--'})
     degree:string;
 
+    @Column({name:'degree_date',length:50,default:'--'})
+    degreeDate:string;
+
     @Column({name:'location',length:250,default:'--'})
     location:string;
+
+    @Column({name:'distinction_class',length:50,default:'--'})
+    distinctionClass:string;
 
     @Column({name:'data_class',length:300,default:'--'})
     dataClass:string;

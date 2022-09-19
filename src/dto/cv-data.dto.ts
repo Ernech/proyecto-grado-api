@@ -11,7 +11,13 @@ export class CVDataDTO{
 
     position:string;
 
+    degree:string;
+
+    degreeDate:string
+
     location:string;
+
+    distinctionClass:string;
 
     dataClass:string;
 
