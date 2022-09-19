@@ -67,8 +67,8 @@ export class PersonalDataEntity extends BaseEntity{
     @Column({name:'personal_id_file',length:300})
     personalIdFile:string;
 
-    @Column({name:'professional_start_date',type:'date'})
-    professionalStartDate:Date;
+    @Column({name:'professional_start_year'})
+    professionalStartYear:number;
 
     @OneToOne(()=>CandidateEntity,(candidate)=>candidate.personalData)
     @JoinColumn()

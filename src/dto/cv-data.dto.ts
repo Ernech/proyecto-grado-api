@@ -9,15 +9,21 @@ export class CVDataDTO{
 
     institution:string;
 
+    position:string;
+
     location:string;
 
-    distinctionClass:string;
+    dataClass:string;
 
     dataDate:Date;
 
     startDate:string;
    
     finishDate:string;
+
+    techingStartYear:number;
+
+    teachingUCBStartYear:number;
 
     professionalTitleFile:string;
 
@@ -33,7 +39,7 @@ export class CVDataDTO{
   
     name:string;
 
-    employment_relationship:string;
+    employmentRelationship:string;
 
     phone:string;
     

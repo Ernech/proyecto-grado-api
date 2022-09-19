@@ -1,88 +1,88 @@
-import { IsDate, IsNotEmpty, IsString } from "class-validator"
+import { IsDate, IsNotEmpty, IsNumber, IsString } from "class-validator"
 
 
-export class PersonalDataDTO {
-
-    @IsString()
-    @IsNotEmpty()
-    firstLastName: string
+export class PersonalDataDTO{
 
     @IsString()
     @IsNotEmpty()
-    secondLastName: string
+    firstLastName:string
+
+  @IsString()
+  @IsNotEmpty()
+    secondLastName:string
 
     @IsString()
     @IsNotEmpty()
-    name: string
+    name:string
 
     @IsString()
     @IsNotEmpty()
-    marriedLastName: string
+    marriedLastName:string
+
+    @IsString()
+  @IsNotEmpty()
+    personalIdNumber:string
 
     @IsString()
     @IsNotEmpty()
-    personalIdNumber: string
+    issued:string
 
     @IsString()
     @IsNotEmpty()
-    issued: string
+    idType:string
 
     @IsString()
     @IsNotEmpty()
-    idType: string
-
-    @IsString()
-    @IsNotEmpty()
-    civilStatus: string;
+    civilStatus:string;
 
     @IsDate()
-    @IsNotEmpty()
-    birthDate: Date;
+  @IsNotEmpty()
+    birthDate:Date;
 
     @IsString()
     @IsNotEmpty()
-    placeOfBirth: string;
+    placeOfBirth:string;
 
     @IsString()
     @IsNotEmpty()
-    nationality: string;
+    nationality:string;
+
+    @IsString()
+  @IsNotEmpty()
+    address:string;
+
+    @IsString()
+  @IsNotEmpty()
+    zone:string;
+
+    @IsString()
+  @IsNotEmpty()
+    afp:string;
 
     @IsString()
     @IsNotEmpty()
-    address: string;
+    cuaNUmber:string;
 
     @IsString()
     @IsNotEmpty()
-    zone: string;
+    homePhone:string;
 
     @IsString()
     @IsNotEmpty()
-    afp: string;
+    cellPhone:string;
 
     @IsString()
     @IsNotEmpty()
-    cuaNUmber: string;
-
-    @IsString()
-    @IsNotEmpty()
-    homePhone: string;
-
-    @IsString()
-    @IsNotEmpty()
-    cellPhone: string;
-
-    @IsString()
-    @IsNotEmpty()
-    email: string;
+    email:string;
 
 
     @IsString()
     @IsNotEmpty()
-    personalIdFile: string;
+    personalIdFile:string;
 
     @IsDate()
-    @IsNotEmpty()
-    professionalStartDate: Date;
+    @IsNumber()
+    professionalStartYear:number;
 
 
 

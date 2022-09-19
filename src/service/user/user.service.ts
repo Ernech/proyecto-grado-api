@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LoginDTO } from 'src/dto/login.dto';
 import { RegisterCandidateDTO } from 'src/dto/register-candidate.dto';
@@ -63,4 +63,12 @@ export class UserService {
         return {token:this.tokenservice.generateCandidateToken(newUser)};
 
    }
+
+   async getCandidateById(candidateId:string){
+    const user  = await this.candidateRepository.findOneBy({id:candidateId,status:1})
+    if(!user){
+        throw new NotFoundException('Usuario no encontrado')
+    }
+    return user
+}
 }

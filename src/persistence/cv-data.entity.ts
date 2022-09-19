@@ -14,11 +14,17 @@ export class CVDataEntity extends BaseEntity{
     @Column({name:'institution',length:300,default:'--'})
     institution:string;
 
+    @Column({name:'position',length:300,default:'--'})
+    position:string;
+
+    @Column({name:'degree',length:300,default:'--'})
+    degree:string;
+
     @Column({name:'location',length:250,default:'--'})
     location:string;
 
-    @Column({name:'distinction_class',length:300,default:'--'})
-    distinctionClass:string;
+    @Column({name:'data_class',length:300,default:'--'})
+    dataClass:string;
 
     @Column({name:'data_date',type:'date',nullable:true})
     dataDate:Date;
@@ -28,6 +34,12 @@ export class CVDataEntity extends BaseEntity{
 
     @Column({name:'finish_date',length:50,default:'--'})
     finishDate:string;
+
+    @Column({name:'start_date',length:50,default:-1})
+    techingStartYear:number;
+
+    @Column({name:'finish_date',length:50,default:-1})
+    teachingUCBStartYear:number;
 
     @Column({name:'professional_title_file',length:300,default:'--'})
     professionalTitleFile:string;
@@ -51,7 +63,7 @@ export class CVDataEntity extends BaseEntity{
     name:string;
 
     @Column({name:'employment_relationship',length:250,default:'--'})
-    employment_relationship:string;
+    employmentRelationship:string;
 
     @Column({name:'phone',length:50,default:'--'})
     phone:string;
