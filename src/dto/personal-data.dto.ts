@@ -33,6 +33,10 @@ export class PersonalDataDTO{
 
     @IsString()
     @IsNotEmpty()
+    gender:string
+
+    @IsString()
+    @IsNotEmpty()
     civilStatus:string;
 
     @IsDate()
@@ -61,7 +65,7 @@ export class PersonalDataDTO{
 
     @IsString()
     @IsNotEmpty()
-    cuaNUmber:string;
+    cuaNumber:string;
 
     @IsString()
     @IsNotEmpty()

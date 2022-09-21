@@ -52,7 +52,7 @@ export class PersonalDataEntity extends BaseEntity{
     afp:string;
 
     @Column({name:'cua_number',length:100})
-    cuaNUmber:string;
+    cuaNumber:string;
 
     @Column({name:'home_phone',length:50})
     homePhone:string;

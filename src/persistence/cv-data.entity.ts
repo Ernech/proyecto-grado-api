@@ -59,8 +59,8 @@ export class CVDataEntity extends BaseEntity{
     @Column({name:'writing',length:150,default:'--'})
     writing:string;
 
-    @Column({name:'listening',length:150,default:'--'})
-    listening:string;
+    @Column({name:'reading',length:150,default:'--'})
+    reading:string;
 
     @Column({name:'speacking',length:150,default:'--'})
     speacking:string;
@@ -79,7 +79,6 @@ export class CVDataEntity extends BaseEntity{
 
     @Column({name:'address',length:50,default:'--'})
     address:string;
-
 
     @ManyToOne(()=>CandidateEntity,(candidate)=>candidate.cvData)
     candidate:CandidateEntity;

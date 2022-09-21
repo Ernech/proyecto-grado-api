@@ -39,7 +39,7 @@ export class CVDataDTO{
     
     writing:string;
    
-    listening:string;
+    reading:string;
 
     speacking:string;
   
