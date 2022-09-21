@@ -1,4 +1,5 @@
 import { Column, Entity, JoinColumn, OneToMany, OneToOne } from "typeorm";
+import { ApplyEntity } from "./apply.entity";
 import { BaseEntity } from "./base.entity";
 import { CVDataEntity } from "./cv-data.entity";
 import { PersonalDataEntity } from "./personal-data.entity";
@@ -29,5 +30,8 @@ export class CandidateEntity extends BaseEntity{
 
     @OneToMany(()=> CVDataEntity, (cvData)=> cvData.candidate,{cascade:true})
     cvData: CVDataEntity[]
+
+    @OneToMany(()=>ApplyEntity,(apply)=>apply.candidate)
+    apply:ApplyEntity[];
 
 }

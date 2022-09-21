@@ -1,5 +1,6 @@
 import { Column, Entity, OneToMany } from "typeorm";
 import { AcademicTrainingEntity } from "./academic-training.entity";
+import { ApplyEntity } from "./apply.entity";
 import { AptitudeEntity } from "./aptitude.entity";
 import { BaseEntity } from "./base.entity";
 import { ExperienceEntity } from "./experience.entity";
@@ -48,4 +49,7 @@ export class JobCallEntity extends BaseEntity{
    
     @OneToMany(()=> AptitudeEntity, (aptitude)=> aptitude.jobCall,{cascade:true})
     aptitudes: AptitudeEntity[]
+
+    @OneToMany(()=>ApplyEntity,(apply)=>apply.jobCall)
+    apply:ApplyEntity[];
 }
