@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Post, Put } from '@nestjs/common';
 import { Param, Patch } from '@nestjs/common/decorators';
 import { ParseUUIDPipe } from '@nestjs/common/pipes';
+import { Authorization } from 'src/decorator/auth.decorator';
 import { Roles } from 'src/decorator/role.decorator';
 import { JobCallDTO } from 'src/dto/job-call.dto';
 import { RoleType } from 'src/persistence/enum/role-type.enum';
@@ -28,11 +29,13 @@ export class JobCallController {
     async getPendingJobCalls(){
         return this.jobCallService.getJobCalls(JobCallStatusEnum.PENDING)
     }
+   
+    @Authorization(false)
     @Get('/opened')
-    @Roles(RoleType.RECRUITER)
     async getOpenedJobCalls(){
         return this.jobCallService.getJobCalls(JobCallStatusEnum.OPEN)
     }
+    
     @Get('/closed')
     @Roles(RoleType.RECRUITER)
     async getClosedJobCalls(){
