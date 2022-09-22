@@ -1,3 +1,3 @@
 export enum DataBaseEnum{
-    ORACLE='oracle'
+    ORACLE='postgres'
 }
