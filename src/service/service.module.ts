@@ -17,9 +17,25 @@ import { PersonalDataEntity } from 'src/persistence/personal-data.entity';
 import { CVDataEntity } from 'src/persistence/cv-data.entity';
 import { CvService } from './cv/cv.service';
 import { JobApplyService } from './job-apply/job-apply.service';
+import { ApplyEntity } from 'src/persistence/apply.entity';
+import { ApplyCVDataEntity } from 'src/persistence/apply-cv-data.entity';
+import { ApplyPersonalDataEntity } from 'src/persistence/apply-personal-data.entity';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([RecruiterEntity, CandidateEntity, JobCallEntity, AcademicTrainingEntity, ExperienceEntity, AptitudeEntity, JobFunctionEntity, RequiredKnowledgeEntity, PersonalDataEntity, CVDataEntity], DataBaseEnum.ORACLE)],
+    imports: [TypeOrmModule.forFeature([
+        RecruiterEntity, 
+        CandidateEntity, 
+        JobCallEntity, 
+        AcademicTrainingEntity, 
+        ExperienceEntity, 
+        AptitudeEntity, 
+        JobFunctionEntity, 
+        RequiredKnowledgeEntity, 
+        PersonalDataEntity, 
+        CVDataEntity,
+        ApplyEntity,
+    ApplyCVDataEntity,
+ApplyPersonalDataEntity], DataBaseEnum.ORACLE)],
     providers: [UserService, TokenService, EncryptionService, JobCallService, CvService, JobApplyService]
     , exports: [UserService, TokenService, EncryptionService, JobCallService, CvService]
 })
