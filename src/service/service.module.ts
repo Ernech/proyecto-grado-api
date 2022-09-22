@@ -23,19 +23,19 @@ import { ApplyPersonalDataEntity } from 'src/persistence/apply-personal-data.ent
 
 @Module({
     imports: [TypeOrmModule.forFeature([
-        RecruiterEntity, 
-        CandidateEntity, 
-        JobCallEntity, 
-        AcademicTrainingEntity, 
-        ExperienceEntity, 
-        AptitudeEntity, 
-        JobFunctionEntity, 
-        RequiredKnowledgeEntity, 
-        PersonalDataEntity, 
+        RecruiterEntity,
+        CandidateEntity,
+        JobCallEntity,
+        AcademicTrainingEntity,
+        ExperienceEntity,
+        AptitudeEntity,
+        JobFunctionEntity,
+        RequiredKnowledgeEntity,
+        PersonalDataEntity,
         CVDataEntity,
         ApplyEntity,
-    ApplyCVDataEntity,
-ApplyPersonalDataEntity], DataBaseEnum.ORACLE)],
+        ApplyCVDataEntity,
+        ApplyPersonalDataEntity], DataBaseEnum.ORACLE)],
     providers: [UserService, TokenService, EncryptionService, JobCallService, CvService, JobApplyService]
     , exports: [UserService, TokenService, EncryptionService, JobCallService, CvService]
 })
