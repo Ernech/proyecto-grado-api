@@ -11,19 +11,85 @@ import { UserService } from '../user/user.service';
 @Injectable()
 export class CvService {
 
-    constructor(@InjectRepository(CandidateEntity,DataBaseEnum.ORACLE) private candidateRepository:Repository<CandidateEntity>,
-    @InjectRepository(PersonalDataEntity,DataBaseEnum.ORACLE) private personalDataRepository:Repository<PersonalDataEntity>,
-    @InjectRepository(CVDataEntity,DataBaseEnum.ORACLE) private cvDataRepository:Repository<CVDataEntity>,
-    private userService:UserService){}
+    constructor(@InjectRepository(CandidateEntity, DataBaseEnum.ORACLE) private candidateRepository: Repository<CandidateEntity>,
+        @InjectRepository(PersonalDataEntity, DataBaseEnum.ORACLE) private personalDataRepository: Repository<PersonalDataEntity>,
+        @InjectRepository(CVDataEntity, DataBaseEnum.ORACLE) private cvDataRepository: Repository<CVDataEntity>,
+        private userService: UserService) { }
 
 
-    async saveCV(candidateId:string,cvInfoDTO:CVInfoDTO){
-        const candidate = await this.userService.getCandidateById(candidateId) 
-        const newPersonalData:PersonalDataEntity = this.personalDataRepository.create(cvInfoDTO.personalDataDTO)
-        const newCVDataArray:CVDataEntity[] = this.cvDataRepository.create(cvInfoDTO.cvData)
-        candidate.personalData=newPersonalData
-        candidate.cvData=newCVDataArray
+    async saveCV(candidateId: string, cvInfoDTO: CVInfoDTO) {
+        const candidate = await this.userService.getCandidateById(candidateId)
+        const newPersonalData: PersonalDataEntity = this.personalDataRepository.create(cvInfoDTO.personalDataDTO)
+        const newCVDataArray: CVDataEntity[] = this.cvDataRepository.create(cvInfoDTO.cvData)
+        candidate.personalData = newPersonalData
+        candidate.cvData = newCVDataArray
         return await this.candidateRepository.save(candidate)
+    }
+
+    async getCVByCandidateId(candiateId: string) {
+        const personalData: PersonalDataEntity = await this.personalDataRepository.createQueryBuilder('personalData')
+            .select([
+                'personalData.firstLastName',
+                'personalData.secondLastName',
+                'personalData.name',
+                'personalData.marriedLastName',
+                'personalData.personalIdNumber',
+                'personalData.issued',
+                'personalData.idType',
+                'personalData.gender',
+                'personalData.civilStatus',
+                'personalData.birthDate',
+                'personalData.placeOfBirth',
+                'personalData.nationality',
+                'personalData.address',
+                'personalData.zone',
+                'personalData.afp',
+                'personalData.cuaNumber',
+                'personalData.homePhone',
+                'personalData.cellPhone',
+                'personalData.email',
+                'personalData.personalIdFile',
+                'personalData.professionalStartYear'
+
+            ]).innerJoinAndSelect('personalData.candiate', 'candidate')
+            .where('candidate.id=:id',{id:candiateId})
+            .andWhere('candidate.status=:status',{status:1})
+            .andWhere('personalData.status:=status',{status:1})
+            .getOne();
+        
+        const cvData:CVDataEntity[] = await this.cvDataRepository.createQueryBuilder('cvData').select([
+            'cvData.dataType',
+            'cvData.title',
+            'cvData.institution',
+            'cvData.position',
+            'cvData.degree',
+            'cvData.degreeDate',   
+            'cvData.location',
+            'cvData.distinctionClass',
+            'cvData.dataClass',
+            'cvData.dataDate', 
+            'cvData.startDate',
+            'cvData.finishDate',
+            'cvData.techingStartYear',
+            'cvData.teachingUCBStartYear',
+            'cvData.professionalTitleFile',
+            'cvData.professionalNTitleFile',
+            'cvData.language',
+            'cvData.writing',
+            'cvData.reading',
+            'cvData.speacking',
+            'cvData.name',
+            'cvData.employmentRelationship',
+            'cvData.phone',
+            'cvData.email',
+            'cvData.address',
+        ]).innerJoinAndSelect('cvData.candidate','candidate')
+        .where('candidate.id=:id',{id:candiateId})
+        .andWhere('candidate.status=:status',{status:1})
+        .andWhere('cvData.status:=status',{status:1})
+        .getMany();
+
+        return {personalData,cvData}
     }
 
 

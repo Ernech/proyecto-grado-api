@@ -16,10 +16,11 @@ import { CandidateEntity } from 'src/persistence/candidate.entity';
 import { PersonalDataEntity } from 'src/persistence/personal-data.entity';
 import { CVDataEntity } from 'src/persistence/cv-data.entity';
 import { CvService } from './cv/cv.service';
+import { JobApplyService } from './job-apply/job-apply.service';
 
 @Module({
     imports: [TypeOrmModule.forFeature([RecruiterEntity, CandidateEntity, JobCallEntity, AcademicTrainingEntity, ExperienceEntity, AptitudeEntity, JobFunctionEntity, RequiredKnowledgeEntity, PersonalDataEntity, CVDataEntity], DataBaseEnum.ORACLE)],
-    providers: [UserService, TokenService, EncryptionService, JobCallService, CvService]
+    providers: [UserService, TokenService, EncryptionService, JobCallService, CvService, JobApplyService]
     , exports: [UserService, TokenService, EncryptionService, JobCallService, CvService]
 })
 export class ServiceModule { }

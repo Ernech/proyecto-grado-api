@@ -1,92 +1,91 @@
 import { IsDate, IsNotEmpty, IsNumber, IsString } from "class-validator"
 
 
-export class PersonalDataDTO{
-
-    @IsString()
-    @IsNotEmpty()
-    firstLastName:string
+export class PersonalDataDTO {
 
   @IsString()
   @IsNotEmpty()
-    secondLastName:string
+  firstLastName: string
 
-    @IsString()
-    @IsNotEmpty()
-    name:string
-
-    @IsString()
-    @IsNotEmpty()
-    marriedLastName:string
-
-    @IsString()
+  @IsString()
   @IsNotEmpty()
-    personalIdNumber:string
+  secondLastName: string
 
-    @IsString()
-    @IsNotEmpty()
-    issued:string
-
-    @IsString()
-    @IsNotEmpty()
-    idType:string
-
-    @IsString()
-    @IsNotEmpty()
-    gender:string
-
-    @IsString()
-    @IsNotEmpty()
-    civilStatus:string;
-
-    @IsDate()
+  @IsString()
   @IsNotEmpty()
-    birthDate:Date;
+  name: string
 
-    @IsString()
-    @IsNotEmpty()
-    placeOfBirth:string;
+  @IsString()
+  marriedLastName: string
 
-    @IsString()
-    @IsNotEmpty()
-    nationality:string;
-
-    @IsString()
+  @IsString()
   @IsNotEmpty()
-    address:string;
+  personalIdNumber: string
 
-    @IsString()
+  @IsString()
   @IsNotEmpty()
-    zone:string;
+  issued: string
 
-    @IsString()
+  @IsString()
   @IsNotEmpty()
-    afp:string;
+  idType: string
 
-    @IsString()
-    @IsNotEmpty()
-    cuaNumber:string;
+  @IsString()
+  @IsNotEmpty()
+  gender: string
 
-    @IsString()
-    @IsNotEmpty()
-    homePhone:string;
+  @IsString()
+  @IsNotEmpty()
+  civilStatus: string;
 
-    @IsString()
-    @IsNotEmpty()
-    cellPhone:string;
+  @IsDate()
+  @IsNotEmpty()
+  birthDate: Date;
 
-    @IsString()
-    @IsNotEmpty()
-    email:string;
+  @IsString()
+  @IsNotEmpty()
+  placeOfBirth: string;
+
+  @IsString()
+  @IsNotEmpty()
+  nationality: string;
+
+  @IsString()
+  @IsNotEmpty()
+  address: string;
+
+  @IsString()
+  @IsNotEmpty()
+  zone: string;
+
+  @IsString()
+  @IsNotEmpty()
+  afp: string;
+
+  @IsString()
+  @IsNotEmpty()
+  cuaNumber: string;
+
+  @IsString()
+  @IsNotEmpty()
+  homePhone: string;
+
+  @IsString()
+  @IsNotEmpty()
+  cellPhone: string;
+
+  @IsString()
+  @IsNotEmpty()
+  email: string;
 
 
-    @IsString()
-    @IsNotEmpty()
-    personalIdFile:string;
+  @IsString()
+  @IsNotEmpty()
+  personalIdFile: string;
 
-    @IsDate()
-    @IsNumber()
-    professionalStartYear:number;
+  @IsDate()
+  @IsNumber()
+  professionalStartYear: number;
 
 
 
