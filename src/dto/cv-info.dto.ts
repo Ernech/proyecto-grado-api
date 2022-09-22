@@ -6,7 +6,7 @@ import { PersonalDataDTO } from "./personal-data.dto";
 export class CVInfoDTO{
 
     @IsNotEmptyObject()
-    personalDataDTO:PersonalDataDTO;
+    personalData:PersonalDataDTO;
 
     @IsArray()
     cvData:CVDataDTO[];

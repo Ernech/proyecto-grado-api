@@ -41,10 +41,10 @@ export class CVDataEntity extends BaseEntity{
     @Column({name:'finish_date',length:50,default:'--'})
     finishDate:string;
 
-    @Column({name:'start_date',length:50,default:-1})
+    @Column({name:'teaching_start_year',default:-1})
     techingStartYear:number;
 
-    @Column({name:'finish_date',length:50,default:-1})
+    @Column({name:'teaching_ucb_start_year',default:-1})
     teachingUCBStartYear:number;
 
     @Column({name:'professional_title_file',length:300,default:'--'})

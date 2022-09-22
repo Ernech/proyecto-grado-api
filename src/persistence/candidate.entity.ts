@@ -24,7 +24,7 @@ export class CandidateEntity extends BaseEntity{
     @Column({default:'CANDIDATE',length:100})
     role:string
 
-    @OneToOne(()=>PersonalDataEntity,(personalData)=>personalData.candidate)
+    @OneToOne(()=>PersonalDataEntity,(personalData)=>personalData.candidate,{cascade:true})
     @JoinColumn()
     personalData:PersonalDataEntity;
 

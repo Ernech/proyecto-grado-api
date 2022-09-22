@@ -37,6 +37,6 @@ import { ApplyPersonalDataEntity } from 'src/persistence/apply-personal-data.ent
         ApplyCVDataEntity,
         ApplyPersonalDataEntity], DataBaseEnum.ORACLE)],
     providers: [UserService, TokenService, EncryptionService, JobCallService, CvService, JobApplyService]
-    , exports: [UserService, TokenService, EncryptionService, JobCallService, CvService]
+    , exports: [UserService, TokenService, EncryptionService, JobCallService, CvService,JobApplyService]
 })
 export class ServiceModule { }

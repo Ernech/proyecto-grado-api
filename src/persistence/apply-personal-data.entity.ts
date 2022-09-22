@@ -4,7 +4,7 @@ import { ApplyEntity } from "./apply.entity";
 import { BaseEntity } from "./base.entity";
 import { CandidateEntity } from "./candidate.entity";
 
-@Entity('apply-personal_data')
+@Entity('apply_personal_data')
 export class ApplyPersonalDataEntity extends BaseEntity{
     
     @Column({name:'first_last_name',length:150})

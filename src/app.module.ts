@@ -16,7 +16,7 @@ import { ScheduleModule } from '@nestjs/schedule';
       host: 'localhost',
       port: 5432,
       username: 'admin',
-      password: 'TallerDeGrado-2022',
+      password: 'proyecto-grado-2022',
       database: 'ucb-rrhh',
       autoLoadEntities: true,
       synchronize: true,

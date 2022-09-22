@@ -19,7 +19,7 @@ export class CvService {
 
     async saveCV(candidateId: string, cvInfoDTO: CVInfoDTO) {
         const candidate = await this.userService.getCandidateById(candidateId)
-        const newPersonalData: PersonalDataEntity = this.personalDataRepository.create(cvInfoDTO.personalDataDTO)
+        const newPersonalData: PersonalDataEntity = this.personalDataRepository.create(cvInfoDTO.personalData)
         const newCVDataArray: CVDataEntity[] = this.cvDataRepository.create(cvInfoDTO.cvData)
         candidate.personalData = newPersonalData
         candidate.cvData = newCVDataArray
