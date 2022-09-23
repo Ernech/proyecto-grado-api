@@ -72,7 +72,7 @@ export class ApplyPersonalDataEntity extends BaseEntity{
     professionalStartYear:number;
 
     @OneToOne(()=>ApplyEntity,(apply)=>apply.applyPersonalData)
-    @JoinColumn()
+    @JoinColumn({name:'apply_id'})
     apply:ApplyEntity;
 
     

@@ -23,11 +23,10 @@ export class ApplyEntity extends BaseEntity{
     @Column({ name: 'apply_status',default:'PENDING'})
     applyStatus:string;
 
-    @OneToOne(()=>ApplyPersonalDataEntity,(applyPersonalData)=>applyPersonalData.apply)
-    @JoinColumn()
+    @OneToOne(()=>ApplyPersonalDataEntity,(applyPersonalData)=>applyPersonalData.apply,{cascade:true})
     applyPersonalData:ApplyPersonalDataEntity;
 
-    @OneToMany(()=>ApplyCVDataEntity,(applyCVData)=>applyCVData.apply)
+    @OneToMany(()=>ApplyCVDataEntity,(applyCVData)=>applyCVData.apply,{cascade:true})
     applyCVData:ApplyCVDataEntity[]
 
     

@@ -22,7 +22,8 @@ export class JobCallService {
         if (newJobCall.openingDate >= newJobCall.closingDate) {
             throw new BadRequestException("Fecha de apertura incorrecta")
         }
-        newJobCall.jobCallStatus = "SAVED";
+        //TODO-Change job call status back to saved
+        newJobCall.jobCallStatus = JobCallStatusEnum.OPEN;
         return this.jobCallRepository.save(newJobCall);
     }
 

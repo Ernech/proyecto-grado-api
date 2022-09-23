@@ -71,7 +71,7 @@ export class PersonalDataEntity extends BaseEntity{
     professionalStartYear:number;
 
     @OneToOne(()=>CandidateEntity,(candidate)=>candidate.personalData)
-    @JoinColumn()
+    @JoinColumn({name:'candidate_id'})
     candidate:CandidateEntity;
 
     

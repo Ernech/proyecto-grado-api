@@ -51,12 +51,11 @@ export class CvService {
                 'personalData.personalIdFile',
                 'personalData.professionalStartYear'
 
-            ]).innerJoinAndSelect('personalData.candiate', 'candidate')
+            ]).innerJoinAndSelect('personalData.candidate', 'candidate')
             .where('candidate.id=:id',{id:candiateId})
             .andWhere('candidate.status=:status',{status:1})
-            .andWhere('personalData.status:=status',{status:1})
+            .andWhere('personalData.status=:status',{status:1})
             .getOne();
-        
         const cvData:CVDataEntity[] = await this.cvDataRepository.createQueryBuilder('cvData').select([
             'cvData.dataType',
             'cvData.title',
@@ -86,7 +85,7 @@ export class CvService {
         ]).innerJoinAndSelect('cvData.candidate','candidate')
         .where('candidate.id=:id',{id:candiateId})
         .andWhere('candidate.status=:status',{status:1})
-        .andWhere('cvData.status:=status',{status:1})
+        .andWhere('cvData.status=:status',{status:1})
         .getMany();
 
         return {personalData,cvData}
