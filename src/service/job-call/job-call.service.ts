@@ -9,12 +9,21 @@ import { Repository } from 'typeorm';
 import { CronJob } from 'cron';
 import { SchedulerRegistry } from '@nestjs/schedule';
 import { JobCallPositionEnum } from 'src/persistence/enum/job_call_type.enum';
+import { NewTeacherJobCallDTO } from 'src/dto/new-teacher-job-call.dto';
+import { TeacherJobCallEntity } from 'src/persistence/teacher-job-call.entity';
+import { CollegeClassService } from '../college-class/college-class.service';
+import { RequirementEntity } from 'src/persistence/requirement.entity';
+import { CollegeClassEntity } from 'src/persistence/college-class.entity';
+import { AddCollegeClassDTO } from 'src/dto/add-college-class.dto';
 @Injectable()
 export class JobCallService {
 
     constructor(@InjectRepository(JobCallEntity, DataBaseEnum.ORACLE) private jobCallRepository: Repository<JobCallEntity>,
+        @InjectRepository(RequirementEntity, DataBaseEnum.ORACLE) private requirementRepository: Repository<RequirementEntity>,
+        @InjectRepository(TeacherJobCallEntity, DataBaseEnum.ORACLE) private teacherJobCallRepository: Repository<TeacherJobCallEntity>,
         @InjectRepository(AptitudeEntity, DataBaseEnum.ORACLE) private aptitudeRepository: Repository<AptitudeEntity>,
-        private readonly schedulerRegistry: SchedulerRegistry) {
+        private readonly schedulerRegistry: SchedulerRegistry,
+        private collegeClassService: CollegeClassService) {
     }
 
 
@@ -23,11 +32,66 @@ export class JobCallService {
         if (newJobCall.openingDate >= newJobCall.closingDate) {
             throw new BadRequestException("Fecha de apertura incorrecta")
         }
-        newJobCall.position=JobCallPositionEnum.ADMINISTRATIVE;
+        newJobCall.position = JobCallPositionEnum.ADMINISTRATIVE;
         newJobCall.jobCallStatus = JobCallStatusEnum.SAVED;
         return this.jobCallRepository.save(newJobCall);
     }
 
+    async newTeacherJobCall(jobCallDTO: NewTeacherJobCallDTO) {
+        const newJobCall: JobCallEntity = this.jobCallRepository.create(jobCallDTO.teacherJobCall);
+        if (newJobCall.openingDate >= newJobCall.closingDate) {
+            throw new BadRequestException("Fecha de apertura incorrecta")
+        }
+        if (jobCallDTO.newCareerClass.length !== null && jobCallDTO.newCareerClass.length > 0) {
+            const techerJobCallArray: TeacherJobCallEntity[] = []
+            for (let i = 0; i < jobCallDTO.newCareerClass.length; i++) {
+                const newTeacherJobCall: TeacherJobCallEntity = new TeacherJobCallEntity()
+                const collegeClass: CollegeClassEntity = await this.collegeClassService.getCollegeClassById(jobCallDTO.newCareerClass[i].id)
+                const requirements: RequirementEntity[] = this.requirementRepository.create(jobCallDTO.newCareerClass[i].requirements)
+                newTeacherJobCall.collegeClass = collegeClass
+                newTeacherJobCall.requirements = requirements
+                newTeacherJobCall.requiredNumber = jobCallDTO.newCareerClass[i].requiredNumber
+                newTeacherJobCall.jobCallCode = jobCallDTO.newCareerClass[i].jobCallCode
+                techerJobCallArray.push(newTeacherJobCall)
+            }
+            newJobCall.teacherJobCalls = techerJobCallArray
+        }
+        newJobCall.position = JobCallPositionEnum.TEACHER;
+        newJobCall.jobCallStatus = JobCallStatusEnum.SAVED;
+        return await this.jobCallRepository.save(newJobCall)
+
+
+    }
+
+    async addCollegeClassesToJobCall(jobCallId: string, collegeClasses: AddCollegeClassDTO) {
+        const jobCall: JobCallEntity = await this.getTeacherJobCallById(jobCallId)
+        if (collegeClasses.newCareerClass && collegeClasses.newCareerClass.length > 0) {
+            let teacherJobCallArray: TeacherJobCallEntity[] = []
+            if (jobCall.teacherJobCalls && jobCall.teacherJobCalls.length>0) {
+                teacherJobCallArray = jobCall.teacherJobCalls
+            }
+            for (let i = 0; i < collegeClasses.newCareerClass.length; i++) {
+                const newTeacherJobCall: TeacherJobCallEntity = new TeacherJobCallEntity()
+                const collegeClass: CollegeClassEntity = await this.collegeClassService.getCollegeClassById(collegeClasses.newCareerClass[i].id)
+                const requirements: RequirementEntity[] = this.requirementRepository.create(collegeClasses.newCareerClass[i].requirements)
+                newTeacherJobCall.collegeClass = collegeClass
+                newTeacherJobCall.requirements = requirements
+                newTeacherJobCall.requiredNumber = collegeClasses.newCareerClass[i].requiredNumber
+                newTeacherJobCall.jobCallCode = collegeClasses.newCareerClass[i].jobCallCode
+                teacherJobCallArray.push(newTeacherJobCall)
+            }
+            jobCall.teacherJobCalls = teacherJobCallArray
+        }
+        return await this.jobCallRepository.save(jobCall)
+    }
+
+    async getTeacherJobCallById(id: string) {
+        const teacherJobCall: JobCallEntity = await this.jobCallRepository.findOneBy({ id, status: 1, position: JobCallPositionEnum.TEACHER })
+        if (!teacherJobCall) {
+            throw new NotFoundException("Convocatoria no encontrada")
+        }
+        return teacherJobCall
+    }
     async getJobCalls(jobCallStatus: string) {
         const savedJobCalls: JobCallEntity[] = await
             this.jobCallRepository.createQueryBuilder('jobCall').select([
@@ -46,6 +110,7 @@ export class JobCallService {
                 .innerJoinAndSelect('jobCall.academicTrainings', 'academicTraining')
                 .innerJoinAndSelect('jobCall.requiredKnowledge', 'requiredKnowledge')
                 .where('jobCall.jobCallStatus=:jobCallStatus', { jobCallStatus })
+                .where('jobCall.position=:position', { position: JobCallPositionEnum.ADMINISTRATIVE })
                 .andWhere('jobCall.status=:status', { status: 1 })
                 .andWhere('aptitude.status=:status', { status: 1 })
                 .andWhere('jobFunction.status=:status', { status: 1 })

@@ -13,7 +13,7 @@ export class CollegeClassService {
 
 
     async getCollegeClassById(id:string){
-        const collegeClass = await this.collegeClassRepository.findBy({id,status:1});
+        const collegeClass = await this.collegeClassRepository.findOneBy({id,status:1});
         if(!collegeClass){
             throw new NotFoundException('Materia no encontrada')
         }

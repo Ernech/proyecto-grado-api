@@ -55,7 +55,7 @@ export class JobCallEntity extends BaseEntity{
     aptitudes: AptitudeEntity[]
 
     @OneToMany(()=> TeacherJobCallEntity, (teacherJobCall)=> teacherJobCall.jobCall,{cascade:true})
-    techerJobCalls: TeacherJobCallEntity[]
+    teacherJobCalls: TeacherJobCallEntity[]
 
     @OneToMany(()=>ApplyEntity,(apply)=>apply.jobCall)
     apply:ApplyEntity[];

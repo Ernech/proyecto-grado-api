@@ -3,7 +3,9 @@ import { Param, Patch } from '@nestjs/common/decorators';
 import { ParseUUIDPipe } from '@nestjs/common/pipes';
 import { Authorization } from 'src/decorator/auth.decorator';
 import { Roles } from 'src/decorator/role.decorator';
+import { AddCollegeClassDTO } from 'src/dto/add-college-class.dto';
 import { JobCallDTO } from 'src/dto/job-call.dto';
+import { NewTeacherJobCallDTO } from 'src/dto/new-teacher-job-call.dto';
 import { RoleType } from 'src/persistence/enum/role-type.enum';
 import { JobCallService } from 'src/service/job-call/job-call.service';
 import {JobCallStatusEnum} from'../../persistence/enum/job-call-status.enum'
@@ -20,8 +22,14 @@ export class JobCallController {
     }
     @Post('/teacher')
     @Roles(RoleType.RECRUITER)
-    async createTeacherJobCall(@Body() jobCallDTO:JobCallDTO){
-        return await this.jobCallService.newJobCall(jobCallDTO)  
+    async createTeacherJobCall(@Body() jobCallDTO:NewTeacherJobCallDTO){
+        return await this.jobCallService.newTeacherJobCall(jobCallDTO) 
+    }
+
+    @Patch('/teacher/:id')
+    @Roles(RoleType.RECRUITER)
+    async addCollegeClassToTeacherJobCall(@Param('id',new ParseUUIDPipe()) id:string,@Body() collegeClasses:AddCollegeClassDTO){
+        return await this.jobCallService.addCollegeClassesToJobCall(id,collegeClasses) 
     }
 
     @Get('/saved')

@@ -14,6 +14,10 @@ export class NewCareerClassDTO{
     requiredNumber:number;
 
     @IsNotEmpty()
+    @IsString()
+    jobCallCode:string;
+
+    @IsNotEmpty()
     @IsArray()
     requirements:RequirementsDTO[]
 

@@ -8,17 +8,17 @@ import { RequirementEntity } from "./requirement.entity";
 export class TeacherJobCallEntity extends BaseEntity{
 
     @Column({name:'required_number'})
-    required_number:number;
+    requiredNumber:number;
 
     @Column({name:'job_call_code', length:25})
     jobCallCode:string;
 
-    @ManyToOne(()=>JobCallEntity,(jobCall)=>jobCall.techerJobCalls)
+    @ManyToOne(()=>JobCallEntity,(jobCall)=>jobCall.teacherJobCalls)
     jobCall:JobCallEntity
 
     @ManyToOne(()=>CollegeClassEntity,(collegeClass)=>collegeClass.teacherJobCalls)
     collegeClass:CollegeClassEntity
 
-    @OneToMany(()=>RequirementEntity,(requirement)=>requirement.teacherJobCall)
+    @OneToMany(()=>RequirementEntity,(requirement)=>requirement.teacherJobCall,{cascade:true})
     requirements:RequirementEntity[]
 }

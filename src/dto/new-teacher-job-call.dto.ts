@@ -2,10 +2,10 @@ import { IsObject } from "class-validator";
 import { NewCareerClassDTO } from "./new-career-class.dto";
 import { TeacherJobCallDTO } from "./teacher-job-call.dto";
 
-export class NewTeacherJobCall{
+export class NewTeacherJobCallDTO{
 
     @IsObject()
-    teacherjobCallDTO:TeacherJobCallDTO
+    teacherJobCall:TeacherJobCallDTO
 
-    newCareerClassDTO:NewCareerClassDTO[]
+    newCareerClass:NewCareerClassDTO[]
 }
