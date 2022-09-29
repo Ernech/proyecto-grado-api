@@ -20,6 +20,11 @@ import { JobApplyService } from './job-apply/job-apply.service';
 import { ApplyEntity } from 'src/persistence/apply.entity';
 import { ApplyCVDataEntity } from 'src/persistence/apply-cv-data.entity';
 import { ApplyPersonalDataEntity } from 'src/persistence/apply-personal-data.entity';
+import { CollegeCareerEntity } from 'src/persistence/college-carrer.entity';
+import { CollegeClassEntity } from 'src/persistence/college-class.entity';
+import { RequirementEntity } from 'src/persistence/requirement.entity';
+import { TeacherJobCallEntity } from 'src/persistence/teacher-job-call.entity';
+import { CollegeClassService } from './college-class/college-class.service';
 
 @Module({
     imports: [TypeOrmModule.forFeature([
@@ -35,8 +40,12 @@ import { ApplyPersonalDataEntity } from 'src/persistence/apply-personal-data.ent
         CVDataEntity,
         ApplyEntity,
         ApplyCVDataEntity,
-        ApplyPersonalDataEntity], DataBaseEnum.ORACLE)],
-    providers: [UserService, TokenService, EncryptionService, JobCallService, CvService, JobApplyService]
+        ApplyPersonalDataEntity,
+        CollegeCareerEntity,
+        CollegeClassEntity,
+        RequirementEntity,
+        TeacherJobCallEntity], DataBaseEnum.ORACLE)],
+    providers: [UserService, TokenService, EncryptionService, JobCallService, CvService, JobApplyService, CollegeClassService]
     , exports: [UserService, TokenService, EncryptionService, JobCallService, CvService,JobApplyService]
 })
 export class ServiceModule { }

@@ -18,6 +18,11 @@ export class JobCallController {
     async createJobCall(@Body() jobCallDTO:JobCallDTO){
         return await this.jobCallService.newJobCall(jobCallDTO)  
     }
+    @Post('/teacher')
+    @Roles(RoleType.RECRUITER)
+    async createTeacherJobCall(@Body() jobCallDTO:JobCallDTO){
+        return await this.jobCallService.newJobCall(jobCallDTO)  
+    }
 
     @Get('/saved')
     @Roles(RoleType.RECRUITER)

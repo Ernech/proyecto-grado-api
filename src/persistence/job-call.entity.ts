@@ -6,6 +6,7 @@ import { BaseEntity } from "./base.entity";
 import { ExperienceEntity } from "./experience.entity";
 import { JobFunctionEntity } from "./job-function.entity";
 import { RequiredKnowledgeEntity } from "./required-knowledge.entity";
+import { TeacherJobCallEntity } from "./teacher-job-call.entity";
 
 @Entity('job_call')
 export class JobCallEntity extends BaseEntity{
@@ -16,7 +17,7 @@ export class JobCallEntity extends BaseEntity{
     @Column({name:'job_call_number', length:300})
     jobCallNumber:string;
 
-    @Column({name:'job_call_obj',length:400})
+    @Column({name:'job_call_obj',length:400,default:'--'})
     jobCallObj:string;
 
     @Column({name:'job_manual_file', length:300})
@@ -27,6 +28,9 @@ export class JobCallEntity extends BaseEntity{
 
     @Column({name:'job_call_status', length:300})
     jobCallStatus: string;
+
+    @Column({name:'position', length:300,nullable:true})
+    position:string
 
     @Column({name:'opening_date',type:'timestamp'})
     openingDate: Date;
@@ -49,6 +53,9 @@ export class JobCallEntity extends BaseEntity{
    
     @OneToMany(()=> AptitudeEntity, (aptitude)=> aptitude.jobCall,{cascade:true})
     aptitudes: AptitudeEntity[]
+
+    @OneToMany(()=> TeacherJobCallEntity, (teacherJobCall)=> teacherJobCall.jobCall,{cascade:true})
+    techerJobCalls: TeacherJobCallEntity[]
 
     @OneToMany(()=>ApplyEntity,(apply)=>apply.jobCall)
     apply:ApplyEntity[];

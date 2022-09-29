@@ -8,6 +8,7 @@ import { JobCallEntity } from 'src/persistence/job-call.entity';
 import { Repository } from 'typeorm';
 import { CronJob } from 'cron';
 import { SchedulerRegistry } from '@nestjs/schedule';
+import { JobCallPositionEnum } from 'src/persistence/enum/job_call_type.enum';
 @Injectable()
 export class JobCallService {
 
@@ -22,8 +23,8 @@ export class JobCallService {
         if (newJobCall.openingDate >= newJobCall.closingDate) {
             throw new BadRequestException("Fecha de apertura incorrecta")
         }
-        //TODO-Change job call status back to saved
-        newJobCall.jobCallStatus = JobCallStatusEnum.OPEN;
+        newJobCall.position=JobCallPositionEnum.ADMINISTRATIVE;
+        newJobCall.jobCallStatus = JobCallStatusEnum.SAVED;
         return this.jobCallRepository.save(newJobCall);
     }
 
