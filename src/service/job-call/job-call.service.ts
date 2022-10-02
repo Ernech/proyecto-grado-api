@@ -93,6 +93,7 @@ export class JobCallService {
         return teacherJobCall
     }
     async getJobCalls(jobCallStatus: string) {
+    
         const savedJobCalls: JobCallEntity[] = await
             this.jobCallRepository.createQueryBuilder('jobCall').select([
                 'jobCall.id',
@@ -110,7 +111,7 @@ export class JobCallService {
                 .innerJoinAndSelect('jobCall.academicTrainings', 'academicTraining')
                 .innerJoinAndSelect('jobCall.requiredKnowledge', 'requiredKnowledge')
                 .where('jobCall.jobCallStatus=:jobCallStatus', { jobCallStatus })
-                .where('jobCall.position=:position', { position: JobCallPositionEnum.ADMINISTRATIVE })
+                .andWhere('jobCall.position=:position', { position: JobCallPositionEnum.ADMINISTRATIVE })
                 .andWhere('jobCall.status=:status', { status: 1 })
                 .andWhere('aptitude.status=:status', { status: 1 })
                 .andWhere('jobFunction.status=:status', { status: 1 })
@@ -194,7 +195,6 @@ export class JobCallService {
         jobCall.jobCallStatus = JobCallStatusEnum.CLOSED
         await this.jobCallRepository.save(jobCall)
     }
-
     openJobCall(openingDate: Date, jobCallId: string) {
         const openJobCall = new CronJob(openingDate, async () => {
             await this.openJobCallById(jobCallId)

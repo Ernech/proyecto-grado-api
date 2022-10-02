@@ -46,6 +46,6 @@ import { CollegeClassService } from './college-class/college-class.service';
         RequirementEntity,
         TeacherJobCallEntity], DataBaseEnum.ORACLE)],
     providers: [UserService, TokenService, EncryptionService, JobCallService, CvService, JobApplyService, CollegeClassService]
-    , exports: [UserService, TokenService, EncryptionService, JobCallService, CvService,JobApplyService]
+    , exports: [UserService, TokenService, EncryptionService, JobCallService, CvService, JobApplyService, CollegeClassService]
 })
 export class ServiceModule { }

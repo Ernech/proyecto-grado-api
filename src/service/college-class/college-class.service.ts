@@ -19,4 +19,12 @@ export class CollegeClassService {
         }
         return collegeClass
     }
+
+    async getCollegeClasses(){
+        const careerClasses:CollegeClassEntity[] = await this.collegeClassRepository.findBy({status:1})
+        if(!careerClasses || careerClasses.length<0){
+            throw new NotFoundException('No se encontraron materias')
+        }
+        return careerClasses
+    }
 }
