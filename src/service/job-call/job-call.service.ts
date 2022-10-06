@@ -22,6 +22,7 @@ export class JobCallService {
         @InjectRepository(RequirementEntity, DataBaseEnum.ORACLE) private requirementRepository: Repository<RequirementEntity>,
         @InjectRepository(TeacherJobCallEntity, DataBaseEnum.ORACLE) private teacherJobCallRepository: Repository<TeacherJobCallEntity>,
         @InjectRepository(AptitudeEntity, DataBaseEnum.ORACLE) private aptitudeRepository: Repository<AptitudeEntity>,
+        @InjectRepository(CollegeClassEntity, DataBaseEnum.ORACLE) private collegeClassRepository: Repository<CollegeClassEntity>,
         private readonly schedulerRegistry: SchedulerRegistry,
         private collegeClassService: CollegeClassService) {
     }
@@ -133,6 +134,43 @@ export class JobCallService {
         return await this.jobCallRepository.save(jobCall)
 
     }
+    async getTeacherJobCall(jobCallStatus:string){
+        const savedJobCalls: JobCallEntity[] = await
+        this.jobCallRepository.createQueryBuilder('jobCall').select([
+            'jobCall.id',
+            'jobCall.jobCallName',
+            'jobCall.jobCallNumber',
+            'jobCall.jobManualFile',
+            'jobCall.openingDate',
+            'jobCall.closingDate',
+        ]).innerJoinAndSelect('jobCall.teacherJobCalls', 'teacherJobCall')
+        .innerJoinAndSelect('teacherJobCall.requirements','requirement')
+        .innerJoinAndSelect('teacherJobCall.collegeClass','collegeClass')
+
+         .where('jobCall.jobCallStatus=:jobCallStatus', { jobCallStatus })
+        .andWhere('jobCall.position=:position', { position: JobCallPositionEnum.TEACHER })
+        .andWhere('jobCall.status=:status', { status: 1 })
+        .andWhere('collegeClass.status=:status', { status: 1 })
+        .andWhere('teacherJobCall.status=:status', { status: 1 })
+        .andWhere('requirement.status=:status', { status: 1 })
+         .getMany();
+        return savedJobCalls
+    }
+    async getTeacherJobCallInfoById(id:string){
+        const teacherJobCallInfo:TeacherJobCallEntity=await this.teacherJobCallRepository.createQueryBuilder('teacherJobCall')
+        .select([
+            'teacherJobCall.id',
+            'teacherJobCall.jobCallCode',
+        ]).innerJoinAndSelect('teacherJobCall.requirements','requirement')
+        .innerJoinAndSelect('teacherJobCall.collegeClass','collegeClass')
+        .where('teacherJobCall.id=:id',{id})
+        .andWhere('collegeClass.status=:status', { status: 1 })
+        .andWhere('teacherJobCall.status=:status', { status: 1 })
+        .andWhere('requirement.status=:status', { status: 1 })
+        .getOne()
+        return teacherJobCallInfo
+
+    }
     async getJobCallById(jobCallId: string) {
         const savedJobCall: JobCallEntity = await
             this.jobCallRepository.createQueryBuilder('jobCall').select([
@@ -162,6 +200,31 @@ export class JobCallService {
             throw new NotFoundException("Convocatoria no encontrada")
         }
         return savedJobCall;
+    }
+
+    async getJobCallWithCandidatesByJobCallId(id:string){
+        const savedJobCall: JobCallEntity = await
+        this.jobCallRepository.createQueryBuilder('jobCall').select([
+            'jobCall.id',
+            'jobCall.jobCallName',
+            'jobCall.jobCallNumber',
+            'jobCall.jobCallObj',
+            'jobCall.jobManualFile',
+            'jobCall.jobInfoFile',
+            'jobCall.openingDate',
+            'jobCall.closingDate',
+
+        ]).innerJoinAndSelect('jobCall.apply','apply')
+        .innerJoinAndSelect('apply.applyPersonalData','applyPersonalData')
+        .innerJoinAndSelect('apply.applyCVData','applyCVData')
+        .where('jobCall.jobCallStatus=:jobCallStatus', { jobCallStatus:JobCallStatusEnum.OPEN })
+        .andWhere('jobCall.status=:status', { status: 1 })
+        .andWhere('apply.status=:status', { status: 1 })
+        .andWhere('applyPersonalData.status=:status', { status: 1 })
+        .andWhere('applyCVData.status=:status', { status: 1 })
+        .andWhere('jobCall.id=:id', { id })
+        .getOne();
+        return savedJobCall
     }
 
     async publishJobCall(id: string) {

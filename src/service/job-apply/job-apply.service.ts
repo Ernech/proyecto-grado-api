@@ -24,7 +24,9 @@ export class JobApplyService {
         const jobcall =  await this.jobCallService.getJobCallById(jobCallId)
         const candiate = await this.userService.getCandidateById(candidateId)
         const newApplyPersonalData:ApplyPersonalDataEntity=this.applyPersonalDataRepository.create(personalData)
-        const newApplyCVData:ApplyCVDataEntity[]=this.applyCVDataRepository.create(cvData)
+        newApplyPersonalData.candidateId=candidateId
+        let newApplyCVData:ApplyCVDataEntity[]=this.applyCVDataRepository.create(cvData)
+        newApplyCVData.forEach(obj=>obj.candidateId=candidateId)
         newApply.candidate=candiate,
         newApply.jobCall=jobcall,
         newApply.applyPersonalData=newApplyPersonalData,

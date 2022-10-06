@@ -6,6 +6,7 @@ import { CandidateEntity } from "./candidate.entity";
 @Entity('apply_cv_data')
 export class ApplyCVDataEntity extends BaseEntity{
 
+
     @Column({name:'data_type',length:100})
     dataType:string;
 
@@ -80,6 +81,9 @@ export class ApplyCVDataEntity extends BaseEntity{
 
     @Column({name:'address',length:50,default:'--'})
     address:string;
+    
+    @Column({name:'candidate_id',length:150, default:'--'})
+    candidateId:string
 
     @ManyToOne(()=>ApplyEntity,(apply)=>apply.applyCVData)
     apply:ApplyEntity;

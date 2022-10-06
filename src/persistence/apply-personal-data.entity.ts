@@ -6,6 +6,9 @@ import { CandidateEntity } from "./candidate.entity";
 
 @Entity('apply_personal_data')
 export class ApplyPersonalDataEntity extends BaseEntity{
+
+    @Column({name:'candidate_id',length:150, default:'--'})
+    candidateId:string
     
     @Column({name:'first_last_name',length:150})
     firstLastName:string

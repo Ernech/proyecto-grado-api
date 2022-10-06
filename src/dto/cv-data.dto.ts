@@ -1,7 +1,6 @@
 
 
 export class CVDataDTO{
-
    
     dataType:string;
 
