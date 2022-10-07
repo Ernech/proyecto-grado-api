@@ -3,6 +3,7 @@ import { ApplyEntity } from "./apply.entity";
 import { BaseEntity } from "./base.entity";
 import { CVDataEntity } from "./cv-data.entity";
 import { PersonalDataEntity } from "./personal-data.entity";
+import { TeacherApplyEntity } from "./teacher-apply.entity";
 
 
 
@@ -32,5 +33,8 @@ export class CandidateEntity extends BaseEntity{
 
     @OneToMany(()=>ApplyEntity,(apply)=>apply.candidate,{cascade:true})
     apply:ApplyEntity[];
+
+    @OneToMany(()=>TeacherApplyEntity,(teacherApply)=>teacherApply.candidate,{cascade:true})
+    teacherApply:ApplyEntity[];
 
 }
