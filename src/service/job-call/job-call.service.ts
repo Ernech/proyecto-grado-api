@@ -201,6 +201,15 @@ export class JobCallService {
         }
         return savedJobCall;
     }
+    async getTeacherJobCallEntityById(id:string){
+
+        const teacherJobCallEntity:TeacherJobCallEntity=await this.teacherJobCallRepository.findOneBy({id,status:1})
+        if(!teacherJobCallEntity){
+            throw new NotFoundException('Convocatoria no encontrada')
+        }
+        return teacherJobCallEntity;
+
+    }
 
     async getJobCallWithCandidatesByJobCallId(id:string){
         const savedJobCall: JobCallEntity = await
@@ -226,7 +235,23 @@ export class JobCallService {
         .getOne();
         return savedJobCall
     }
-
+    async getTeacherJobCallWithCandidatesByJobCallId(id:string){
+        const savedJobCall: TeacherJobCallEntity = await
+        this.teacherJobCallRepository.createQueryBuilder('teacherJobCall').select([
+            'teacherJobCall.id',
+            'teacherJobCall.jobCallCode',
+            'teacherJobCall.requiredNumber'
+        ]).innerJoinAndSelect('teacherJobCall.teacherApply','teacherApply')
+        .innerJoinAndSelect('teacherApply.applyTPersonalData','applyTPersonalData')
+        .innerJoinAndSelect('teacherApply.applyTCVData','applyTCVData')
+        .andWhere('teacherJobCall.status=:status', { status: 1 })
+        .andWhere('teacherApply.status=:status', { status: 1 })
+        .andWhere('applyTPersonalData.status=:status', { status: 1 })
+        .andWhere('applyTCVData.status=:status', { status: 1 })
+        .andWhere('teacherJobCall.id=:id', { id })
+        .getOne();
+        return savedJobCall
+    }
     async publishJobCall(id: string) {
         const jobCall: JobCallEntity = await this.getJobCallById(id);
         const today = new Date()

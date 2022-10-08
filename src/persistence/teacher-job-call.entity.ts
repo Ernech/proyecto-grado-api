@@ -3,6 +3,7 @@ import { BaseEntity } from "./base.entity";
 import { CollegeClassEntity } from "./college-class.entity";
 import { JobCallEntity } from "./job-call.entity";
 import { RequirementEntity } from "./requirement.entity";
+import { TeacherApplyEntity } from "./teacher-apply.entity";
 
 @Entity('teacher_job_call')
 export class TeacherJobCallEntity extends BaseEntity{
@@ -21,4 +22,7 @@ export class TeacherJobCallEntity extends BaseEntity{
 
     @OneToMany(()=>RequirementEntity,(requirement)=>requirement.teacherJobCall,{cascade:true})
     requirements:RequirementEntity[]
+
+    @OneToMany(()=>TeacherApplyEntity,(teacherApply)=>teacherApply.teacherJobCall,{cascade:true})
+    teacherApply:TeacherApplyEntity[]
 }

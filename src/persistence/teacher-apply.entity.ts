@@ -6,6 +6,7 @@ import { ApplyTPersonalDataEntity } from "./apply-t-personal-data.entity";
 import { BaseEntity } from "./base.entity";
 import { CandidateEntity } from "./candidate.entity";
 import { JobCallEntity } from "./job-call.entity";
+import { TeacherJobCallEntity } from "./teacher-job-call.entity";
 
 @Entity('teacher_apply')
 export class TeacherApplyEntity extends BaseEntity{
@@ -14,8 +15,8 @@ export class TeacherApplyEntity extends BaseEntity{
     @ManyToOne(()=>CandidateEntity,(candidate)=>candidate.teacherApply)
     candidate:CandidateEntity
 
-    @ManyToOne(()=>JobCallEntity,(jobCall)=>jobCall.apply)
-    jobCall:JobCallEntity
+    @ManyToOne(()=>TeacherJobCallEntity,(teacherJobCall)=>teacherJobCall.teacherApply)
+    teacherJobCall:TeacherJobCallEntity
 
     @CreateDateColumn({ name: 'apply_date',
     type: 'timestamp', 

@@ -43,6 +43,11 @@ export class JobCallController {
     async getCandidatesApplied(@Param('id',new ParseUUIDPipe()) id:string){
         return this.jobCallService.getJobCallWithCandidatesByJobCallId(id)
     }
+    @Get('/candiates/teacher/:id')
+    @Roles(RoleType.RECRUITER)
+    async getCandidatesAppliedToTeacherJobCall(@Param('id',new ParseUUIDPipe()) id:string){
+        return this.jobCallService.getTeacherJobCallWithCandidatesByJobCallId(id)
+    }
     @Get('/pending')
     @Roles(RoleType.RECRUITER)
     async getPendingJobCalls(){

@@ -15,4 +15,11 @@ export class JobApplyController {
         return await this.jobApplyService.newJobApply(applyDTO.candidateId,applyDTO.jobCallId)
         
     }
+
+    @Post('/teacher')
+    @Roles(RoleType.CANDIDATE)
+    async createNewTeacherJobApply(@Body() applyDTO:ApplyDTO){
+        return await this.jobApplyService.newTeacherJobApply(applyDTO.candidateId,applyDTO.jobCallId)
+        
+    }
 }

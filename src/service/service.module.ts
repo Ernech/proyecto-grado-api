@@ -25,6 +25,9 @@ import { CollegeClassEntity } from 'src/persistence/college-class.entity';
 import { RequirementEntity } from 'src/persistence/requirement.entity';
 import { TeacherJobCallEntity } from 'src/persistence/teacher-job-call.entity';
 import { CollegeClassService } from './college-class/college-class.service';
+import { TeacherApplyEntity } from 'src/persistence/teacher-apply.entity';
+import { ApplyTCVDataEntity } from 'src/persistence/apply-t-cv-data.entity';
+import { ApplyTPersonalDataEntity } from 'src/persistence/apply-t-personal-data.entity';
 
 @Module({
     imports: [TypeOrmModule.forFeature([
@@ -44,7 +47,10 @@ import { CollegeClassService } from './college-class/college-class.service';
         CollegeCareerEntity,
         CollegeClassEntity,
         RequirementEntity,
-        TeacherJobCallEntity], DataBaseEnum.ORACLE)],
+        TeacherJobCallEntity,
+        TeacherApplyEntity,
+        ApplyTCVDataEntity,
+        ApplyTPersonalDataEntity, ], DataBaseEnum.ORACLE)],
     providers: [UserService, TokenService, EncryptionService, JobCallService, CvService, JobApplyService, CollegeClassService]
     , exports: [UserService, TokenService, EncryptionService, JobCallService, CvService, JobApplyService, CollegeClassService]
 })
