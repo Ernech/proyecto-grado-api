@@ -34,7 +34,7 @@ export class JobCallService {
             throw new BadRequestException("Fecha de apertura incorrecta")
         }
         newJobCall.position = JobCallPositionEnum.ADMINISTRATIVE;
-        newJobCall.jobCallStatus = JobCallStatusEnum.SAVED;
+        newJobCall.jobCallStatus = JobCallStatusEnum.OPEN;
         return this.jobCallRepository.save(newJobCall);
     }
 
