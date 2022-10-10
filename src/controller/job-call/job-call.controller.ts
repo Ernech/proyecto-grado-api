@@ -59,6 +59,12 @@ export class JobCallController {
     async getOpenedTeacherJobCall(){
         return this.jobCallService.getTeacherJobCall(JobCallStatusEnum.OPEN)
     }
+    
+    @Get('/teacher-jc/:id')
+    @Roles(RoleType.RECRUITER)
+    async getTeacherJobCallById(@Param('id',new ParseUUIDPipe) id:string){
+        return this.jobCallService.getTeacherJobCallById(id)
+    }
     @Authorization(false)
     @Get('/teacher/:id')
     async getTeacherJobCallInfo(@Param('id',new ParseUUIDPipe) id:string){

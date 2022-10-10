@@ -87,7 +87,26 @@ export class JobCallService {
     }
 
     async getTeacherJobCallById(id: string) {
-        const teacherJobCall: JobCallEntity = await this.jobCallRepository.findOneBy({ id, status: 1, position: JobCallPositionEnum.TEACHER })
+        const teacherJobCall: JobCallEntity = await 
+        this.jobCallRepository.createQueryBuilder('jobCall').select([
+            'jobCall.id',
+            'jobCall.jobCallName',
+            'jobCall.jobCallNumber',
+            'jobCall.jobManualFile',
+            'jobCall.openingDate',
+            'jobCall.closingDate',
+        ]).innerJoinAndSelect('jobCall.teacherJobCalls', 'teacherJobCall')
+        .innerJoinAndSelect('teacherJobCall.requirements','requirement')
+        .innerJoinAndSelect('teacherJobCall.collegeClass','collegeClass')
+        .innerJoin('teacherJobCall.teacherApply','teacherApply')
+        .loadRelationCountAndMap('teacherJobCall.candidates', 'teacherJobCall.teacherApply')
+        .andWhere('jobCall.position=:position', { position: JobCallPositionEnum.TEACHER })
+        .andWhere('jobCall.status=:status', { status: 1 })
+        .andWhere('collegeClass.status=:status', { status: 1 })
+        .andWhere('teacherJobCall.status=:status', { status: 1 })
+        .andWhere('requirement.status=:status', { status: 1 })
+        .andWhere('jobCall.id=:id',{id})
+         .getOne();
         if (!teacherJobCall) {
             throw new NotFoundException("Convocatoria no encontrada")
         }
@@ -146,7 +165,6 @@ export class JobCallService {
         ]).innerJoinAndSelect('jobCall.teacherJobCalls', 'teacherJobCall')
         .innerJoinAndSelect('teacherJobCall.requirements','requirement')
         .innerJoinAndSelect('teacherJobCall.collegeClass','collegeClass')
-
          .where('jobCall.jobCallStatus=:jobCallStatus', { jobCallStatus })
         .andWhere('jobCall.position=:position', { position: JobCallPositionEnum.TEACHER })
         .andWhere('jobCall.status=:status', { status: 1 })
