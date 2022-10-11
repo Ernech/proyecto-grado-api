@@ -15,6 +15,9 @@ import { CollegeClassService } from '../college-class/college-class.service';
 import { RequirementEntity } from 'src/persistence/requirement.entity';
 import { CollegeClassEntity } from 'src/persistence/college-class.entity';
 import { AddCollegeClassDTO } from 'src/dto/add-college-class.dto';
+import { CollegeCareerEntity } from 'src/persistence/college-carrer.entity';
+import { CollegeCareerDTO } from 'src/dto/college-career.dto';
+import { CollegeClassDTO } from 'src/dto/college-class.dto';
 @Injectable()
 export class JobCallService {
 
@@ -23,6 +26,7 @@ export class JobCallService {
         @InjectRepository(TeacherJobCallEntity, DataBaseEnum.ORACLE) private teacherJobCallRepository: Repository<TeacherJobCallEntity>,
         @InjectRepository(AptitudeEntity, DataBaseEnum.ORACLE) private aptitudeRepository: Repository<AptitudeEntity>,
         @InjectRepository(CollegeClassEntity, DataBaseEnum.ORACLE) private collegeClassRepository: Repository<CollegeClassEntity>,
+        @InjectRepository(CollegeCareerEntity, DataBaseEnum.ORACLE) private collegeCareerRepository: Repository<CollegeCareerEntity>,
         private readonly schedulerRegistry: SchedulerRegistry,
         private collegeClassService: CollegeClassService) {
     }
@@ -314,5 +318,21 @@ export class JobCallService {
         })
         this.schedulerRegistry.addCronJob(`close-job-call-${jobCallId}`, closeJobCall)
         closeJobCall.start()
+    }
+    async addCollegeCareer(collegeCareerDTO:CollegeCareerDTO){
+        const newCollegeCareer = this.collegeCareerRepository.create(collegeCareerDTO)
+        return await this.collegeCareerRepository.save(newCollegeCareer) 
+    } 
+    async getCollegeCareers(){
+        return await this.collegeCareerRepository.findBy({status:1})
+    } 
+    async getCollegeCareersById(id:string){
+        return await this.collegeCareerRepository.findOneBy({id,status:1})
+    } 
+    async createCollegeClass(id:string,collegeClassDTO:CollegeClassDTO){
+        const newCollegeClass = this.collegeClassRepository.create(collegeClassDTO)
+        const collegeCareer = await this.getCollegeCareersById(id)
+        newCollegeClass.collegeCareer=collegeCareer
+        return this.collegeClassRepository.save(newCollegeClass)
     }
 }

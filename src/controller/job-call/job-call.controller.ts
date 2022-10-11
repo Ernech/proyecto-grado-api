@@ -4,6 +4,8 @@ import { ParseUUIDPipe } from '@nestjs/common/pipes';
 import { Authorization } from 'src/decorator/auth.decorator';
 import { Roles } from 'src/decorator/role.decorator';
 import { AddCollegeClassDTO } from 'src/dto/add-college-class.dto';
+import { CollegeCareerDTO } from 'src/dto/college-career.dto';
+import { CollegeClassDTO } from 'src/dto/college-class.dto';
 import { JobCallDTO } from 'src/dto/job-call.dto';
 import { NewTeacherJobCallDTO } from 'src/dto/new-teacher-job-call.dto';
 import { RoleType } from 'src/persistence/enum/role-type.enum';
@@ -106,5 +108,23 @@ export class JobCallController {
     async closeJobCall(@Param('id',new ParseUUIDPipe()) id:string){
         this.jobCallService.closeJobCallById(id)
 
+    }
+
+    @Post('/college-career')
+    @Roles(RoleType.RECRUITER)
+    async createCollegeCareer(@Body() collegeCareeDTO:CollegeCareerDTO){
+        return this.jobCallService.addCollegeCareer(collegeCareeDTO)
+    }
+
+    @Get('/college-career')
+    @Roles(RoleType.RECRUITER)
+    async getCollegeCareers(){
+        return this.jobCallService.getCollegeCareers()
+    }
+
+    @Post('/career-class/:id')
+    @Roles(RoleType.RECRUITER)
+    async addCollegeClass(@Param('id',new ParseUUIDPipe()) id:string,@Body() collegeClassDTO:CollegeClassDTO){
+        return this.jobCallService.createCollegeClass(id,collegeClassDTO)
     }
 }
