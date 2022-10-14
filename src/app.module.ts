@@ -14,7 +14,7 @@ import { ScheduleModule } from '@nestjs/schedule';
       name: 'postgres',
       type: DataBaseEnum.ORACLE,
       host: 'containers-us-west-100.railway.app',
-      port: 5432,
+      port: 6202,
       username: 'postgres',
       password: 'yeQ3sehfEEm0FJPD8ebc',
       database: 'railway',
