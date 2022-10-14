@@ -8,7 +8,7 @@ require('dotenv').config();
 export class TokenService {
 
     generateToken(recruiter:RecruiterEntity){
-        const privateKey=process.env.PRIVATEKEY;
+        const privateKey='45645csa45aadasdafjiojfiJFSJJKJifoefsdadas.hjhjkhjk156156dsadasdsadsad.sadsjakdjsdsad456as4dsad';
         const now = Math.floor(Date.now() / 1000);
         const payload={
             role:recruiter.role,
@@ -19,7 +19,7 @@ export class TokenService {
         return jwt.sign(payload,privateKey,{expiresIn:'2h'})
     }
     generateCandidateToken(candidate:CandidateEntity){
-        const privateKey=process.env.PRIVATEKEY;
+        const privateKey='45645csa45aadasdafjiojfiJFSJJKJifoefsdadas.hjhjkhjk156156dsadasdsadsad.sadsjakdjsdsad456as4dsad';
         const now = Math.floor(Date.now() / 1000);
         const payload={
             role:candidate.role,
@@ -36,7 +36,8 @@ export class TokenService {
     }
 
      validateToken(token:string){
-        return jwt.verify(token,process.env.PRIVATEKEY)
+        const privateKey='45645csa45aadasdafjiojfiJFSJJKJifoefsdadas.hjhjkhjk156156dsadasdsadsad.sadsjakdjsdsad456as4dsad';
+        return jwt.verify(token,privateKey)
     }
 
 }
