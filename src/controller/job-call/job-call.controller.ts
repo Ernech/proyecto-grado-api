@@ -60,6 +60,25 @@ export class JobCallController {
         return this.jobCallService.getTeacherJobCall(JobCallStatusEnum.OPEN)
     }
     
+    
+    @Get('/saved/teacher')
+    @Roles(RoleType.RECRUITER)
+    async getSavedTeacherJobCall(){
+        return this.jobCallService.getTeacherJobCall(JobCallStatusEnum.SAVED)
+    }
+
+    @Get('/closed/teacher')
+    @Roles(RoleType.RECRUITER)
+    async getClosedTeacherJobCall(){
+        return this.jobCallService.getTeacherJobCall(JobCallStatusEnum.CLOSED)
+    }
+
+    @Get('/pending/teacher')
+    @Roles(RoleType.RECRUITER)
+    async getPendingTeacherJobCall(){
+        return this.jobCallService.getTeacherJobCall(JobCallStatusEnum.PENDING)
+    }
+
     @Get('/teacher-jc/:id')
     @Roles(RoleType.RECRUITER)
     async getTeacherJobCallById(@Param('id',new ParseUUIDPipe) id:string){
