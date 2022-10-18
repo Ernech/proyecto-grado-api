@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
 import { BaseEntity } from "./base.entity";
 import { TeacherJobCallEntity } from "./teacher-job-call.entity";
 
@@ -20,6 +20,7 @@ export class RequirementEntity extends BaseEntity{
     @Column({name:'requirement_type',length:150,default:'--'})
     requirementType:string
 
+    @JoinColumn({ name: 'job_call_id' })
     @ManyToOne(()=>TeacherJobCallEntity,(teacherJobCall)=>teacherJobCall.requirements)
     teacherJobCall:TeacherJobCallEntity
 }

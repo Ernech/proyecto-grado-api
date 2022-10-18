@@ -26,6 +26,18 @@ export class CvService {
         return await this.candidateRepository.save(candidate)
     }
 
+    async editCV(candidateId: string, cvInfoDTO: CVInfoDTO) {
+        const candidate = await this.userService.getCandidateById(candidateId)
+        const candiateUpdated = candidate
+        const newPersonalData = this.personalDataRepository.create(cvInfoDTO.personalData)
+        const newCVData = this.cvDataRepository.create(cvInfoDTO.cvData)
+        candiateUpdated.personalData = newPersonalData
+        candiateUpdated.cvData = newCVData
+        this.candidateRepository.merge(candidate, candiateUpdated)
+        return await this.candidateRepository.save(candidate)
+    }
+
+
     async getCVByCandidateId(candiateId: string) {
         const personalData: PersonalDataEntity = await this.personalDataRepository.createQueryBuilder('personalData')
             .select([
@@ -52,21 +64,21 @@ export class CvService {
                 'personalData.professionalStartYear'
 
             ]).innerJoinAndSelect('personalData.candidate', 'candidate')
-            .where('candidate.id=:id',{id:candiateId})
-            .andWhere('candidate.status=:status',{status:1})
-            .andWhere('personalData.status=:status',{status:1})
+            .where('candidate.id=:id', { id: candiateId })
+            .andWhere('candidate.status=:status', { status: 1 })
+            .andWhere('personalData.status=:status', { status: 1 })
             .getOne();
-        const cvData:CVDataEntity[] = await this.cvDataRepository.createQueryBuilder('cvData').select([
+        const cvData: CVDataEntity[] = await this.cvDataRepository.createQueryBuilder('cvData').select([
             'cvData.dataType',
             'cvData.title',
             'cvData.institution',
             'cvData.position',
             'cvData.degree',
-            'cvData.degreeDate',   
+            'cvData.degreeDate',
             'cvData.location',
             'cvData.distinctionClass',
             'cvData.dataClass',
-            'cvData.dataDate', 
+            'cvData.dataDate',
             'cvData.startDate',
             'cvData.finishDate',
             'cvData.techingStartYear',
@@ -82,13 +94,13 @@ export class CvService {
             'cvData.phone',
             'cvData.email',
             'cvData.address',
-        ]).innerJoinAndSelect('cvData.candidate','candidate')
-        .where('candidate.id=:id',{id:candiateId})
-        .andWhere('candidate.status=:status',{status:1})
-        .andWhere('cvData.status=:status',{status:1})
-        .getMany();
+        ]).innerJoinAndSelect('cvData.candidate', 'candidate')
+            .where('candidate.id=:id', { id: candiateId })
+            .andWhere('candidate.status=:status', { status: 1 })
+            .andWhere('cvData.status=:status', { status: 1 })
+            .getMany();
 
-        return {personalData,cvData}
+        return { personalData, cvData }
     }
 
 

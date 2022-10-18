@@ -81,6 +81,7 @@ export class CVDataEntity extends BaseEntity{
     address:string;
 
     @ManyToOne(()=>CandidateEntity,(candidate)=>candidate.cvData)
+    @JoinColumn({name:'candidate_id'})
     candidate:CandidateEntity;
 
 
