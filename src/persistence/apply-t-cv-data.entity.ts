@@ -47,12 +47,6 @@ export class ApplyTCVDataEntity extends BaseEntity{
     @Column({name:'teaching_start_year',default:-1})
     techingStartYear:number;
 
-    @Column({name:'teaching_ucb_start_year',default:-1})
-    teachingUCBStartYear:number;
-
-    @Column({name:'professional_title_file',length:300,default:'--'})
-    professionalTitleFile:string;
-
     @Column({name:'professional_n_title_file',length:300,default:'--'})
     professionalNTitleFile:string;
 

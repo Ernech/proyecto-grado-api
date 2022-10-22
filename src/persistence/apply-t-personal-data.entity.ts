@@ -68,9 +68,14 @@ export class ApplyTPersonalDataEntity extends BaseEntity{
     @Column({name:'email',length:150})
     email:string;
 
-
     @Column({name:'personal_id_file',length:300})
     personalIdFile:string;
+
+    @Column({name:'teaching_ucb_start_year',default:-1})
+    teachingUCBStartYear:number;
+
+    @Column({name:'professional_title_file',length:300,default:'--'})
+    professionalTitleFile:string;
 
     @Column({name:'professional_start_year'})
     professionalStartYear:number;
