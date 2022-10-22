@@ -71,7 +71,7 @@ export class ApplyPersonalDataEntity extends BaseEntity{
     personalIdFile:string;
 
     @Column({name:'teaching_start_year',default:-1})
-    techingStartYear:number;
+    teachingStartYear:number;
 
     @Column({name:'teaching_ucb_start_year',default:-1})
     teachingUCBStartYear:number;

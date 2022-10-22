@@ -71,6 +71,9 @@ export class ApplyTPersonalDataEntity extends BaseEntity{
     @Column({name:'personal_id_file',length:300})
     personalIdFile:string;
 
+    @Column({name:'teaching_start_year',default:-1})
+    teachingStartYear:number;
+
     @Column({name:'teaching_ucb_start_year',default:-1})
     teachingUCBStartYear:number;
 
