@@ -83,7 +83,13 @@ export class PersonalDataDTO {
   @IsNotEmpty()
   personalIdFile: string;
 
-  @IsDate()
+  @IsNumber()
+  techingStartYear:number;
+
+  @IsNumber()
+  teachingUCBStartYear:number;
+
+
   @IsNumber()
   professionalStartYear: number;
 

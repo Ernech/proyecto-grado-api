@@ -219,6 +219,8 @@ export class JobCallService {
         }
         return savedJobCall;
     }
+
+  
     async getTeacherJobCallEntityById(id:string){
 
         const teacherJobCallEntity:TeacherJobCallEntity=await this.teacherJobCallRepository.findOneBy({id,status:1})
@@ -229,7 +231,7 @@ export class JobCallService {
 
     }
 
-    async getJobCallWithCandidatesByJobCallId(id:string){
+    async getJobCallWithCandidatesByJobCallId(id:string,status:string){
         const savedJobCall: JobCallEntity = await
         this.jobCallRepository.createQueryBuilder('jobCall').select([
             'jobCall.id',
@@ -241,10 +243,10 @@ export class JobCallService {
             'jobCall.openingDate',
             'jobCall.closingDate',
 
-        ]).innerJoinAndSelect('jobCall.apply','apply')
+        ]).leftJoinAndSelect('jobCall.apply','apply')
         .innerJoinAndSelect('apply.applyPersonalData','applyPersonalData')
         .innerJoinAndSelect('apply.applyCVData','applyCVData')
-        .where('jobCall.jobCallStatus=:jobCallStatus', { jobCallStatus:JobCallStatusEnum.OPEN })
+        .where('jobCall.jobCallStatus=:jobCallStatus', { jobCallStatus:status })
         .andWhere('jobCall.status=:status', { status: 1 })
         .andWhere('apply.status=:status', { status: 1 })
         .andWhere('applyPersonalData.status=:status', { status: 1 })

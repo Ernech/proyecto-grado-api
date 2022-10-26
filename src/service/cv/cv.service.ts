@@ -61,6 +61,8 @@ export class CvService {
                 'personalData.cellPhone',
                 'personalData.email',
                 'personalData.personalIdFile',
+                'personalData.teachingStartYear',
+                'personalData.teachingUCBStartYear',
                 'personalData.professionalStartYear'
 
             ]).innerJoinAndSelect('personalData.candidate', 'candidate')
@@ -81,8 +83,6 @@ export class CvService {
             'cvData.dataDate',
             'cvData.startDate',
             'cvData.finishDate',
-            'cvData.techingStartYear',
-            'cvData.teachingUCBStartYear',
             'cvData.professionalTitleFile',
             'cvData.professionalNTitleFile',
             'cvData.language',

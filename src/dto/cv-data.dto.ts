@@ -26,10 +26,6 @@ export class CVDataDTO{
    
     finishDate:string;
 
-    techingStartYear:number;
-
-    teachingUCBStartYear:number;
-
     professionalTitleFile:string;
 
     professionalNTitleFile:string;
