@@ -291,7 +291,7 @@ export class JobCallService {
 
 
     };
-
+    
     async openJobCallById(jobCallId: string) {
         const jobCall: JobCallEntity = await this.getJobCallById(jobCallId);
         jobCall.jobCallStatus = JobCallStatusEnum.OPEN

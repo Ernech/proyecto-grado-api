@@ -74,6 +74,10 @@ export class CVDataEntity extends BaseEntity{
     @Column({name:'address',length:50,default:'--'})
     address:string;
 
+    @Column({name:'ucb_start_year',default:-1})
+    ucbStartYear:number;
+
+
     @ManyToOne(()=>CandidateEntity,(candidate)=>candidate.cvData)
     @JoinColumn({name:'candidate_id'})
     candidate:CandidateEntity;

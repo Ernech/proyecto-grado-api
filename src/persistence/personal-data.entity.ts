@@ -72,7 +72,7 @@ export class PersonalDataEntity extends BaseEntity{
     @Column({name:'teaching_ucb_start_year',default:-1})
     teachingUCBStartYear:number;
 
-    @Column({name:'professional_start_year'})
+    @Column({name:'professional_start_year',default:-1})
     professionalStartYear:number;
 
     @OneToOne(()=>CandidateEntity,(candidate)=>candidate.personalData)

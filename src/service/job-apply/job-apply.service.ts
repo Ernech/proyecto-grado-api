@@ -6,7 +6,9 @@ import { ApplyTCVDataEntity } from 'src/persistence/apply-t-cv-data.entity';
 import { ApplyTPersonalDataEntity } from 'src/persistence/apply-t-personal-data.entity';
 import { ApplyEntity } from 'src/persistence/apply.entity';
 import { DataBaseEnum } from 'src/persistence/enum/data-base.enum';
+import { JobCallEntity } from 'src/persistence/job-call.entity';
 import { TeacherApplyEntity } from 'src/persistence/teacher-apply.entity';
+import { TeacherJobCallEntity } from 'src/persistence/teacher-job-call.entity';
 import { Repository } from 'typeorm';
 import { CvService } from '../cv/cv.service';
 import { JobCallService } from '../job-call/job-call.service';
@@ -21,7 +23,10 @@ export class JobApplyService {
         @InjectRepository(ApplyCVDataEntity,DataBaseEnum.ORACLE) private applyCVDataRepository:Repository<ApplyCVDataEntity>,
         @InjectRepository(TeacherApplyEntity,DataBaseEnum.ORACLE) private teacherApplyRepository:Repository<TeacherApplyEntity>,
         @InjectRepository(ApplyTPersonalDataEntity,DataBaseEnum.ORACLE) private applyTPersonalDataRepository:Repository<ApplyTPersonalDataEntity>,
-        @InjectRepository(ApplyTCVDataEntity,DataBaseEnum.ORACLE) private applyTCVDataRepository:Repository<ApplyTCVDataEntity>){}
+        @InjectRepository(ApplyTCVDataEntity,DataBaseEnum.ORACLE) private applyTCVDataRepository:Repository<ApplyTCVDataEntity>,
+        @InjectRepository(JobCallEntity, DataBaseEnum.ORACLE) private jobCallRepository: Repository<JobCallEntity>,
+        @InjectRepository(TeacherJobCallEntity, DataBaseEnum.ORACLE) private teacherJobCallRepository: Repository<TeacherJobCallEntity>,
+        ){}
 
 
     async newJobApply(candidateId:string,jobCallId:string){
@@ -57,4 +62,38 @@ export class JobApplyService {
         return this.teacherApplyRepository.save(newTeacherApply)
 
     }
+    async getCandidateJobCallsApplies(id:string){
+        const jobCallApplies:JobCallEntity[] = await this.jobCallRepository.createQueryBuilder('jobCall')
+        .select([
+            'jobCall.id',
+            'jobCall.jobCallName',
+            'jobCall.jobCallNumber',
+            'jobCall.openingDate',
+            'jobCall.closingDate',
+            'jobCall.jobCallStatus'
+        ])
+        .innerJoinAndSelect('jobCall.apply','apply')
+        .innerJoin('apply.candidate','candidate')
+        .where('jobCall.status=:status',{status:1})
+        .andWhere('apply.status=:status',{status:1})
+        .andWhere('candidate.status=:status',{status:1})
+        .andWhere('candidate.id=:id',{id})
+        .getMany()
+        return jobCallApplies
+    }
+
+    async getCandidateTeacherJobCallsApplies(id:string){
+        const teacherJobCallApplies:TeacherJobCallEntity[] = await this.teacherJobCallRepository.createQueryBuilder('teacherJobCall')
+        .innerJoinAndSelect('teacherJobCall.teacherApply','teacherApply')
+        .innerJoin('teacherApply.candidate','candidate')
+        .innerJoin('teacherJobCall.jobCall','jobCall')
+        .where('jobCall.status=:status',{status:1})
+        .where('teacherJobCall.status=:status',{status:1})
+        .andWhere('teacherApply.status=:status',{status:1})
+        .andWhere('candidate.status=:status',{status:1})
+        .andWhere('candidate.id=:id',{id})
+        .getMany()
+        return teacherJobCallApplies
+    }
+
 }

@@ -80,6 +80,9 @@ export class ApplyTCVDataEntity extends BaseEntity{
     @Column({name:'candidate_id',length:150, default:'--'})
     candidateId:string
 
+    @Column({name:'ucb_start_year',default:-1})
+    ucbStartYear:number;
+
     @ManyToOne(()=>TeacherApplyEntity,(teacherApply)=>teacherApply.applyTCVData)
     teacherApply:TeacherApplyEntity;
 

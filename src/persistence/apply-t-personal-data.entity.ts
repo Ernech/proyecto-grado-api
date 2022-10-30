@@ -80,7 +80,7 @@ export class ApplyTPersonalDataEntity extends BaseEntity{
     @Column({name:'professional_title_file',length:300,default:'--'})
     professionalTitleFile:string;
 
-    @Column({name:'professional_start_year'})
+    @Column({name:'professional_start_year',default:-1})
     professionalStartYear:number;
 
     @OneToOne(()=>TeacherApplyEntity,(teacherApply)=>teacherApply.applyTPersonalData)
