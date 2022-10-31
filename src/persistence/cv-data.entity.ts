@@ -44,7 +44,7 @@ export class CVDataEntity extends BaseEntity{
     @Column({name:'professional_title_file',type:'bytea',nullable:true})
     professionalTitleFile:Buffer;
 
-    @Column({name:'professional_n_title_file',type:'bytea',default:'--'})
+    @Column({name:'professional_n_title_file',type:'bytea',nullable:true})
     professionalNTitleFile:Buffer;
 
     @Column({name:'language',length:150,default:'--'})

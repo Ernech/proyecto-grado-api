@@ -68,9 +68,9 @@ export class ApplyTPersonalDataEntity extends BaseEntity{
     @Column({name:'email',length:150})
     email:string;
 
-    @Column({name:'personal_id_file',type:'bytea',default:true})
+    @Column({name:'personal_id_file',type:'bytea',nullable:true})
     personalIdFile:Buffer;
-    
+
     @Column({name:'teaching_start_year',default:-1})
     teachingStartYear:number;
 

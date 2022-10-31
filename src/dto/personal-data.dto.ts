@@ -82,7 +82,7 @@ export class PersonalDataDTO {
   personalIdFile: Buffer;
 
   @IsNumber()
-  techingStartYear:number;
+  teachingStartYear:number;
 
   @IsNumber()
   teachingUCBStartYear:number;
