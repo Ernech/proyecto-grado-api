@@ -18,11 +18,15 @@ export class JobCallDTO {
     jobCallNumber: string;
 
     @IsNotEmpty()
-    jobCallObj: Buffer;
+    @IsString()
+    jobCallObj: string;
+
+    @IsNotEmpty()
+    jobManualFile: Buffer;
 
     @IsNotEmpty()
     @IsString()
-    jobManualFile: string;
+    jobManualFileName: string;
 
     @IsNotEmpty()
     @IsDate()

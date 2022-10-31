@@ -47,9 +47,12 @@ export class ApplyTCVDataEntity extends BaseEntity{
     @Column({name:'teaching_start_year',default:-1})
     techingStartYear:number;
 
-    @Column({name:'professional_n_title_file',length:300,default:'--'})
-    professionalNTitleFile:string;
+    @Column({name:'professional_title_file',type:'bytea',nullable:true})
+    professionalTitleFile:Buffer;
 
+    @Column({name:'professional_n_title_file',type:'bytea',nullable:true})
+    professionalNTitleFile:Buffer;
+    
     @Column({name:'language',length:150,default:'--'})
     language:string;
 

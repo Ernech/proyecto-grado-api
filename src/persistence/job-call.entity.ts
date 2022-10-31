@@ -20,10 +20,12 @@ export class JobCallEntity extends BaseEntity{
     @Column({name:'job_call_obj',length:400,default:'--'})
     jobCallObj:string;
 
-    @Column({name:'job_manual_file', type:'longblob'})
+    @Column({name:'job_manual_file', type:'bytea',nullable:true})
     jobManualFile:Buffer;
-    
 
+    @Column({name:'job_manual_file_name', length:50 ,default:'--'})
+    jobManualFileName:string;
+    
     @Column({name:'job_call_status', length:300})
     jobCallStatus: string;
 

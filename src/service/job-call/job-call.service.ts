@@ -121,7 +121,6 @@ export class JobCallService {
                 'jobCall.jobCallNumber',
                 'jobCall.jobCallObj',
                 'jobCall.jobManualFile',
-                'jobCall.jobInfoFile',
                 'jobCall.openingDate',
                 'jobCall.closingDate',
 
@@ -197,7 +196,6 @@ export class JobCallService {
                 'jobCall.jobCallNumber',
                 'jobCall.jobCallObj',
                 'jobCall.jobManualFile',
-                'jobCall.jobInfoFile',
                 'jobCall.openingDate',
                 'jobCall.closingDate',
 
@@ -239,7 +237,6 @@ export class JobCallService {
             'jobCall.jobCallNumber',
             'jobCall.jobCallObj',
             'jobCall.jobManualFile',
-            'jobCall.jobInfoFile',
             'jobCall.openingDate',
             'jobCall.closingDate',
 

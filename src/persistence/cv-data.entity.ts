@@ -41,11 +41,11 @@ export class CVDataEntity extends BaseEntity{
     @Column({name:'finish_date',length:50,default:'--'})
     finishDate:string;
 
-    @Column({name:'professional_title_file',length:300,default:'--'})
-    professionalTitleFile:string;
+    @Column({name:'professional_title_file',type:'bytea',nullable:true})
+    professionalTitleFile:Buffer;
 
-    @Column({name:'professional_n_title_file',length:300,default:'--'})
-    professionalNTitleFile:string;
+    @Column({name:'professional_n_title_file',type:'bytea',default:'--'})
+    professionalNTitleFile:Buffer;
 
     @Column({name:'language',length:150,default:'--'})
     language:string;
@@ -76,7 +76,6 @@ export class CVDataEntity extends BaseEntity{
 
     @Column({name:'ucb_start_year',default:-1})
     ucbStartYear:number;
-
 
     @ManyToOne(()=>CandidateEntity,(candidate)=>candidate.cvData)
     @JoinColumn({name:'candidate_id'})

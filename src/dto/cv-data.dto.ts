@@ -26,9 +26,9 @@ export class CVDataDTO{
    
     finishDate:string;
 
-    professionalTitleFile:string;
+    professionalTitleFile:Buffer;
 
-    professionalNTitleFile:string;
+    professionalNTitleFile:Buffer;
     
     language:string;
     

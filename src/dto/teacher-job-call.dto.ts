@@ -17,12 +17,8 @@ export class TeacherJobCallDTO {
     jobCallObj: string;
 
     @IsNotEmpty()
-    @IsString()
-    jobManualFile: string;
+    jobManualFile: Buffer;
 
-    @IsNotEmpty()
-    @IsString()
-    jobInfoFile: string;
 
     @IsNotEmpty()
     @IsDate()
