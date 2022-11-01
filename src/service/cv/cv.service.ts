@@ -25,18 +25,21 @@ export class CvService {
         candidate.cvData = newCVDataArray
         return await this.candidateRepository.save(candidate)
     }
-
     async editCV(candidateId: string, cvInfoDTO: CVInfoDTO) {
-        const candidate = await this.userService.getCandidateById(candidateId)
-        const candiateUpdated = candidate
-        const newPersonalData = this.personalDataRepository.create(cvInfoDTO.personalData)
-        const newCVData = this.cvDataRepository.create(cvInfoDTO.cvData)
-        candiateUpdated.personalData = newPersonalData
-        candiateUpdated.cvData = newCVData
-        this.candidateRepository.merge(candidate, candiateUpdated)
-        return await this.candidateRepository.save(candidate)
+        const candidate = await this.userService.getCandidateWithCvById(candidateId)
+        const newPersonalData:PersonalDataEntity = this.personalDataRepository.create(cvInfoDTO.personalData)
+        const newCVData:CVDataEntity[] = this.cvDataRepository.create(cvInfoDTO.cvData)
+        candidate.cvData = newCVData
+        await this.updatePersonalData(candidate.personalData,newPersonalData)
+        return  await this.candidateRepository.save(candidate)
     }
 
+
+    async updatePersonalData(personalData:PersonalDataEntity,newPersonalData:PersonalDataEntity){
+        this.personalDataRepository.merge(personalData,newPersonalData)
+        return await this.personalDataRepository.save(personalData)
+    
+    }
 
     async getCVByCandidateId(candiateId: string) {
         const personalData: PersonalDataEntity = await this.personalDataRepository.createQueryBuilder('personalData')
@@ -65,7 +68,7 @@ export class CvService {
                 'personalData.teachingUCBStartYear',
                 'personalData.professionalStartYear'
 
-            ]).innerJoinAndSelect('personalData.candidate', 'candidate')
+            ]).innerJoin('personalData.candidate', 'candidate')
             .where('candidate.id=:id', { id: candiateId })
             .andWhere('candidate.status=:status', { status: 1 })
             .andWhere('personalData.status=:status', { status: 1 })
@@ -94,7 +97,7 @@ export class CvService {
             'cvData.phone',
             'cvData.email',
             'cvData.address',
-        ]).innerJoinAndSelect('cvData.candidate', 'candidate')
+        ]).innerJoin('cvData.candidate', 'candidate')
             .where('candidate.id=:id', { id: candiateId })
             .andWhere('candidate.status=:status', { status: 1 })
             .andWhere('cvData.status=:status', { status: 1 })

@@ -29,6 +29,4 @@ export class ApplyEntity extends BaseEntity{
     @OneToMany(()=>ApplyCVDataEntity,(applyCVData)=>applyCVData.apply,{cascade:true})
     applyCVData:ApplyCVDataEntity[]
 
-    
-
 }

@@ -78,7 +78,7 @@ export class PersonalDataDTO {
   @IsNotEmpty()
   email: string;
 
-  @IsNotEmpty()
+  
   personalIdFile: Buffer;
 
   @IsNumber()

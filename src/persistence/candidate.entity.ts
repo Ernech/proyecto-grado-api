@@ -25,10 +25,10 @@ export class CandidateEntity extends BaseEntity{
     @Column({default:'CANDIDATE',length:100})
     role:string
 
-    @OneToOne(()=>PersonalDataEntity,(personalData)=>personalData.candidate,{cascade:true})
+    @OneToOne(()=>PersonalDataEntity,(personalData)=>personalData.candidate,{cascade:true,eager:true})
     personalData:PersonalDataEntity;
 
-    @OneToMany(()=> CVDataEntity, (cvData)=> cvData.candidate,{cascade:true})
+    @OneToMany(()=> CVDataEntity, (cvData)=> cvData.candidate,{cascade:true,eager:true})
     cvData: CVDataEntity[]
 
     @OneToMany(()=>ApplyEntity,(apply)=>apply.candidate,{cascade:true})
