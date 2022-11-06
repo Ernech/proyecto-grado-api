@@ -164,4 +164,10 @@ export class JobCallController {
         this.jobCallService.closeJobCallById(id)
 
     }
+
+    @Patch('pending/teahcer/:id')
+    @Roles(RoleType.RECRUITER)
+    async publishTeacherJobCall(@Param('id', new ParseUUIDPipe()) id: string) {
+         this.jobCallService.publishTeacherJobCall(id)
+    }
 }

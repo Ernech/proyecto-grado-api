@@ -321,6 +321,23 @@ export class JobCallService {
 
 
     };
+    async publishTeacherJobCall(id: string) {
+        const jobCall: JobCallEntity = await this.getTeacherJobCallById(id);
+        const today = new Date()
+        today.setHours(today.getHours() - 4)
+        if (jobCall.openingDate < today) {
+            throw new BadRequestException("Fecha de apertura incorrecta")
+        }
+        else if (jobCall.openingDate === today) {
+            jobCall.jobCallStatus = JobCallStatusEnum.OPEN
+        }
+        else if (jobCall.openingDate > today) {
+            jobCall.jobCallStatus = JobCallStatusEnum.PENDING
+            this.openTeacherJobCall(jobCall.openingDate, jobCall.id)
+            this.closeTeacherJobCall(jobCall.closingDate, jobCall.id)
+        }
+        await this.jobCallRepository.save(jobCall)
+    };
 
     async openJobCallById(jobCallId: string) {
         const jobCall: JobCallEntity = await this.getJobCallById(jobCallId);
@@ -333,6 +350,18 @@ export class JobCallService {
         jobCall.jobCallStatus = JobCallStatusEnum.CLOSED
         await this.jobCallRepository.save(jobCall)
     }
+    async openTeacherJobCallById(jobCallId: string) {
+        const jobCall: JobCallEntity = await this.getTeacherJobCallById(jobCallId);
+        jobCall.jobCallStatus = JobCallStatusEnum.OPEN
+        await this.jobCallRepository.save(jobCall)
+    }
+
+    async closeTeacherJobCallById(jobCallId: string) {
+        const jobCall: JobCallEntity = await this.getTeacherJobCallById(jobCallId);
+        jobCall.jobCallStatus = JobCallStatusEnum.CLOSED
+        await this.jobCallRepository.save(jobCall)
+    }
+
     openJobCall(openingDate: Date, jobCallId: string) {
         const openJobCall = new CronJob(openingDate, async () => {
             await this.openJobCallById(jobCallId)
@@ -343,6 +372,20 @@ export class JobCallService {
     closeJobCall(closingDate: Date, jobCallId: string) {
         const closeJobCall = new CronJob(closingDate, async () => {
             await this.closeJobCallById(jobCallId)
+        })
+        this.schedulerRegistry.addCronJob(`close-job-call-${jobCallId}`, closeJobCall)
+        closeJobCall.start()
+    }
+    openTeacherJobCall(openingDate: Date, jobCallId: string) {
+        const openJobCall = new CronJob(openingDate, async () => {
+            await this.openTeacherJobCallById(jobCallId)
+        })
+        this.schedulerRegistry.addCronJob(`open-job-call-${jobCallId}`, openJobCall)
+        openJobCall.start()
+    }
+    closeTeacherJobCall(closingDate: Date, jobCallId: string) {
+        const closeJobCall = new CronJob(closingDate, async () => {
+            await this.closeTeacherJobCallById(jobCallId)
         })
         this.schedulerRegistry.addCronJob(`close-job-call-${jobCallId}`, closeJobCall)
         closeJobCall.start()
