@@ -26,6 +26,12 @@ export class JobCallController {
         return await this.jobCallService.newTeacherJobCall(jobCallDTO)
     }
 
+    @Put('/teacher/:id')
+    @Roles(RoleType.RECRUITER)
+    async editTeacherJobCall(@Param('id', new ParseUUIDPipe()) id: string,@Body() jobCallDTO: NewTeacherJobCallDTO) {
+        return await this.jobCallService.editTeacherJobCall(id,jobCallDTO)
+    }
+
     @Patch('/teacher/:id')
     @Roles(RoleType.RECRUITER)
     async addCollegeClassToTeacherJobCall(@Param('id', new ParseUUIDPipe()) id: string, @Body() collegeClasses: AddCollegeClassDTO) {

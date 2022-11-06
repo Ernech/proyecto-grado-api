@@ -64,11 +64,41 @@ export class JobCallService {
 
     }
 
+
+    async editTeacherJobCall(jobCallId: string, newJobCallDTO: NewTeacherJobCallDTO) {
+        const jobCall = await this.getTeacherJobCallById(jobCallId);
+        const newJobCall = this.jobCallRepository.create(newJobCallDTO.teacherJobCall)
+        this.jobCallRepository.merge(jobCall, newJobCall)
+        if (jobCall.openingDate < new Date() || jobCall.openingDate >= jobCall.closingDate) {
+            throw new BadRequestException("Fecha de apertura incorrecta")
+        }
+        if (newJobCallDTO.newCareerClass.length !== null && newJobCallDTO.newCareerClass.length > 0) {
+            const techerJobCallArray: TeacherJobCallEntity[] = []
+            for (let i = 0; i < newJobCallDTO.newCareerClass.length; i++) {
+                const newTeacherJobCall: TeacherJobCallEntity = new TeacherJobCallEntity()
+                const collegeClass: CollegeClassEntity = await this.collegeClassService.getCollegeClassById(newJobCallDTO.newCareerClass[i].id)
+                const requirements: RequirementEntity[] = this.requirementRepository.create(newJobCallDTO.newCareerClass[i].requirements)
+                newTeacherJobCall.collegeClass = collegeClass
+                newTeacherJobCall.requirements = requirements
+                newTeacherJobCall.requiredNumber = newJobCallDTO.newCareerClass[i].requiredNumber
+                newTeacherJobCall.jobCallCode = newJobCallDTO.newCareerClass[i].jobCallCode
+                techerJobCallArray.push(newTeacherJobCall)
+            }
+            jobCall.position = JobCallPositionEnum.TEACHER;
+            jobCall.jobCallStatus = JobCallStatusEnum.SAVED;
+            jobCall.teacherJobCalls = techerJobCallArray
+        }
+        return await this.jobCallRepository.save(jobCall)
+
+
+    }
+
+
     async addCollegeClassesToJobCall(jobCallId: string, collegeClasses: AddCollegeClassDTO) {
         const jobCall: JobCallEntity = await this.getTeacherJobCallById(jobCallId)
         if (collegeClasses.newCareerClass && collegeClasses.newCareerClass.length > 0) {
             let teacherJobCallArray: TeacherJobCallEntity[] = []
-            if (jobCall.teacherJobCalls && jobCall.teacherJobCalls.length>0) {
+            if (jobCall.teacherJobCalls && jobCall.teacherJobCalls.length > 0) {
                 teacherJobCallArray = jobCall.teacherJobCalls
             }
             for (let i = 0; i < collegeClasses.newCareerClass.length; i++) {
@@ -87,33 +117,33 @@ export class JobCallService {
     }
 
     async getTeacherJobCallById(id: string) {
-        const teacherJobCall: JobCallEntity = await 
-        this.jobCallRepository.createQueryBuilder('jobCall').select([
-            'jobCall.id',
-            'jobCall.jobCallName',
-            'jobCall.jobCallNumber',
-            'jobCall.jobManualFile',
-            'jobCall.openingDate',
-            'jobCall.closingDate',
-        ]).innerJoinAndSelect('jobCall.teacherJobCalls', 'teacherJobCall')
-        .innerJoinAndSelect('teacherJobCall.requirements','requirement')
-        .innerJoinAndSelect('teacherJobCall.collegeClass','collegeClass')
-        //.innerJoin('teacherJobCall.teacherApply','teacherApply')
-        .loadRelationCountAndMap('teacherJobCall.candidates', 'teacherJobCall.teacherApply')
-        .where('jobCall.position=:position', { position: JobCallPositionEnum.TEACHER })
-        .andWhere('jobCall.status=:status', { status: 1 })
-        .andWhere('collegeClass.status=:status', { status: 1 })
-        .andWhere('teacherJobCall.status=:status', { status: 1 })
-        .andWhere('requirement.status=:status', { status: 1 })
-        .andWhere('jobCall.id=:id',{id})
-         .getOne();
+        const teacherJobCall: JobCallEntity = await
+            this.jobCallRepository.createQueryBuilder('jobCall').select([
+                'jobCall.id',
+                'jobCall.jobCallName',
+                'jobCall.jobCallNumber',
+                'jobCall.jobManualFile',
+                'jobCall.openingDate',
+                'jobCall.closingDate',
+            ]).innerJoinAndSelect('jobCall.teacherJobCalls', 'teacherJobCall')
+                .innerJoinAndSelect('teacherJobCall.requirements', 'requirement')
+                .innerJoinAndSelect('teacherJobCall.collegeClass', 'collegeClass')
+                //.innerJoin('teacherJobCall.teacherApply','teacherApply')
+                .loadRelationCountAndMap('teacherJobCall.candidates', 'teacherJobCall.teacherApply')
+                .where('jobCall.position=:position', { position: JobCallPositionEnum.TEACHER })
+                .andWhere('jobCall.status=:status', { status: 1 })
+                .andWhere('collegeClass.status=:status', { status: 1 })
+                .andWhere('teacherJobCall.status=:status', { status: 1 })
+                .andWhere('requirement.status=:status', { status: 1 })
+                .andWhere('jobCall.id=:id', { id })
+                .getOne();
         if (!teacherJobCall) {
             throw new NotFoundException("Convocatoria no encontrada")
         }
         return teacherJobCall
     }
     async getJobCalls(jobCallStatus: string) {
-    
+
         const savedJobCalls: JobCallEntity[] = await
             this.jobCallRepository.createQueryBuilder('jobCall').select([
                 'jobCall.id',
@@ -152,39 +182,40 @@ export class JobCallService {
         return await this.jobCallRepository.save(jobCall)
 
     }
-    async getTeacherJobCall(jobCallStatus:string){
+
+    async getTeacherJobCall(jobCallStatus: string) {
         const savedJobCalls: JobCallEntity[] = await
-        this.jobCallRepository.createQueryBuilder('jobCall').select([
-            'jobCall.id',
-            'jobCall.jobCallName',
-            'jobCall.jobCallNumber',
-            'jobCall.jobManualFile',
-            'jobCall.openingDate',
-            'jobCall.closingDate',
-        ]).innerJoinAndSelect('jobCall.teacherJobCalls', 'teacherJobCall')
-        .innerJoinAndSelect('teacherJobCall.requirements','requirement')
-        .innerJoinAndSelect('teacherJobCall.collegeClass','collegeClass')
-         .where('jobCall.jobCallStatus=:jobCallStatus', { jobCallStatus })
-        .andWhere('jobCall.position=:position', { position: JobCallPositionEnum.TEACHER })
-        .andWhere('jobCall.status=:status', { status: 1 })
-        .andWhere('collegeClass.status=:status', { status: 1 })
-        .andWhere('teacherJobCall.status=:status', { status: 1 })
-        .andWhere('requirement.status=:status', { status: 1 })
-         .getMany();
+            this.jobCallRepository.createQueryBuilder('jobCall').select([
+                'jobCall.id',
+                'jobCall.jobCallName',
+                'jobCall.jobCallNumber',
+                'jobCall.jobManualFile',
+                'jobCall.openingDate',
+                'jobCall.closingDate',
+            ]).innerJoinAndSelect('jobCall.teacherJobCalls', 'teacherJobCall')
+                .innerJoinAndSelect('teacherJobCall.requirements', 'requirement')
+                .innerJoinAndSelect('teacherJobCall.collegeClass', 'collegeClass')
+                .where('jobCall.jobCallStatus=:jobCallStatus', { jobCallStatus })
+                .andWhere('jobCall.position=:position', { position: JobCallPositionEnum.TEACHER })
+                .andWhere('jobCall.status=:status', { status: 1 })
+                .andWhere('collegeClass.status=:status', { status: 1 })
+                .andWhere('teacherJobCall.status=:status', { status: 1 })
+                .andWhere('requirement.status=:status', { status: 1 })
+                .getMany();
         return savedJobCalls
     }
-    async getTeacherJobCallInfoById(id:string){
-        const teacherJobCallInfo:TeacherJobCallEntity=await this.teacherJobCallRepository.createQueryBuilder('teacherJobCall')
-        .select([
-            'teacherJobCall.id',
-            'teacherJobCall.jobCallCode',
-        ]).innerJoinAndSelect('teacherJobCall.requirements','requirement')
-        .innerJoinAndSelect('teacherJobCall.collegeClass','collegeClass')
-        .where('teacherJobCall.id=:id',{id})
-        .andWhere('collegeClass.status=:status', { status: 1 })
-        .andWhere('teacherJobCall.status=:status', { status: 1 })
-        .andWhere('requirement.status=:status', { status: 1 })
-        .getOne()
+    async getTeacherJobCallInfoById(id: string) {
+        const teacherJobCallInfo: TeacherJobCallEntity = await this.teacherJobCallRepository.createQueryBuilder('teacherJobCall')
+            .select([
+                'teacherJobCall.id',
+                'teacherJobCall.jobCallCode',
+            ]).innerJoinAndSelect('teacherJobCall.requirements', 'requirement')
+            .innerJoinAndSelect('teacherJobCall.collegeClass', 'collegeClass')
+            .where('teacherJobCall.id=:id', { id })
+            .andWhere('collegeClass.status=:status', { status: 1 })
+            .andWhere('teacherJobCall.status=:status', { status: 1 })
+            .andWhere('requirement.status=:status', { status: 1 })
+            .getOne()
         return teacherJobCallInfo
 
     }
@@ -196,6 +227,7 @@ export class JobCallService {
                 'jobCall.jobCallNumber',
                 'jobCall.jobCallObj',
                 'jobCall.jobManualFile',
+                'jobCall.jobManualFileName',
                 'jobCall.openingDate',
                 'jobCall.closingDate',
 
@@ -218,55 +250,56 @@ export class JobCallService {
         return savedJobCall;
     }
 
-  
-    async getTeacherJobCallEntityById(id:string){
 
-        const teacherJobCallEntity:TeacherJobCallEntity=await this.teacherJobCallRepository.findOneBy({id,status:1})
-        if(!teacherJobCallEntity){
+    async getTeacherJobCallEntityById(id: string) {
+
+        const teacherJobCallEntity: TeacherJobCallEntity = await this.teacherJobCallRepository.findOneBy({ id, status: 1 })
+        if (!teacherJobCallEntity) {
             throw new NotFoundException('Convocatoria no encontrada')
         }
         return teacherJobCallEntity;
 
     }
 
-    async getJobCallWithCandidatesByJobCallId(id:string,status:string){
+    async getJobCallWithCandidatesByJobCallId(id: string, status: string) {
         const savedJobCall: JobCallEntity = await
-        this.jobCallRepository.createQueryBuilder('jobCall').select([
-            'jobCall.id',
-            'jobCall.jobCallName',
-            'jobCall.jobCallNumber',
-            'jobCall.jobCallObj',
-            'jobCall.jobManualFile',
-            'jobCall.openingDate',
-            'jobCall.closingDate',
+            this.jobCallRepository.createQueryBuilder('jobCall').select([
+                'jobCall.id',
+                'jobCall.jobCallName',
+                'jobCall.jobCallNumber',
+                'jobCall.jobCallObj',
+                'jobCall.jobManualFile',
+                'jobCall.jobManualFileName',
+                'jobCall.openingDate',
+                'jobCall.closingDate',
 
-        ]).leftJoinAndSelect('jobCall.apply','apply')
-        .innerJoinAndSelect('apply.applyPersonalData','applyPersonalData')
-        .innerJoinAndSelect('apply.applyCVData','applyCVData')
-        .where('jobCall.jobCallStatus=:jobCallStatus', { jobCallStatus:status })
-        .andWhere('jobCall.status=:status', { status: 1 })
-        .andWhere('apply.status=:status', { status: 1 })
-        .andWhere('applyPersonalData.status=:status', { status: 1 })
-        .andWhere('applyCVData.status=:status', { status: 1 })
-        .andWhere('jobCall.id=:id', { id })
-        .getOne();
+            ]).leftJoinAndSelect('jobCall.apply', 'apply')
+                .innerJoinAndSelect('apply.applyPersonalData', 'applyPersonalData')
+                .innerJoinAndSelect('apply.applyCVData', 'applyCVData')
+                .where('jobCall.jobCallStatus=:jobCallStatus', { jobCallStatus: status })
+                .andWhere('jobCall.status=:status', { status: 1 })
+                .andWhere('apply.status=:status', { status: 1 })
+                .andWhere('applyPersonalData.status=:status', { status: 1 })
+                .andWhere('applyCVData.status=:status', { status: 1 })
+                .andWhere('jobCall.id=:id', { id })
+                .getOne();
         return savedJobCall
     }
-    async getTeacherJobCallWithCandidatesByJobCallId(id:string){
+    async getTeacherJobCallWithCandidatesByJobCallId(id: string) {
         const savedJobCall: TeacherJobCallEntity = await
-        this.teacherJobCallRepository.createQueryBuilder('teacherJobCall').select([
-            'teacherJobCall.id',
-            'teacherJobCall.jobCallCode',
-            'teacherJobCall.requiredNumber'
-        ]).innerJoinAndSelect('teacherJobCall.teacherApply','teacherApply')
-        .innerJoinAndSelect('teacherApply.applyTPersonalData','applyTPersonalData')
-        .innerJoinAndSelect('teacherApply.applyTCVData','applyTCVData')
-        .andWhere('teacherJobCall.status=:status', { status: 1 })
-        .andWhere('teacherApply.status=:status', { status: 1 })
-        .andWhere('applyTPersonalData.status=:status', { status: 1 })
-        .andWhere('applyTCVData.status=:status', { status: 1 })
-        .andWhere('teacherJobCall.id=:id', { id })
-        .getOne();
+            this.teacherJobCallRepository.createQueryBuilder('teacherJobCall').select([
+                'teacherJobCall.id',
+                'teacherJobCall.jobCallCode',
+                'teacherJobCall.requiredNumber'
+            ]).innerJoinAndSelect('teacherJobCall.teacherApply', 'teacherApply')
+                .innerJoinAndSelect('teacherApply.applyTPersonalData', 'applyTPersonalData')
+                .innerJoinAndSelect('teacherApply.applyTCVData', 'applyTCVData')
+                .andWhere('teacherJobCall.status=:status', { status: 1 })
+                .andWhere('teacherApply.status=:status', { status: 1 })
+                .andWhere('applyTPersonalData.status=:status', { status: 1 })
+                .andWhere('applyTCVData.status=:status', { status: 1 })
+                .andWhere('teacherJobCall.id=:id', { id })
+                .getOne();
         return savedJobCall
     }
     async publishJobCall(id: string) {
@@ -288,7 +321,7 @@ export class JobCallService {
 
 
     };
-    
+
     async openJobCallById(jobCallId: string) {
         const jobCall: JobCallEntity = await this.getJobCallById(jobCallId);
         jobCall.jobCallStatus = JobCallStatusEnum.OPEN
