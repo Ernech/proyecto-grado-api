@@ -62,6 +62,23 @@ export class JobApplyService {
         return this.teacherApplyRepository.save(newTeacherApply)
 
     }
+    async getJobCallApplyById(id: string) {
+        const apply: ApplyEntity = await
+            this.applyRepository.createQueryBuilder('apply').select([
+                'apply.id',
+                'apply.applyStatus',
+                'apply.applyDate'
+            ])
+                .innerJoinAndSelect('apply.applyPersonalData', 'applyPersonalData')
+                .innerJoinAndSelect('apply.applyCVData', 'applyCVData')
+                .andWhere('apply.status=:status', { status: 1 })
+                .andWhere('applyPersonalData.status=:status', { status: 1 })
+                .andWhere('applyCVData.status=:status', { status: 1 })
+                .andWhere('apply.id=:id', { id })
+                .getOne();
+        
+        return apply
+    }
     async getCandidateJobCallsApplies(id:string){
         const jobCallApplies:JobCallEntity[] = await this.jobCallRepository.createQueryBuilder('jobCall')
         .select([
@@ -85,6 +102,7 @@ export class JobApplyService {
     async getCandidateTeacherJobCallsApplies(id:string){
         const teacherJobCallApplies:TeacherJobCallEntity[] = await this.teacherJobCallRepository.createQueryBuilder('teacherJobCall')
         .innerJoinAndSelect('teacherJobCall.teacherApply','teacherApply')
+        .innerJoinAndSelect('teacherJobCall.collegeClass','collegeClass')
         .innerJoin('teacherApply.candidate','candidate')
         .innerJoin('teacherJobCall.jobCall','jobCall')
         .where('jobCall.status=:status',{status:1})

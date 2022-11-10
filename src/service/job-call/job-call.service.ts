@@ -15,6 +15,7 @@ import { CollegeClassService } from '../college-class/college-class.service';
 import { RequirementEntity } from 'src/persistence/requirement.entity';
 import { CollegeClassEntity } from 'src/persistence/college-class.entity';
 import { AddCollegeClassDTO } from 'src/dto/add-college-class.dto';
+import { ApplyEntity } from 'src/persistence/apply.entity';
 @Injectable()
 export class JobCallService {
 
@@ -273,7 +274,7 @@ export class JobCallService {
                 'jobCall.openingDate',
                 'jobCall.closingDate',
 
-            ]).leftJoinAndSelect('jobCall.apply', 'apply')
+            ]).innerJoinAndSelect('jobCall.apply', 'apply')
                 .innerJoinAndSelect('apply.applyPersonalData', 'applyPersonalData')
                 .innerJoinAndSelect('apply.applyCVData', 'applyCVData')
                 .where('jobCall.jobCallStatus=:jobCallStatus', { jobCallStatus: status })
@@ -283,8 +284,14 @@ export class JobCallService {
                 .andWhere('applyCVData.status=:status', { status: 1 })
                 .andWhere('jobCall.id=:id', { id })
                 .getOne();
-        return savedJobCall
+        if(savedJobCall){
+            return savedJobCall
+        }
+        return this.getJobCallById(id)
     }
+
+    
+
     async getTeacherJobCallWithCandidatesByJobCallId(id: string) {
         const savedJobCall: TeacherJobCallEntity = await
             this.teacherJobCallRepository.createQueryBuilder('teacherJobCall').select([

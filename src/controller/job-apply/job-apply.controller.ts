@@ -17,6 +17,13 @@ export class JobApplyController {
         return await this.jobApplyService.newJobApply(applyDTO.candidateId,applyDTO.jobCallId)
         
     }
+    
+    @Get('/:id')
+    @Roles(RoleType.CANDIDATE,RoleType.RECRUITER)
+    async getApplyById(@Param('id',new ParseUUIDPipe()) id:string){
+        return await this.jobApplyService.getJobCallApplyById(id)
+    }
+
 
     @Post('/teacher')
     @Roles(RoleType.CANDIDATE)
