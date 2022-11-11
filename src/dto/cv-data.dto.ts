@@ -30,6 +30,11 @@ export class CVDataDTO{
 
     professionalNTitleFile:Buffer;
     
+    professionalTitleFileName:string;
+
+    professionalNTitleFileName:string;
+    
+    
     language:string;
     
     writing:string;

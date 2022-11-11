@@ -79,6 +79,25 @@ export class JobApplyService {
         
         return apply
     }
+
+    async getTeacherJobCallApplyById(id: string) {
+        const teacherApply: TeacherApplyEntity = await
+            this.teacherApplyRepository.createQueryBuilder('teacheApply').select([
+                'teacheApply.id',
+                'teacheApply.applyStatus',
+                'teacheApply.applyDate'
+            ])
+                .innerJoinAndSelect('teacheApply.applyTPersonalData', 'applyTPersonalData')
+                .innerJoinAndSelect('teacheApply.applyTCVData', 'applyTCVData')
+                .andWhere('teacheApply.status=:status', { status: 1 })
+                .andWhere('applyTPersonalData.status=:status', { status: 1 })
+                .andWhere('applyTCVData.status=:status', { status: 1 })
+                .andWhere('teacheApply.id=:id', { id })
+                .getOne();
+        
+        return teacherApply
+    }
+
     async getCandidateJobCallsApplies(id:string){
         const jobCallApplies:JobCallEntity[] = await this.jobCallRepository.createQueryBuilder('jobCall')
         .select([

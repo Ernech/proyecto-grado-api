@@ -77,9 +77,10 @@ export class PersonalDataDTO {
   @IsString()
   @IsNotEmpty()
   email: string;
-
   
   personalIdFile: Buffer;
+
+  personalIdFileName:string;
 
   @IsNumber()
   teachingStartYear:number;

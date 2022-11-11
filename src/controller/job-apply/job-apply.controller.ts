@@ -24,6 +24,7 @@ export class JobApplyController {
         return await this.jobApplyService.getJobCallApplyById(id)
     }
 
+    
 
     @Post('/teacher')
     @Roles(RoleType.CANDIDATE)
@@ -31,7 +32,12 @@ export class JobApplyController {
         return await this.jobApplyService.newTeacherJobApply(applyDTO.candidateId,applyDTO.jobCallId)
         
     }
-
+    @Get('teacher/:id')
+    @Roles(RoleType.CANDIDATE,RoleType.RECRUITER)
+    async getTeacherApplyById(@Param('id',new ParseUUIDPipe()) id:string){
+        return await this.jobApplyService.getTeacherJobCallApplyById(id)
+    }
+    
     @Get('/candidate/:id')
     @Roles(RoleType.CANDIDATE)
     async getCandidateApplies(@Param('id',new ParseUUIDPipe()) id:string){

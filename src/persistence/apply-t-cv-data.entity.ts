@@ -52,6 +52,12 @@ export class ApplyTCVDataEntity extends BaseEntity{
 
     @Column({name:'professional_n_title_file',type:'bytea',nullable:true})
     professionalNTitleFile:Buffer;
+
+    @Column({name:'professional_title_file_name',length:150,default:'--'})
+    professionalTitleFileName:string;
+
+    @Column({name:'professional_n_title_file_name',length:150,default:'--'})
+    professionalNTitleFileName:string;
     
     @Column({name:'language',length:150,default:'--'})
     language:string;

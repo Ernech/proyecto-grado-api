@@ -70,6 +70,9 @@ export class ApplyPersonalDataEntity extends BaseEntity{
     @Column({name:'personal_id_file',type:'bytea',nullable:true})
     personalIdFile:Buffer;
 
+    @Column({name:'personal_id_file_name',length:150,default:'--'})
+    personalIdFileName:string;
+
     @Column({name:'teaching_start_year',default:-1})
     teachingStartYear:number;
 
