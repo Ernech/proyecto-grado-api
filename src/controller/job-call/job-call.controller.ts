@@ -165,9 +165,9 @@ export class JobCallController {
 
     }
 
-    @Patch('pending/teahcer/:id')
+    @Patch('pending/teacher/:id')
     @Roles(RoleType.RECRUITER)
     async publishTeacherJobCall(@Param('id', new ParseUUIDPipe()) id: string) {
-         this.jobCallService.publishTeacherJobCall(id)
+        await this.jobCallService.publishTeacherJobCall(id)
     }
 }

@@ -129,7 +129,6 @@ export class JobCallService {
             ]).innerJoinAndSelect('jobCall.teacherJobCalls', 'teacherJobCall')
                 .innerJoinAndSelect('teacherJobCall.requirements', 'requirement')
                 .innerJoinAndSelect('teacherJobCall.collegeClass', 'collegeClass')
-                //.innerJoin('teacherJobCall.teacherApply','teacherApply')
                 .loadRelationCountAndMap('teacherJobCall.candidates', 'teacherJobCall.teacherApply')
                 .where('jobCall.position=:position', { position: JobCallPositionEnum.TEACHER })
                 .andWhere('jobCall.status=:status', { status: 1 })
@@ -329,6 +328,7 @@ export class JobCallService {
 
     };
     async publishTeacherJobCall(id: string) {
+        console.log(id);
         const jobCall: JobCallEntity = await this.getTeacherJobCallById(id);
         const today = new Date()
         today.setHours(today.getHours() - 4)
