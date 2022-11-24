@@ -5,9 +5,10 @@ import { JobCallController } from './job-call/job-call.controller';
 import { CvController } from './cv/cv.controller';
 import { JobApplyController } from './job-apply/job-apply.controller';
 import { CollegeClassController } from './college-class/college-class.controller';
+import { FileController } from './file/file.controller';
 
 @Module({
     imports:[ServiceModule],
-    controllers:[UserController, JobCallController, CvController, JobApplyController, CollegeClassController]
+    controllers:[UserController, JobCallController, CvController, JobApplyController, CollegeClassController, FileController]
 })
 export class ControllerModule {}

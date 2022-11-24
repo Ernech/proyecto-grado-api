@@ -17,48 +17,48 @@ import { UserService } from '../user/user.service';
 @Injectable()
 export class JobApplyService {
 
-    constructor(private cvService:CvService, private jobCallService:JobCallService,private userService:UserService,
-        @InjectRepository(ApplyEntity,DataBaseEnum.ORACLE) private applyRepository:Repository<ApplyEntity>,
-        @InjectRepository(ApplyPersonalDataEntity,DataBaseEnum.ORACLE) private applyPersonalDataRepository:Repository<ApplyPersonalDataEntity>,
-        @InjectRepository(ApplyCVDataEntity,DataBaseEnum.ORACLE) private applyCVDataRepository:Repository<ApplyCVDataEntity>,
-        @InjectRepository(TeacherApplyEntity,DataBaseEnum.ORACLE) private teacherApplyRepository:Repository<TeacherApplyEntity>,
-        @InjectRepository(ApplyTPersonalDataEntity,DataBaseEnum.ORACLE) private applyTPersonalDataRepository:Repository<ApplyTPersonalDataEntity>,
-        @InjectRepository(ApplyTCVDataEntity,DataBaseEnum.ORACLE) private applyTCVDataRepository:Repository<ApplyTCVDataEntity>,
+    constructor(private cvService: CvService, private jobCallService: JobCallService, private userService: UserService,
+        @InjectRepository(ApplyEntity, DataBaseEnum.ORACLE) private applyRepository: Repository<ApplyEntity>,
+        @InjectRepository(ApplyPersonalDataEntity, DataBaseEnum.ORACLE) private applyPersonalDataRepository: Repository<ApplyPersonalDataEntity>,
+        @InjectRepository(ApplyCVDataEntity, DataBaseEnum.ORACLE) private applyCVDataRepository: Repository<ApplyCVDataEntity>,
+        @InjectRepository(TeacherApplyEntity, DataBaseEnum.ORACLE) private teacherApplyRepository: Repository<TeacherApplyEntity>,
+        @InjectRepository(ApplyTPersonalDataEntity, DataBaseEnum.ORACLE) private applyTPersonalDataRepository: Repository<ApplyTPersonalDataEntity>,
+        @InjectRepository(ApplyTCVDataEntity, DataBaseEnum.ORACLE) private applyTCVDataRepository: Repository<ApplyTCVDataEntity>,
         @InjectRepository(JobCallEntity, DataBaseEnum.ORACLE) private jobCallRepository: Repository<JobCallEntity>,
         @InjectRepository(TeacherJobCallEntity, DataBaseEnum.ORACLE) private teacherJobCallRepository: Repository<TeacherJobCallEntity>,
-        ){}
+    ) { }
 
 
-    async newJobApply(candidateId:string,jobCallId:string){
-        const newApply:ApplyEntity = new ApplyEntity();
-        const {personalData,cvData} = await this.cvService.getCVByCandidateId(candidateId)
-        const jobcall =  await this.jobCallService.getJobCallById(jobCallId)
+    async newJobApply(candidateId: string, jobCallId: string) {
+        const newApply: ApplyEntity = new ApplyEntity();
+        const { personalData, cvData } = await this.cvService.getCVByCandidateId(candidateId)
+        const jobcall = await this.jobCallService.getJobCallById(jobCallId)
         const candiate = await this.userService.getCandidateById(candidateId)
-        const newApplyPersonalData:ApplyPersonalDataEntity=this.applyPersonalDataRepository.create(personalData)
-        newApplyPersonalData.candidateId=candidateId
-        const newApplyCVData:ApplyCVDataEntity[]=this.applyCVDataRepository.create(cvData)
-        newApplyCVData.forEach(obj=>obj.candidateId=candidateId)
-        newApply.candidate=candiate,
-        newApply.jobCall=jobcall,
-        newApply.applyPersonalData=newApplyPersonalData,
-        newApply.applyCVData=newApplyCVData
+        const newApplyPersonalData: ApplyPersonalDataEntity = this.applyPersonalDataRepository.create(personalData)
+        newApplyPersonalData.candidateId = candidateId
+        const newApplyCVData: ApplyCVDataEntity[] = this.applyCVDataRepository.create(cvData)
+        newApplyCVData.forEach(obj => obj.candidateId = candidateId)
+        newApply.candidate = candiate,
+            newApply.jobCall = jobcall,
+            newApply.applyPersonalData = newApplyPersonalData,
+            newApply.applyCVData = newApplyCVData
         return this.applyRepository.save(newApply)
 
     }
 
-    async newTeacherJobApply(candidateId:string,teacherJobCallId:string){
-        const newTeacherApply:TeacherApplyEntity = new TeacherApplyEntity();
-        const {personalData,cvData} = await this.cvService.getCVByCandidateId(candidateId)
-        const jobcall =  await this.jobCallService.getTeacherJobCallEntityById(teacherJobCallId)
+    async newTeacherJobApply(candidateId: string, teacherJobCallId: string) {
+        const newTeacherApply: TeacherApplyEntity = new TeacherApplyEntity();
+        const { personalData, cvData } = await this.cvService.getCVByCandidateId(candidateId)
+        const jobcall = await this.jobCallService.getTeacherJobCallEntityById(teacherJobCallId)
         const candiate = await this.userService.getCandidateById(candidateId)
-        const newApplyPersonalData:ApplyTPersonalDataEntity=this.applyTPersonalDataRepository.create(personalData)
-        newApplyPersonalData.candidateId=candidateId
-        const newApplyTCVData:ApplyTCVDataEntity[]=this.applyTCVDataRepository.create(cvData)
-        newApplyTCVData.forEach(obj=>obj.candidateId=candidateId)
-        newTeacherApply.candidate=candiate,
-        newTeacherApply.teacherJobCall=jobcall,
-        newTeacherApply.applyTPersonalData=newApplyPersonalData,
-        newTeacherApply.applyTCVData=newApplyTCVData
+        const newApplyPersonalData: ApplyTPersonalDataEntity = this.applyTPersonalDataRepository.create(personalData)
+        newApplyPersonalData.candidateId = candidateId
+        const newApplyTCVData: ApplyTCVDataEntity[] = this.applyTCVDataRepository.create(cvData)
+        newApplyTCVData.forEach(obj => obj.candidateId = candidateId)
+        newTeacherApply.candidate = candiate,
+            newTeacherApply.teacherJobCall = jobcall,
+            newTeacherApply.applyTPersonalData = newApplyPersonalData,
+            newTeacherApply.applyTCVData = newApplyTCVData
         return this.teacherApplyRepository.save(newTeacherApply)
 
     }
@@ -76,7 +76,7 @@ export class JobApplyService {
                 .andWhere('applyCVData.status=:status', { status: 1 })
                 .andWhere('apply.id=:id', { id })
                 .getOne();
-        
+
         return apply
     }
 
@@ -94,43 +94,55 @@ export class JobApplyService {
                 .andWhere('applyTCVData.status=:status', { status: 1 })
                 .andWhere('teacheApply.id=:id', { id })
                 .getOne();
-        
+
         return teacherApply
     }
 
-    async getCandidateJobCallsApplies(id:string){
-        const jobCallApplies:JobCallEntity[] = await this.jobCallRepository.createQueryBuilder('jobCall')
-        .select([
-            'jobCall.id',
-            'jobCall.jobCallName',
-            'jobCall.jobCallNumber',
-            'jobCall.openingDate',
-            'jobCall.closingDate',
-            'jobCall.jobCallStatus'
-        ])
-        .innerJoinAndSelect('jobCall.apply','apply')
-        .innerJoin('apply.candidate','candidate')
-        .where('jobCall.status=:status',{status:1})
-        .andWhere('apply.status=:status',{status:1})
-        .andWhere('candidate.status=:status',{status:1})
-        .andWhere('candidate.id=:id',{id})
-        .getMany()
+    async getCandidateJobCallsApplies(id: string) {
+        const jobCallApplies: JobCallEntity[] = await this.jobCallRepository.createQueryBuilder('jobCall')
+            .select([
+                'jobCall.id',
+                'jobCall.jobCallName',
+                'jobCall.jobCallNumber',
+                'jobCall.openingDate',
+                'jobCall.closingDate',
+                'jobCall.jobCallStatus'
+            ])
+            .innerJoinAndSelect('jobCall.apply', 'apply')
+            .innerJoin('apply.candidate', 'candidate')
+            .where('jobCall.status=:status', { status: 1 })
+            .andWhere('apply.status=:status', { status: 1 })
+            .andWhere('candidate.status=:status', { status: 1 })
+            .andWhere('candidate.id=:id', { id })
+            .getMany()
         return jobCallApplies
     }
 
-    async getCandidateTeacherJobCallsApplies(id:string){
-        const teacherJobCallApplies:TeacherJobCallEntity[] = await this.teacherJobCallRepository.createQueryBuilder('teacherJobCall')
-        .innerJoinAndSelect('teacherJobCall.teacherApply','teacherApply')
-        .innerJoinAndSelect('teacherJobCall.collegeClass','collegeClass')
-        .innerJoin('teacherApply.candidate','candidate')
-        .innerJoin('teacherJobCall.jobCall','jobCall')
-        .where('jobCall.status=:status',{status:1})
-        .where('teacherJobCall.status=:status',{status:1})
-        .andWhere('teacherApply.status=:status',{status:1})
-        .andWhere('candidate.status=:status',{status:1})
-        .andWhere('candidate.id=:id',{id})
-        .getMany()
+    async getCandidateTeacherJobCallsApplies(id: string) {
+        const teacherJobCallApplies: TeacherJobCallEntity[] = await this.teacherJobCallRepository.createQueryBuilder('teacherJobCall')
+            .innerJoinAndSelect('teacherJobCall.teacherApply', 'teacherApply')
+            .innerJoinAndSelect('teacherJobCall.collegeClass', 'collegeClass')
+            .innerJoin('teacherApply.candidate', 'candidate')
+            .innerJoin('teacherJobCall.jobCall', 'jobCall')
+            .where('jobCall.status=:status', { status: 1 })
+            .where('teacherJobCall.status=:status', { status: 1 })
+            .andWhere('teacherApply.status=:status', { status: 1 })
+            .andWhere('candidate.status=:status', { status: 1 })
+            .andWhere('candidate.id=:id', { id })
+            .getMany()
         return teacherJobCallApplies
+    }
+
+    async getProffesionalTitleFromJobCallApply(id: string) {
+        const data: ApplyCVDataEntity = await this.applyCVDataRepository.createQueryBuilder('applyCVData')
+            .select([
+                'applyCVData.professionalTitleFile',
+                'applyCVData.professionalTitleFileName'
+            ])
+            .where('applyCVData.id=:id', { id })
+            .andWhere('applyCVData.status=:status', { status: 1 })
+            .getOne()
+        return data
     }
 
 }
