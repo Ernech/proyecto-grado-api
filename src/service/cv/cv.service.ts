@@ -64,6 +64,7 @@ export class CvService {
                 'personalData.cellPhone',
                 'personalData.email',
                 'personalData.personalIdFile',
+                'personalData.personalIdFileName',
                 'personalData.teachingStartYear',
                 'personalData.teachingUCBStartYear',
                 'personalData.professionalStartYear'
@@ -87,7 +88,9 @@ export class CvService {
             'cvData.startDate',
             'cvData.finishDate',
             'cvData.professionalTitleFile',
+            'cvData.professionalTitleFileName',
             'cvData.professionalNTitleFile',
+            'cvData.professionalNTitleFileName',
             'cvData.language',
             'cvData.writing',
             'cvData.reading',

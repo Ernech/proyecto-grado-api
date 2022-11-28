@@ -73,13 +73,13 @@ export class ApplyPersonalDataEntity extends BaseEntity{
     @Column({name:'personal_id_file_name',length:150,default:'--'})
     personalIdFileName:string;
 
-    @Column({name:'teaching_start_year',default:-1})
+    @Column({name:'teaching_start_year',default:-1,nullable:true})
     teachingStartYear:number;
 
-    @Column({name:'teaching_ucb_start_year',default:-1})
+    @Column({name:'teaching_ucb_start_year',default:-1,nullable:true})
     teachingUCBStartYear:number;
 
-    @Column({name:'professional_start_year',default:-1})
+    @Column({name:'professional_start_year',default:-1,nullable:true})
     professionalStartYear:number;
 
     @OneToOne(()=>ApplyEntity,(apply)=>apply.applyPersonalData)
