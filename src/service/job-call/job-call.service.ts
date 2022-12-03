@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException,HttpException ,HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { JobCallDTO } from 'src/dto/job-call.dto';
 import { AptitudeEntity } from 'src/persistence/aptitude.entity';
@@ -328,7 +328,11 @@ export class JobCallService {
 
     };
     async publishTeacherJobCall(id: string) {
-        console.log(id);
+        const openedJobCalls = await this.getTeacherJobCall(JobCallStatusEnum.OPEN)
+        const pendingJobCalls = await this.getTeacherJobCall(JobCallStatusEnum.PENDING)
+        if(openedJobCalls.length>0 || pendingJobCalls.length>0 ){
+            throw new HttpException("Ya existen convocatorias abiertas o pendientes",HttpStatus.FORBIDDEN)
+        }
         const jobCall: JobCallEntity = await this.getTeacherJobCallById(id);
         const today = new Date()
         today.setHours(today.getHours() - 4)
