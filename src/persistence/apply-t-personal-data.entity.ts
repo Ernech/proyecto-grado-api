@@ -86,6 +86,15 @@ export class ApplyTPersonalDataEntity extends BaseEntity{
     @Column({name:'professional_start_year',default:-1,nullable:true})
     professionalStartYear:number;
 
+    @Column({name:'teaching_title_file',type:'bytea',nullable:true})
+    teachingTitleFile:Buffer;
+
+    @Column({name:'teaching_title_file_name',length:150,default:'--'})
+    teachingTitleFileName:string;
+
+    @Column({name:'teaching_title_file_institution',length:300,default:'--'})
+    teachingTitleFileInstitution:string;
+
     @OneToOne(()=>TeacherApplyEntity,(teacherApply)=>teacherApply.applyTPersonalData)
     @JoinColumn({name:'apply_id'})
     teacherApply:TeacherApplyEntity;

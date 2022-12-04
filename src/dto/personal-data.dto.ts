@@ -92,6 +92,11 @@ export class PersonalDataDTO {
   @IsNumber()
   professionalStartYear: number;
 
+  teachingTitleFile:Buffer;
+
+  teachingTitleFileName:string;
+
+  teachingTitleFileInstitution:string;
 
 
 }   

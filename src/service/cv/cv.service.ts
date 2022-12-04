@@ -27,18 +27,18 @@ export class CvService {
     }
     async editCV(candidateId: string, cvInfoDTO: CVInfoDTO) {
         const candidate = await this.userService.getCandidateWithCvById(candidateId)
-        const newPersonalData:PersonalDataEntity = this.personalDataRepository.create(cvInfoDTO.personalData)
-        const newCVData:CVDataEntity[] = this.cvDataRepository.create(cvInfoDTO.cvData)
+        const newPersonalData: PersonalDataEntity = this.personalDataRepository.create(cvInfoDTO.personalData)
+        const newCVData: CVDataEntity[] = this.cvDataRepository.create(cvInfoDTO.cvData)
         candidate.cvData = newCVData
-        await this.updatePersonalData(candidate.personalData,newPersonalData)
-        return  await this.candidateRepository.save(candidate)
+        await this.updatePersonalData(candidate.personalData, newPersonalData)
+        return await this.candidateRepository.save(candidate)
     }
 
 
-    async updatePersonalData(personalData:PersonalDataEntity,newPersonalData:PersonalDataEntity){
-        this.personalDataRepository.merge(personalData,newPersonalData)
+    async updatePersonalData(personalData: PersonalDataEntity, newPersonalData: PersonalDataEntity) {
+        this.personalDataRepository.merge(personalData, newPersonalData)
         return await this.personalDataRepository.save(personalData)
-    
+
     }
 
     async getCVByCandidateId(candiateId: string) {
@@ -67,8 +67,10 @@ export class CvService {
                 'personalData.personalIdFileName',
                 'personalData.teachingStartYear',
                 'personalData.teachingUCBStartYear',
-                'personalData.professionalStartYear'
-
+                'personalData.professionalStartYear',
+                'personalData.teachingTitleFile',
+                'personalData.teachingTitleFileName',
+                'personalData.teachingTitleFileInstitution'
             ]).innerJoin('personalData.candidate', 'candidate')
             .where('candidate.id=:id', { id: candiateId })
             .andWhere('candidate.status=:status', { status: 1 })
