@@ -44,10 +44,10 @@ export class ApplyCVDataEntity extends BaseEntity{
     finishDate:string;
 
     @Column({name:'professional_title_file',type:'bytea',nullable:true})
-    professionalTitleFile:Buffer;
+    professionalTitleFile:Uint8Array;
 
     @Column({name:'professional_n_title_file',type:'bytea',nullable:true})
-    professionalNTitleFile:Buffer;
+    professionalNTitleFile:Uint8Array;
 
     @Column({name:'professional_title_file_name',length:150,default:'--'})
     professionalTitleFileName:string;
