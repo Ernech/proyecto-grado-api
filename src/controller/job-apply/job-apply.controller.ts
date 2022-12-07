@@ -5,6 +5,7 @@ import { ApplyDTO } from 'src/dto/apply.dto';
 import { RoleType } from 'src/persistence/enum/role-type.enum';
 import { JobApplyService } from 'src/service/job-apply/job-apply.service';
 import { ParseUUIDPipe } from '@nestjs/common/pipes';
+import { Authorization } from 'src/decorator/auth.decorator';
 
 @Controller('job-apply')
 export class JobApplyController {
@@ -17,7 +18,11 @@ export class JobApplyController {
         return await this.jobApplyService.newJobApply(applyDTO.candidateId,applyDTO.jobCallId)
         
     }
-    
+    @Get('/prediction')
+    async getPrediction(){
+        return await this.jobApplyService.prediction()
+    }
+
     @Get('/:id')
     @Roles(RoleType.CANDIDATE,RoleType.RECRUITER)
     async getApplyById(@Param('id',new ParseUUIDPipe()) id:string){
@@ -25,13 +30,15 @@ export class JobApplyController {
     }
 
     
-
     @Post('/teacher')
     @Roles(RoleType.CANDIDATE)
     async createNewTeacherJobApply(@Body() applyDTO:ApplyDTO){
         return await this.jobApplyService.newTeacherJobApply(applyDTO.candidateId,applyDTO.jobCallId)
         
     }
+
+   
+
     @Get('teacher/:id')
     @Roles(RoleType.CANDIDATE,RoleType.RECRUITER)
     async getTeacherApplyById(@Param('id',new ParseUUIDPipe()) id:string){
@@ -48,4 +55,6 @@ export class JobApplyController {
     async getCandidateTeacherApplies(@Param('id',new ParseUUIDPipe()) id:string){
         return await this.jobApplyService.getCandidateTeacherJobCallsApplies(id)
     }
+
+    
 }

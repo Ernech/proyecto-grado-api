@@ -7,6 +7,7 @@ import { JobApplyController } from './job-apply/job-apply.controller';
 import { CollegeClassController } from './college-class/college-class.controller';
 import { FileController } from './file/file.controller';
 
+
 @Module({
     imports:[ServiceModule],
     controllers:[UserController, JobCallController, CvController, JobApplyController, CollegeClassController, FileController]

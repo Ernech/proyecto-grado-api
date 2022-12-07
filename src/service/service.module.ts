@@ -28,6 +28,8 @@ import { CollegeClassService } from './college-class/college-class.service';
 import { TeacherApplyEntity } from 'src/persistence/teacher-apply.entity';
 import { ApplyTCVDataEntity } from 'src/persistence/apply-t-cv-data.entity';
 import { ApplyTPersonalDataEntity } from 'src/persistence/apply-t-personal-data.entity';
+import { HttpModule } from '@nestjs/axios';
+import { HttpService } from '@nestjs/axios/dist';
 
 @Module({
     imports: [TypeOrmModule.forFeature([
@@ -50,7 +52,7 @@ import { ApplyTPersonalDataEntity } from 'src/persistence/apply-t-personal-data.
         TeacherJobCallEntity,
         TeacherApplyEntity,
         ApplyTCVDataEntity,
-        ApplyTPersonalDataEntity, ], DataBaseEnum.ORACLE)],
+        ApplyTPersonalDataEntity, ], DataBaseEnum.ORACLE),HttpModule],
     providers: [UserService, TokenService, EncryptionService, JobCallService, CvService, JobApplyService, CollegeClassService]
     , exports: [UserService, TokenService, EncryptionService, JobCallService, CvService, JobApplyService, CollegeClassService]
 })

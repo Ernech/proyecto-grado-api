@@ -21,6 +21,9 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@nestjs/axios": "^1.0.0",
+    "@nestjs/schedule": "^2.1.0",
+    "@nestjs/typeorm": "^9.0.1",
     "bcrypt": "^5.0.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
@@ -29,10 +32,11 @@
     "mysql2": "^2.3.3",
     "oracledb": "^5.4.0",
     "pg": "^8.7.3",
+    "postgres": "^3.3.2",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
-    "typeorm": "^0.3.7",
+    "typeorm": "^0.3.11",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

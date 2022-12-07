@@ -13,7 +13,8 @@ import { Repository } from 'typeorm';
 import { CvService } from '../cv/cv.service';
 import { JobCallService } from '../job-call/job-call.service';
 import { UserService } from '../user/user.service';
-
+import { catchError, firstValueFrom, map } from 'rxjs';
+import { HttpService } from '@nestjs/axios';
 @Injectable()
 export class JobApplyService {
 
@@ -26,6 +27,7 @@ export class JobApplyService {
         @InjectRepository(ApplyTCVDataEntity, DataBaseEnum.ORACLE) private applyTCVDataRepository: Repository<ApplyTCVDataEntity>,
         @InjectRepository(JobCallEntity, DataBaseEnum.ORACLE) private jobCallRepository: Repository<JobCallEntity>,
         @InjectRepository(TeacherJobCallEntity, DataBaseEnum.ORACLE) private teacherJobCallRepository: Repository<TeacherJobCallEntity>,
+        private readonly httpService: HttpService
     ) { }
 
 
@@ -145,4 +147,18 @@ export class JobApplyService {
         return data
     }
 
+    async prediction(){
+        const dataToPedict = {
+            "DURACION": [10],
+            "PAGINAS": [3],
+            "ACCIONES": [5],
+            "VALOR": [9]
+        }
+        const data = await firstValueFrom(this.httpService.post('http://127.0.0.1:5000/predict', dataToPedict)
+            .pipe(map(resp => resp.data)));
+        return data;
+        //return "Predictions"
+    }
 }
+
+
