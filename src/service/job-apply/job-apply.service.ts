@@ -15,10 +15,11 @@ import { JobCallService } from '../job-call/job-call.service';
 import { UserService } from '../user/user.service';
 import { catchError, firstValueFrom, map } from 'rxjs';
 import { HttpService } from '@nestjs/axios';
+import { CvEvaluationService } from '../cv-evaluation/cv-evaluation.service';
 @Injectable()
 export class JobApplyService {
 
-    constructor(private cvService: CvService, private jobCallService: JobCallService, private userService: UserService,
+    constructor(private cvService: CvService, private jobCallService: JobCallService, private userService: UserService, private cvEvaluationService:CvEvaluationService,
         @InjectRepository(ApplyEntity, DataBaseEnum.ORACLE) private applyRepository: Repository<ApplyEntity>,
         @InjectRepository(ApplyPersonalDataEntity, DataBaseEnum.ORACLE) private applyPersonalDataRepository: Repository<ApplyPersonalDataEntity>,
         @InjectRepository(ApplyCVDataEntity, DataBaseEnum.ORACLE) private applyCVDataRepository: Repository<ApplyCVDataEntity>,
@@ -147,7 +148,15 @@ export class JobApplyService {
         return data
     }
 
-    async prediction(){
+    async prediction(teacherApplyId:string, teacherJobCallId:string){
+
+        const teacherApply :TeacherApplyEntity= await this.getTeacherJobCallApplyById(teacherApplyId)
+        const teacherJobCallEntity:TeacherJobCallEntity = await this.jobCallService.getTeacherJobCallInfoById(teacherJobCallId)
+        
+        const personalIdFile=this.cvEvaluationService.personalIdIndexed(teacherApply.applyTPersonalData)
+        const teachingTitle = this.cvEvaluationService.teachingTitleIndexed(teacherApply.applyTPersonalData)
+        const proffesionalTitleIndexed=this.cvEvaluationService.academicTitleIndexed(teacherApply.applyTCVData,teacherJobCallEntity.requirements)
+
         const dataToPedict = {
             "DURACION": [10],
             "PAGINAS": [3],
@@ -157,7 +166,7 @@ export class JobApplyService {
         const data = await firstValueFrom(this.httpService.post('http://127.0.0.1:5000/predict', dataToPedict)
             .pipe(map(resp => resp.data)));
         return data;
-        //return "Predictions"
+        
     }
 }
 
