@@ -18,10 +18,10 @@ export class JobApplyController {
         return await this.jobApplyService.newJobApply(applyDTO.candidateId,applyDTO.jobCallId)
         
     }
-    // @Get('/prediction')
-    // async getPrediction(){
-    //     return await this.jobApplyService.prediction()
-    // }
+    @Get('/prediction')
+    async getPrediction(){
+        return await this.jobApplyService.prediction('73251176-3010-437b-a63a-d17d8401b893')
+    }
 
     @Get('/:id')
     @Roles(RoleType.CANDIDATE,RoleType.RECRUITER)

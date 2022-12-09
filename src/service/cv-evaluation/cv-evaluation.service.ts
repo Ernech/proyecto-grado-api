@@ -63,7 +63,13 @@ export class CvEvaluationService {
 
         const mainTitle: ApplyTCVDataEntity = applyTCVDataArray.find(obj => obj.dataType == 'ACADEMIC_TRAINING' && obj.degree === 'Licenciatura')
         if (mainTitle) {
-            return 1
+            const data = await firstValueFrom(this.httpService.post('http://127.0.0.1:5000/params', { "param": mainTitle.title })
+                .pipe(map(resp => resp.data)));
+            if (data.length > 0) {
+                
+                return 1
+            }
+            return 0
         }
         return 0
     }
@@ -75,8 +81,7 @@ export class CvEvaluationService {
                 .pipe(map(resp => resp.data)));
             if (data.length > 0) {
                 if(this.getExperienceTime(mainTitle.degreeDate)>=3){
-                    return 1
-                    
+                    return 1       
                 }
                 return 0
             }

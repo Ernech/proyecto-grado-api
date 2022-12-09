@@ -148,10 +148,9 @@ export class JobApplyService {
         return data
     }
 
-    async prediction(teacherApplyId:string, teacherJobCallId:string){
+    async prediction(teacherApplyId:string,){
 
         const teacherApply :TeacherApplyEntity= await this.getTeacherJobCallApplyById(teacherApplyId)
-        const teacherJobCallEntity:TeacherJobCallEntity = await this.jobCallService.getTeacherJobCallInfoById(teacherJobCallId)
         
         const proffesionalTitleIndexed=await this.cvEvaluationService.academicTitleIndexed(teacherApply.applyTCVData)
         const proffesionalNTitleIndexed=await this.cvEvaluationService.academicNTitleIndexed(teacherApply.applyTCVData)
@@ -163,7 +162,7 @@ export class JobApplyService {
        
         const dataToPedict = {
                  "HOJA DE VIDA": [1],
-                 "PLAN DE ASIGNATURA": [0],
+                 "PLAN DE ASIGNATURA": [1],
                  "TÍTULO ACADÉMICO": [proffesionalTitleIndexed],
                  "TÍTULO EN PROVICIÓN NACIONAL": [proffesionalNTitleIndexed],
                  "DIPLOMADO EN EDUCACIÓN SUPERIOR": [teachingTitle],
@@ -172,15 +171,8 @@ export class JobApplyService {
                  "EXPERIENCIA PROFESIONAL":[hasProfessionalTimeExperience],
                  "EXPERIENCIA DOCENTE UNIVERISATRIA":[hasTeachingTiemExperience]
             }
-        console.log(dataToPedict);
-        
-        // const dataToPedict = {
-        //     "DURACION": [10],
-        //     "PAGINAS": [3],
-        //     "ACCIONES": [5],
-        //     "VALOR": [9]
-        // }
-        const data = await firstValueFrom(this.httpService.post('http://127.0.0.1:5000/predict', dataToPedict)
+       console.log(dataToPedict);
+        const data = await firstValueFrom(this.httpService.post('http://127.0.0.1:5000/logistic-regresion', dataToPedict)
             .pipe(map(resp => resp.data)));
         return data;
         
