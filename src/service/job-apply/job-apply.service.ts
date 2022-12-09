@@ -153,16 +153,33 @@ export class JobApplyService {
         const teacherApply :TeacherApplyEntity= await this.getTeacherJobCallApplyById(teacherApplyId)
         const teacherJobCallEntity:TeacherJobCallEntity = await this.jobCallService.getTeacherJobCallInfoById(teacherJobCallId)
         
-        const personalIdFile=this.cvEvaluationService.personalIdIndexed(teacherApply.applyTPersonalData)
+        const proffesionalTitleIndexed=await this.cvEvaluationService.academicTitleIndexed(teacherApply.applyTCVData)
+        const proffesionalNTitleIndexed=await this.cvEvaluationService.academicNTitleIndexed(teacherApply.applyTCVData)
         const teachingTitle = this.cvEvaluationService.teachingTitleIndexed(teacherApply.applyTPersonalData)
-        const proffesionalTitleIndexed=this.cvEvaluationService.academicTitleIndexed(teacherApply.applyTCVData,teacherJobCallEntity.requirements)
-
+        const personalIdFile=this.cvEvaluationService.personalIdIndexed(teacherApply.applyTPersonalData)
+        const hasAcademicTraining = await this.cvEvaluationService.hasAcademicTraining(teacherApply.applyTCVData)
+        const hasProfessionalTimeExperience = await this.cvEvaluationService.hasProfessionalTimeExperience(teacherApply.applyTCVData)
+        const hasTeachingTiemExperience =  this.cvEvaluationService.hasTeachingExperience(teacherApply.applyTPersonalData)
+       
         const dataToPedict = {
-            "DURACION": [10],
-            "PAGINAS": [3],
-            "ACCIONES": [5],
-            "VALOR": [9]
-        }
+                 "HOJA DE VIDA": [1],
+                 "PLAN DE ASIGNATURA": [0],
+                 "TÍTULO ACADÉMICO": [proffesionalTitleIndexed],
+                 "TÍTULO EN PROVICIÓN NACIONAL": [proffesionalNTitleIndexed],
+                 "DIPLOMADO EN EDUCACIÓN SUPERIOR": [teachingTitle],
+                 "CI":[personalIdFile],
+                 "FORMACIÓN ACADÉMICA":[hasAcademicTraining],
+                 "EXPERIENCIA PROFESIONAL":[hasProfessionalTimeExperience],
+                 "EXPERIENCIA DOCENTE UNIVERISATRIA":[hasTeachingTiemExperience]
+            }
+        console.log(dataToPedict);
+        
+        // const dataToPedict = {
+        //     "DURACION": [10],
+        //     "PAGINAS": [3],
+        //     "ACCIONES": [5],
+        //     "VALOR": [9]
+        // }
         const data = await firstValueFrom(this.httpService.post('http://127.0.0.1:5000/predict', dataToPedict)
             .pipe(map(resp => resp.data)));
         return data;
