@@ -16,10 +16,11 @@ import { UserService } from '../user/user.service';
 import { catchError, firstValueFrom, map } from 'rxjs';
 import { HttpService } from '@nestjs/axios';
 import { CvEvaluationService } from '../cv-evaluation/cv-evaluation.service';
+import { AcademicParamsDTO } from 'src/dto/academic-params.dto';
 @Injectable()
 export class JobApplyService {
 
-    constructor(private cvService: CvService, private jobCallService: JobCallService, private userService: UserService, private cvEvaluationService:CvEvaluationService,
+    constructor(private cvService: CvService, private jobCallService: JobCallService, private userService: UserService, private cvEvaluationService: CvEvaluationService,
         @InjectRepository(ApplyEntity, DataBaseEnum.ORACLE) private applyRepository: Repository<ApplyEntity>,
         @InjectRepository(ApplyPersonalDataEntity, DataBaseEnum.ORACLE) private applyPersonalDataRepository: Repository<ApplyPersonalDataEntity>,
         @InjectRepository(ApplyCVDataEntity, DataBaseEnum.ORACLE) private applyCVDataRepository: Repository<ApplyCVDataEntity>,
@@ -148,34 +149,30 @@ export class JobApplyService {
         return data
     }
 
-    async prediction(teacherApplyId:string,){
+    async prediction(teacherApplyId: string,) {
 
-        const teacherApply :TeacherApplyEntity= await this.getTeacherJobCallApplyById(teacherApplyId)
-        
-        const proffesionalTitleIndexed=await this.cvEvaluationService.academicTitleIndexed(teacherApply.applyTCVData)
-        const proffesionalNTitleIndexed=await this.cvEvaluationService.academicNTitleIndexed(teacherApply.applyTCVData)
-        const teachingTitle = this.cvEvaluationService.teachingTitleIndexed(teacherApply.applyTPersonalData)
-        const personalIdFile=this.cvEvaluationService.personalIdIndexed(teacherApply.applyTPersonalData)
-        const hasAcademicTraining = await this.cvEvaluationService.hasAcademicTraining(teacherApply.applyTCVData)
-        const hasProfessionalTimeExperience = await this.cvEvaluationService.hasProfessionalTimeExperience(teacherApply.applyTCVData)
-        const hasTeachingTiemExperience =  this.cvEvaluationService.hasTeachingExperience(teacherApply.applyTPersonalData)
+        const teacherApply: TeacherApplyEntity = await this.getTeacherJobCallApplyById(teacherApplyId)
+
+        const {hasAcademicTraining,academicTitleIndexed,academicNTitleIndexed,hasProfessionalTimeExperience} = await this.cvEvaluationService.academicTrainingParams(teacherApply.applyTCVData)
+         const teachingTitle = this.cvEvaluationService.teachingTitleIndexed(teacherApply.applyTPersonalData)
+         const personalIdFile = this.cvEvaluationService.personalIdIndexed(teacherApply.applyTPersonalData)
+         const hasTeachingTiemExperience = this.cvEvaluationService.hasTeachingExperience(teacherApply.applyTPersonalData)
        
         const dataToPedict = {
-                 "HOJA DE VIDA": [1],
-                 "PLAN DE ASIGNATURA": [1],
-                 "TÍTULO ACADÉMICO": [proffesionalTitleIndexed],
-                 "TÍTULO EN PROVICIÓN NACIONAL": [proffesionalNTitleIndexed],
-                 "DIPLOMADO EN EDUCACIÓN SUPERIOR": [teachingTitle],
-                 "CI":[personalIdFile],
-                 "FORMACIÓN ACADÉMICA":[hasAcademicTraining],
-                 "EXPERIENCIA PROFESIONAL":[hasProfessionalTimeExperience],
-                 "EXPERIENCIA DOCENTE UNIVERISATRIA":[hasTeachingTiemExperience]
-            }
-       console.log(dataToPedict);
+            "HOJA DE VIDA": [1],
+            "PLAN DE ASIGNATURA": [1],
+            "TÍTULO ACADÉMICO": [academicTitleIndexed],
+            "TÍTULO EN PROVICIÓN NACIONAL": [academicNTitleIndexed],
+            "DIPLOMADO EN EDUCACIÓN SUPERIOR": [teachingTitle],
+            "CI": [personalIdFile],
+            "FORMACIÓN ACADÉMICA": [hasAcademicTraining],
+            "EXPERIENCIA PROFESIONAL": [hasProfessionalTimeExperience],
+            "EXPERIENCIA DOCENTE UNIVERISATRIA": [hasTeachingTiemExperience]
+        }
         const data = await firstValueFrom(this.httpService.post('http://127.0.0.1:5000/logistic-regresion', dataToPedict)
             .pipe(map(resp => resp.data)));
         return data;
-        
+
     }
 }
 

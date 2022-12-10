@@ -3,6 +3,7 @@ import { ApplyTCVDataEntity } from 'src/persistence/apply-t-cv-data.entity';
 import { ApplyTPersonalDataEntity } from 'src/persistence/apply-t-personal-data.entity';
 import { catchError, firstValueFrom, map } from 'rxjs';
 import { HttpService } from '@nestjs/axios';
+import { AcademicParamsDTO } from 'src/dto/academic-params.dto';
 
 @Injectable()
 export class CvEvaluationService {
@@ -26,18 +27,34 @@ export class CvEvaluationService {
         }
     }
 
-    // async academicTrainingParams(applyTCVDataArray: ApplyTCVDataEntity[]): Promise<object> {
-    //     //Licenciatura
-        
-    //     const mainTitle: ApplyTCVDataEntity = applyTCVDataArray.find(obj => obj.dataType == 'ACADEMIC_TRAINING' && obj.degree === 'Licenciatura')
-    //     if (mainTitle) {
-    //         const data = await firstValueFrom(this.httpService.post('http://127.0.0.1:5000/params', { "param": mainTitle.title })
-    //             .pipe(map(resp => resp.data)));
-    //         if (data.length > 0) {
-    //         }
-    //     }
-    //     return {}
-    // }
+    async academicTrainingParams(applyTCVDataArray: ApplyTCVDataEntity[]): Promise<AcademicParamsDTO> {
+        //Licenciatura
+
+        const mainTitle: ApplyTCVDataEntity = applyTCVDataArray.find(obj => obj.dataType == 'ACADEMIC_TRAINING' && obj.degree === 'Licenciatura')
+        if (mainTitle) {
+            const data = await firstValueFrom(this.httpService.post('http://127.0.0.1:5000/params', { "param": mainTitle.title })
+                .pipe(map(resp => {
+                    let hasAcademicTraining: number = 0
+                    let academicTitleIndexed: number = 0
+                    let academicNTitleIndexed: number = 0
+                    let hasProfessionalTimeExperience: number = 0
+                    if (resp.data.length > 0) {
+                        hasAcademicTraining = 1
+                        academicTitleIndexed = mainTitle.professionalTitleFile ? 1 : 0
+                        academicNTitleIndexed = mainTitle.professionalTitleFile ? 1 : 0
+                        hasProfessionalTimeExperience = this.getExperienceTime(mainTitle.degreeDate) >= 3 ? 1 : 0
+                    }
+                    return {
+                        hasAcademicTraining,
+                        academicTitleIndexed,
+                        academicNTitleIndexed,
+                        hasProfessionalTimeExperience
+                    }
+                })));
+            return data
+        }
+        return { hasAcademicTraining: 0, academicTitleIndexed: 0, academicNTitleIndexed: 0, hasProfessionalTimeExperience: 0 }
+    }
 
     async academicNTitleIndexed(applyTCVDataArray: ApplyTCVDataEntity[]): Promise<number> {
         const mainTitle: ApplyTCVDataEntity = applyTCVDataArray.find(obj => obj.dataType == 'ACADEMIC_TRAINING' && obj.degree === 'Licenciatura')
@@ -58,7 +75,7 @@ export class CvEvaluationService {
         return applyPersonalTData.teachingTitleFile ? 1 : 0
     }
 
-   async  hasAcademicTraining(applyTCVDataArray: ApplyTCVDataEntity[]):Promise<number> {
+    async hasAcademicTraining(applyTCVDataArray: ApplyTCVDataEntity[]): Promise<number> {
 
 
         const mainTitle: ApplyTCVDataEntity = applyTCVDataArray.find(obj => obj.dataType == 'ACADEMIC_TRAINING' && obj.degree === 'Licenciatura')
@@ -66,7 +83,7 @@ export class CvEvaluationService {
             const data = await firstValueFrom(this.httpService.post('http://127.0.0.1:5000/params', { "param": mainTitle.title })
                 .pipe(map(resp => resp.data)));
             if (data.length > 0) {
-                
+
                 return 1
             }
             return 0
@@ -74,31 +91,31 @@ export class CvEvaluationService {
         return 0
     }
 
-  async  hasProfessionalTimeExperience(applyTCVDataArray: ApplyTCVDataEntity[]): Promise<number> {
+    async hasProfessionalTimeExperience(applyTCVDataArray: ApplyTCVDataEntity[]): Promise<number> {
         const mainTitle: ApplyTCVDataEntity = applyTCVDataArray.find(obj => obj.dataType == 'ACADEMIC_TRAINING' && obj.degree === 'Licenciatura')
         if (mainTitle) {
             const data = await firstValueFrom(this.httpService.post('http://127.0.0.1:5000/params', { "param": mainTitle.title })
                 .pipe(map(resp => resp.data)));
             if (data.length > 0) {
-                if(this.getExperienceTime(mainTitle.degreeDate)>=3){
-                    return 1       
+                if (this.getExperienceTime(mainTitle.degreeDate) >= 3) {
+                    return 1
                 }
                 return 0
             }
             return 0
         }
     }
-    hasTeachingExperience(applyTPersonalData:ApplyTPersonalDataEntity): number {
-        if(applyTPersonalData.teachingStartYear){
-            if(this.getExperienceTime(applyTPersonalData.teachingStartYear.toString())>=2){
+    hasTeachingExperience(applyTPersonalData: ApplyTPersonalDataEntity): number {
+        if (applyTPersonalData.teachingStartYear) {
+            if (this.getExperienceTime(applyTPersonalData.teachingStartYear.toString()) >= 2) {
                 return 1
+            }
+            return 0
         }
-        return 0
     }
-}
 
-    getExperienceTime(degreeDate:string): number {
-       
+    getExperienceTime(degreeDate: string): number {
+
         let df = new Date(degreeDate);
         let dt = new Date();
         let allYears = dt.getFullYear() - df.getFullYear();
