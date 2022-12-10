@@ -53,9 +53,9 @@ export class JobApplyController {
         return await this.jobApplyService.getCandidateTeacherJobCallsApplies(id)
     }
 
-    @Get('candidates-report/:id')
+    @Get('/teacher/candidates-report/:id')
     @Roles(RoleType.RECRUITER)
     async getCandidatesReportByTeacherJobCallId(@Param('id',new ParseUUIDPipe()) id:string){
-            return "Candidates report"
+            return await this.jobApplyService.getReportDataByTeacherJobCallId(id)        
     }
 }

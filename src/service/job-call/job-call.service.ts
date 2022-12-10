@@ -300,6 +300,7 @@ export class JobCallService {
             ]).innerJoinAndSelect('teacherJobCall.teacherApply', 'teacherApply')
                 .innerJoinAndSelect('teacherApply.applyTPersonalData', 'applyTPersonalData')
                 .innerJoinAndSelect('teacherApply.applyTCVData', 'applyTCVData')
+                .innerJoinAndSelect('teacherJobCall.collegeClass','collegeClass')
                 .andWhere('teacherJobCall.status=:status', { status: 1 })
                 .andWhere('teacherApply.status=:status', { status: 1 })
                 .andWhere('applyTPersonalData.status=:status', { status: 1 })

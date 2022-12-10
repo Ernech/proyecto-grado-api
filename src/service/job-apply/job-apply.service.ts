@@ -64,7 +64,7 @@ export class JobApplyService {
             newTeacherApply.applyTPersonalData = newApplyPersonalData,
             newTeacherApply.applyTCVData = newApplyTCVData
         const result = await this.prediction(newTeacherApply)
-        newTeacherApply.applyStatus= result === 1 ? 'ACEPTED':'REJECTED'
+        newTeacherApply.applyStatus = result === 1 ? 'ACEPTED' : 'REJECTED'
         return this.teacherApplyRepository.save(newTeacherApply)
 
     }
@@ -151,51 +151,47 @@ export class JobApplyService {
         return data
     }
 
-    async getReportDataByTeacherJobCallId(id:string){
-            const candidates=[]
-            const teacherJobCall:TeacherJobCallEntity = await this.jobCallService.getTeacherJobCallWithCandidatesByJobCallId(id)
-            for(let i = 0 ; i<teacherJobCall.teacherApply.length; i++){
-                let apply:TeacherApplyEntity = teacherJobCall.teacherApply[i]
-                const mainTitle = apply.applyTCVData.find(obj=> obj.dataType == 'ACADEMIC_TRAINING' && obj.degree === 'Licenciatura')
-                let getAcademicParams = await this.getAcademicParams(apply)
-                let candidateName = `${apply.applyTPersonalData.name} ${apply.applyTPersonalData.firstLastName} ${apply.applyTPersonalData.secondLastName}`
-                let candidateBirthDay = apply.applyTPersonalData.birthDate
-                let candidateAge = this.cvEvaluationService.calculateAge(apply.applyTPersonalData.birthDate.toString())
-                let academicTitle = mainTitle? mainTitle.title :'NO'
-                let secondAcademicTraining = apply.applyTCVData.find(async obj=> {
-                    if(obj.dataType == 'ACADEMIC_TRAINING' && obj.degree === 'Postgrado'){
-                        const param = await this.cvEvaluationService.hasParam(obj.title)
-                        if(param.length>0){
-                            return obj.title
-                        }
-                    }
-                })  
-                let teacherAcademicTraining = (apply.applyTPersonalData.teachingTitleFile && apply.applyTPersonalData.teachingTitleFileName && apply.applyTPersonalData.teachingTitleFileName!='' && apply.applyTPersonalData.teachingTitleFileInstitution!='')
-                ? `Diplomado en educación superior - ${apply.applyTPersonalData.teachingTitleFileInstitution}`:'NO'   
-                let professionalExperience = this.cvEvaluationService.getProfessionalExperienceTime(mainTitle.degreeDate)
-                let teachingExperienceYears = this.cvEvaluationService.getTeachingExperienceTime(apply.applyTPersonalData.teachingStartYear.toString())
-                let cvFormat = getAcademicParams['HOJA DE VIDA']
-                let teachingPlan = 'SI'
-                let professionalTitleIndexed = getAcademicParams['TÍTULO ACADÉMICO'][0] === 1 ? 'SI' :'NO'
-                let professionalNTitleIndexed = getAcademicParams['TÍTULO EN PROVICIÓN NACIONAL'][0] === 1 ? 'SI' :'NO'
-                let teachingTitleFile = this.cvEvaluationService.teachingTitleIndexed(apply.applyTPersonalData) === 1? 'SI' : 'NO'
-                let ciFile = this.cvEvaluationService.personalIdIndexed(apply.applyTPersonalData) === 1? 'SI' : 'NO'
-                let professionalExperienceTime = getAcademicParams['EXPERIENCIA PROFESIONAL'][0] === 1 ? 'SI' :'NO'
-                let teachingExperienceTime = getAcademicParams['EXPERIENCIA DOCENTE UNIVERISATRIA'][0] === 1 ? 'SI' :'NO'
-                let applyStatus = apply.applyStatus==='ACEPTED' ? 'SI' : 'NO'
-                candidates.push({candidateName,candidateBirthDay,candidateAge,academicTitle,secondAcademicTraining,
-                teacherAcademicTraining,professionalExperience,teachingExperienceYears,cvFormat,teachingPlan,professionalTitleIndexed
-                ,professionalNTitleIndexed,teachingTitleFile,ciFile,professionalExperienceTime,teachingExperienceTime,applyStatus})
-            }
-            return{code:teacherJobCall.collegeClass.code,name:teacherJobCall.collegeClass.name,candidates}
+    async getReportDataByTeacherJobCallId(id: string) {
+        const candidates = []
+        const teacherJobCall: TeacherJobCallEntity = await this.jobCallService.getTeacherJobCallWithCandidatesByJobCallId(id)
+        for (let i = 0; i < teacherJobCall.teacherApply.length; i++) {
+            let apply: TeacherApplyEntity = teacherJobCall.teacherApply[i]
+            const mainTitle = apply.applyTCVData.find(obj => obj.dataType === 'ACADEMIC_TRAINING' && obj.degree === 'Licenciatura')
+            let secondAcademicTrainings = apply.applyTCVData.filter(obj => obj.dataType === 'ACADEMIC_TRAINING' && obj.degree==='Maestría')
+            let getAcademicParams = await this.getAcademicParams(apply)
+            let candidateName = `${apply.applyTPersonalData.name} ${apply.applyTPersonalData.firstLastName} ${apply.applyTPersonalData.secondLastName}`
+            let candidateBirthDay = apply.applyTPersonalData.birthDate
+            let candidateAge = this.cvEvaluationService.calculateAge(apply.applyTPersonalData.birthDate.toString())
+            let academicTitle = mainTitle ? mainTitle.title : 'NO'
+            let seconAcademicTitle = secondAcademicTrainings.map(obj=>obj.title)
+            let teacherAcademicTraining = (apply.applyTPersonalData.teachingTitleFile && apply.applyTPersonalData.teachingTitleFileName && apply.applyTPersonalData.teachingTitleFileName != '' && apply.applyTPersonalData.teachingTitleFileInstitution != '')
+                ? `Diplomado en educación superior - ${apply.applyTPersonalData.teachingTitleFileInstitution}` : 'NO'
+            let professionalExperience = this.cvEvaluationService.getProfessionalExperienceTime(mainTitle.degreeDate)
+            let teachingExperienceYears = this.cvEvaluationService.getTeachingExperienceTime(apply.applyTPersonalData.teachingStartYear.toString())
+            let cvFormat = getAcademicParams['HOJA DE VIDA'][0]
+            let teachingPlan = 'SI'
+            let professionalTitleIndexed = getAcademicParams['TÍTULO ACADÉMICO'][0] === 1 ? 'SI' : 'NO'
+            let professionalNTitleIndexed = getAcademicParams['TÍTULO EN PROVICIÓN NACIONAL'][0] === 1 ? 'SI' : 'NO'
+            let teachingTitleFile = this.cvEvaluationService.teachingTitleIndexed(apply.applyTPersonalData) === 1 ? 'SI' : 'NO'
+            let ciFile = this.cvEvaluationService.personalIdIndexed(apply.applyTPersonalData) === 1 ? 'SI' : 'NO'
+            let professionalExperienceTime = getAcademicParams['EXPERIENCIA PROFESIONAL'][0] === 1 ? 'SI' : 'NO'
+            let teachingExperienceTime = getAcademicParams['EXPERIENCIA DOCENTE UNIVERISATRIA'][0] === 1 ? 'SI' : 'NO'
+            let applyStatus = apply.applyStatus === 'ACEPTED' ? 'SI' : 'NO'
+            candidates.push({
+                candidateName, candidateBirthDay, candidateAge, academicTitle, seconAcademicTitle,
+                teacherAcademicTraining, professionalExperience, teachingExperienceYears, cvFormat, teachingPlan, professionalTitleIndexed
+                , professionalNTitleIndexed, teachingTitleFile, ciFile, professionalExperienceTime, teachingExperienceTime, applyStatus
+            })
+        }
+        return { code: teacherJobCall.collegeClass.code, name: teacherJobCall.collegeClass.name, candidates }
     }
 
-    async getAcademicParams(teacherApply:TeacherApplyEntity){
-        const {hasAcademicTraining,academicTitleIndexed,academicNTitleIndexed,hasProfessionalTimeExperience} = await this.cvEvaluationService.academicTrainingParams(teacherApply.applyTCVData)
-         const teachingTitle = this.cvEvaluationService.teachingTitleIndexed(teacherApply.applyTPersonalData)
-         const personalIdFile = this.cvEvaluationService.personalIdIndexed(teacherApply.applyTPersonalData)
-         const hasTeachingTiemExperience = this.cvEvaluationService.hasTeachingExperience(teacherApply.applyTPersonalData)
-       
+    async getAcademicParams(teacherApply: TeacherApplyEntity) {
+        const { hasAcademicTraining, academicTitleIndexed, academicNTitleIndexed, hasProfessionalTimeExperience } = await this.cvEvaluationService.academicTrainingParams(teacherApply.applyTCVData)
+        const teachingTitle = this.cvEvaluationService.teachingTitleIndexed(teacherApply.applyTPersonalData)
+        const personalIdFile = this.cvEvaluationService.personalIdIndexed(teacherApply.applyTPersonalData)
+        const hasTeachingTiemExperience = this.cvEvaluationService.hasTeachingExperience(teacherApply.applyTPersonalData)
+
         const dataToPedict = {
             "HOJA DE VIDA": [1],
             "PLAN DE ASIGNATURA": [1],
@@ -210,15 +206,15 @@ export class JobApplyService {
         return dataToPedict
     }
 
-    async prediction(teacherApply:TeacherApplyEntity):Promise<number> {
+    async prediction(teacherApply: TeacherApplyEntity): Promise<number> {
 
-        
 
-        const {hasAcademicTraining,academicTitleIndexed,academicNTitleIndexed,hasProfessionalTimeExperience} = await this.cvEvaluationService.academicTrainingParams(teacherApply.applyTCVData)
-         const teachingTitle = this.cvEvaluationService.teachingTitleIndexed(teacherApply.applyTPersonalData)
-         const personalIdFile = this.cvEvaluationService.personalIdIndexed(teacherApply.applyTPersonalData)
-         const hasTeachingTiemExperience = this.cvEvaluationService.hasTeachingExperience(teacherApply.applyTPersonalData)
-       
+
+        const { hasAcademicTraining, academicTitleIndexed, academicNTitleIndexed, hasProfessionalTimeExperience } = await this.cvEvaluationService.academicTrainingParams(teacherApply.applyTCVData)
+        const teachingTitle = this.cvEvaluationService.teachingTitleIndexed(teacherApply.applyTPersonalData)
+        const personalIdFile = this.cvEvaluationService.personalIdIndexed(teacherApply.applyTPersonalData)
+        const hasTeachingTiemExperience = this.cvEvaluationService.hasTeachingExperience(teacherApply.applyTPersonalData)
+
         const dataToPedict = {
             "HOJA DE VIDA": [1],
             "PLAN DE ASIGNATURA": [1],
