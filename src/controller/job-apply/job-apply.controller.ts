@@ -18,10 +18,7 @@ export class JobApplyController {
         return await this.jobApplyService.newJobApply(applyDTO.candidateId,applyDTO.jobCallId)
         
     }
-    @Get('/prediction')
-    async getPrediction(){
-        return await this.jobApplyService.prediction('73251176-3010-437b-a63a-d17d8401b893')
-    }
+    
 
     @Get('/:id')
     @Roles(RoleType.CANDIDATE,RoleType.RECRUITER)
@@ -56,5 +53,9 @@ export class JobApplyController {
         return await this.jobApplyService.getCandidateTeacherJobCallsApplies(id)
     }
 
-    
+    @Get('candidates-report/:id')
+    @Roles(RoleType.RECRUITER)
+    async getCandidatesReportByTeacherJobCallId(@Param('id',new ParseUUIDPipe()) id:string){
+            return "Candidates report"
+    }
 }

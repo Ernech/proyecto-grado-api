@@ -31,4 +31,5 @@ export class CvController {
         return this.cvService.editCV(candidateId, newCvInfoDTO);
     }
 
+
 }

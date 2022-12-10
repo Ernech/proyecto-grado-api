@@ -26,6 +26,11 @@ export class CvEvaluationService {
             return 0
         }
     }
+async hasParam(param:string){
+    const data = await firstValueFrom(this.httpService.post('http://127.0.0.1:5000/params', { "param": param })
+    .pipe(map(resp => resp.data)));
+    return data
+}
 
     async academicTrainingParams(applyTCVDataArray: ApplyTCVDataEntity[]): Promise<AcademicParamsDTO> {
         //Licenciatura
@@ -126,6 +131,37 @@ export class CvEvaluationService {
         }
         let total = allYears
         return total
+    }
+    calculateAge(birthDate:string):number {
+        const ageDifMs = Date.now() - new Date(birthDate).getTime();
+        const ageDate = new Date(ageDifMs);
+        return Math.abs(ageDate.getUTCFullYear() - 1970);
+    }
+    getProfessionalExperienceTime(degreeDate:string):string {
+    
+        let df = new Date(degreeDate);
+        let dt = new Date();
+        let allYears = dt.getFullYear() - df.getFullYear();
+        let partialMonths = dt.getMonth() - df.getMonth();
+        if (partialMonths < 0) {
+            allYears--;
+            partialMonths = partialMonths + 12;
+        }
+        let total = allYears + " años " + partialMonths + " meses";
+        return total
+    }
+    getTeachingExperienceTime(teachingYears:string):string {
+        let df = new Date(teachingYears + '');
+        let dt = new Date();
+        let allYears = dt.getFullYear() - df.getFullYear();
+        let partialMonths = dt.getMonth() - df.getMonth();
+        if (partialMonths < 0) {
+            allYears--;
+            partialMonths = partialMonths + 12;
+        }
+        let total = allYears + " años " + partialMonths + " meses";
+
+        return `(${teachingYears}) ${total}`
     }
 
 }
