@@ -159,7 +159,7 @@ async hasParam(param:string){
             allYears--;
             partialMonths = partialMonths + 12;
         }
-        let total = allYears + " años " + partialMonths + " meses";
+        let total = allYears + " años";
 
         return `(${teachingYears}) ${total}`
     }

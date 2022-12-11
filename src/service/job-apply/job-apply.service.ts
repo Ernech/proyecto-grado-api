@@ -168,19 +168,20 @@ export class JobApplyService {
                 ? `Diplomado en educación superior - ${apply.applyTPersonalData.teachingTitleFileInstitution}` : 'NO'
             let professionalExperience = this.cvEvaluationService.getProfessionalExperienceTime(mainTitle.degreeDate)
             let teachingExperienceYears = this.cvEvaluationService.getTeachingExperienceTime(apply.applyTPersonalData.teachingStartYear.toString())
-            let cvFormat = getAcademicParams['HOJA DE VIDA'][0]
+            let cvFormat = 'SI'
             let teachingPlan = 'SI'
             let professionalTitleIndexed = getAcademicParams['TÍTULO ACADÉMICO'][0] === 1 ? 'SI' : 'NO'
             let professionalNTitleIndexed = getAcademicParams['TÍTULO EN PROVICIÓN NACIONAL'][0] === 1 ? 'SI' : 'NO'
             let teachingTitleFile = this.cvEvaluationService.teachingTitleIndexed(apply.applyTPersonalData) === 1 ? 'SI' : 'NO'
             let ciFile = this.cvEvaluationService.personalIdIndexed(apply.applyTPersonalData) === 1 ? 'SI' : 'NO'
+            let hasAcademicTraining = getAcademicParams['FORMACIÓN ACADÉMICA'][0]===1 ? 'SI' : 'NO'
             let professionalExperienceTime = getAcademicParams['EXPERIENCIA PROFESIONAL'][0] === 1 ? 'SI' : 'NO'
             let teachingExperienceTime = getAcademicParams['EXPERIENCIA DOCENTE UNIVERISATRIA'][0] === 1 ? 'SI' : 'NO'
             let applyStatus = apply.applyStatus === 'ACEPTED' ? 'SI' : 'NO'
             candidates.push({
                 candidateName, candidateBirthDay, candidateAge, academicTitle, seconAcademicTitle,
                 teacherAcademicTraining, professionalExperience, teachingExperienceYears, cvFormat, teachingPlan, professionalTitleIndexed
-                , professionalNTitleIndexed, teachingTitleFile, ciFile, professionalExperienceTime, teachingExperienceTime, applyStatus
+                , professionalNTitleIndexed, teachingTitleFile, ciFile, professionalExperienceTime,hasAcademicTraining, teachingExperienceTime, applyStatus
             })
         }
         return { code: teacherJobCall.collegeClass.code, name: teacherJobCall.collegeClass.name, candidates }
