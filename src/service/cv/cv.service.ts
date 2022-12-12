@@ -70,7 +70,9 @@ export class CvService {
                 'personalData.professionalStartYear',
                 'personalData.teachingTitleFile',
                 'personalData.teachingTitleFileName',
-                'personalData.teachingTitleFileInstitution'
+                'personalData.teachingTitleFileInstitution',
+                'personalData.teachingPlanFile',
+                'personalData.teachingPlanFileName'
             ]).innerJoin('personalData.candidate', 'candidate')
             .where('candidate.id=:id', { id: candiateId })
             .andWhere('candidate.status=:status', { status: 1 })

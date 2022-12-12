@@ -129,7 +129,7 @@ export class JobCallService {
             ]).innerJoinAndSelect('jobCall.teacherJobCalls', 'teacherJobCall')
                 .innerJoinAndSelect('teacherJobCall.requirements', 'requirement')
                 .innerJoinAndSelect('teacherJobCall.collegeClass', 'collegeClass')
-                .loadRelationCountAndMap('teacherJobCall.candidates', 'teacherJobCall.teacherApply')
+                .loadRelationCountAndMap('teacherJobCall.candidates', 'teacherJobCall.teacherApply','teacherApply',qb=>qb.where('teacherApply.status=:status',{status:1}))
                 .where('jobCall.position=:position', { position: JobCallPositionEnum.TEACHER })
                 .andWhere('jobCall.status=:status', { status: 1 })
                 .andWhere('collegeClass.status=:status', { status: 1 })

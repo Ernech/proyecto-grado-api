@@ -26,11 +26,11 @@ export class CvEvaluationService {
             return 0
         }
     }
-async hasParam(param:string){
-    const data = await firstValueFrom(this.httpService.post('http://127.0.0.1:5000/params', { "param": param })
-    .pipe(map(resp => resp.data)));
-    return data
-}
+    async hasParam(param: string) {
+        const data = await firstValueFrom(this.httpService.post('http://127.0.0.1:5000/params', { "param": param })
+            .pipe(map(resp => resp.data)));
+        return data
+    }
 
     async academicTrainingParams(applyTCVDataArray: ApplyTCVDataEntity[]): Promise<AcademicParamsDTO> {
         //Licenciatura
@@ -78,6 +78,49 @@ async hasParam(param:string){
 
     teachingTitleIndexed(applyPersonalTData: ApplyTPersonalDataEntity): number {
         return applyPersonalTData.teachingTitleFile ? 1 : 0
+    }
+
+    teachingPlanIndexed(applyPersonalTData: ApplyTPersonalDataEntity): number {
+        return applyPersonalTData.teachingPlanFile ? 1 : 0
+    }
+
+    hasPostgrade(applyTCVDataArray: ApplyTCVDataEntity[]) {
+        const secondTitles = applyTCVDataArray.filter(async obj => {
+            const param = await this.hasParam(obj.title)
+            if (param.length > 0) {
+                return obj
+            }
+        })
+        return secondTitles
+
+    }
+
+    getRequiredKnowledges(applyTCVDataArray: ApplyTCVDataEntity[]) {
+        const requiredKnowledges =  applyTCVDataArray.map(async obj => {
+            if (obj.dataType === 'ACADEMIC_TRAINING' ) {
+                const param = await this.hasParam(obj.title)
+                if (param.length > 0) {
+                    return obj.title
+                }
+            }
+            else if(obj.dataType==='LANGUAGE'){
+                const param = await this.hasParam(obj.language)
+                if (param.length > 0) {
+                    return obj.language
+                }
+            }
+        })
+
+        let getRequiredKnowledgesString =''
+        if(requiredKnowledges.length<1){
+            return getRequiredKnowledgesString
+        }
+
+        for(let i = 0;i<requiredKnowledges.length;i++){
+            getRequiredKnowledgesString += '-' + requiredKnowledges[i] +'\n'
+        }
+        return getRequiredKnowledgesString
+
     }
 
     async hasAcademicTraining(applyTCVDataArray: ApplyTCVDataEntity[]): Promise<number> {
@@ -132,13 +175,13 @@ async hasParam(param:string){
         let total = allYears
         return total
     }
-    calculateAge(birthDate:string):number {
+    calculateAge(birthDate: string): number {
         const ageDifMs = Date.now() - new Date(birthDate).getTime();
         const ageDate = new Date(ageDifMs);
         return Math.abs(ageDate.getUTCFullYear() - 1970);
     }
-    getProfessionalExperienceTime(degreeDate:string):string {
-    
+    getProfessionalExperienceTime(degreeDate: string): string {
+
         let df = new Date(degreeDate);
         let dt = new Date();
         let allYears = dt.getFullYear() - df.getFullYear();
@@ -150,7 +193,7 @@ async hasParam(param:string){
         let total = allYears + " años " + partialMonths + " meses";
         return total
     }
-    getTeachingExperienceTime(teachingYears:string):string {
+    getTeachingExperienceTime(teachingYears: string): string {
         let df = new Date(teachingYears + '');
         let dt = new Date();
         let allYears = dt.getFullYear() - df.getFullYear();

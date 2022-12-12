@@ -90,6 +90,12 @@ export class ApplyPersonalDataEntity extends BaseEntity{
 
     @Column({name:'teaching_title_file_institution',length:300,default:'--'})
     teachingTitleFileInstitution:string;
+    
+    @Column({name:'teaching_plan_file',type:'bytea',nullable:true})
+    teachingPlanFile:Buffer;
+
+    @Column({name:'teaching_plan_file_name',length:300,default:'--'})
+    teachingPlanFileName:string;
 
 
     @OneToOne(()=>ApplyEntity,(apply)=>apply.applyPersonalData)

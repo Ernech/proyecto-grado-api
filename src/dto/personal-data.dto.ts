@@ -98,5 +98,10 @@ export class PersonalDataDTO {
 
   teachingTitleFileInstitution:string;
 
+  teachingPlanFile:Buffer;
+
+  teachingPlanFileName:string;
+
+
 
 }   

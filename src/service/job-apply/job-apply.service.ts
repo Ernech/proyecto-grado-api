@@ -16,7 +16,7 @@ import { UserService } from '../user/user.service';
 import { catchError, firstValueFrom, map } from 'rxjs';
 import { HttpService } from '@nestjs/axios';
 import { CvEvaluationService } from '../cv-evaluation/cv-evaluation.service';
-import { AcademicParamsDTO } from 'src/dto/academic-params.dto';
+
 @Injectable()
 export class JobApplyService {
 
@@ -157,19 +157,21 @@ export class JobApplyService {
         for (let i = 0; i < teacherJobCall.teacherApply.length; i++) {
             let apply: TeacherApplyEntity = teacherJobCall.teacherApply[i]
             const mainTitle = apply.applyTCVData.find(obj => obj.dataType === 'ACADEMIC_TRAINING' && obj.degree === 'Licenciatura')
-            let secondAcademicTrainings = apply.applyTCVData.filter(obj => obj.dataType === 'ACADEMIC_TRAINING' && obj.degree==='Maestría')
+            //let secondAcademicTrainings = apply.applyTCVData.filter(obj => obj.dataType === 'ACADEMIC_TRAINING' && obj.degree==='Postgrado')
+            //let requiredKnowledgesArray = apply.applyTCVData.filter(obj => (obj.dataType === 'ACADEMIC_TRAINING' || obj.dataType=== 'LANGUAGE') && obj.degree !== 'Licenciatura')
             let getAcademicParams = await this.getAcademicParams(apply)
             let candidateName = `${apply.applyTPersonalData.name} ${apply.applyTPersonalData.firstLastName} ${apply.applyTPersonalData.secondLastName}`
             let candidateBirthDay = apply.applyTPersonalData.birthDate
             let candidateAge = this.cvEvaluationService.calculateAge(apply.applyTPersonalData.birthDate.toString())
             let academicTitle = mainTitle ? mainTitle.title : 'NO'
-            let seconAcademicTitle = secondAcademicTrainings.map(obj=>obj.title)
+           // let seconAcademicTitle =   this.cvEvaluationService.hasPostgrade(secondAcademicTrainings).length >0? 'SI':'NO'
             let teacherAcademicTraining = (apply.applyTPersonalData.teachingTitleFile && apply.applyTPersonalData.teachingTitleFileName && apply.applyTPersonalData.teachingTitleFileName != '' && apply.applyTPersonalData.teachingTitleFileInstitution != '')
                 ? `Diplomado en educación superior - ${apply.applyTPersonalData.teachingTitleFileInstitution}` : 'NO'
+           // let  requiredKnowledges = this.cvEvaluationService.getRequiredKnowledges(requiredKnowledgesArray)===''? 'NO' : this.cvEvaluationService.getRequiredKnowledges(requiredKnowledgesArray)
             let professionalExperience = this.cvEvaluationService.getProfessionalExperienceTime(mainTitle.degreeDate)
             let teachingExperienceYears = this.cvEvaluationService.getTeachingExperienceTime(apply.applyTPersonalData.teachingStartYear.toString())
             let cvFormat = 'SI'
-            let teachingPlan = 'SI'
+            let teachingPlan = this.cvEvaluationService.teachingPlanIndexed(apply.applyTPersonalData) ? 'SI' : 'NO'
             let professionalTitleIndexed = getAcademicParams['TÍTULO ACADÉMICO'][0] === 1 ? 'SI' : 'NO'
             let professionalNTitleIndexed = getAcademicParams['TÍTULO EN PROVICIÓN NACIONAL'][0] === 1 ? 'SI' : 'NO'
             let teachingTitleFile = this.cvEvaluationService.teachingTitleIndexed(apply.applyTPersonalData) === 1 ? 'SI' : 'NO'
@@ -179,8 +181,7 @@ export class JobApplyService {
             let teachingExperienceTime = getAcademicParams['EXPERIENCIA DOCENTE UNIVERISATRIA'][0] === 1 ? 'SI' : 'NO'
             let applyStatus = apply.applyStatus === 'ACEPTED' ? 'SI' : 'NO'
             candidates.push({
-                candidateName, candidateBirthDay, candidateAge, academicTitle, seconAcademicTitle,
-                teacherAcademicTraining, professionalExperience, teachingExperienceYears, cvFormat, teachingPlan, professionalTitleIndexed
+                candidateName, candidateBirthDay, candidateAge, academicTitle, teacherAcademicTraining, professionalExperience, teachingExperienceYears, cvFormat, teachingPlan, professionalTitleIndexed
                 , professionalNTitleIndexed, teachingTitleFile, ciFile, professionalExperienceTime,hasAcademicTraining, teachingExperienceTime, applyStatus
             })
         }
@@ -215,10 +216,11 @@ export class JobApplyService {
         const teachingTitle = this.cvEvaluationService.teachingTitleIndexed(teacherApply.applyTPersonalData)
         const personalIdFile = this.cvEvaluationService.personalIdIndexed(teacherApply.applyTPersonalData)
         const hasTeachingTiemExperience = this.cvEvaluationService.hasTeachingExperience(teacherApply.applyTPersonalData)
+        const hasTeachingPlan = this.cvEvaluationService.teachingPlanIndexed(teacherApply.applyTPersonalData)
 
         const dataToPedict = {
             "HOJA DE VIDA": [1],
-            "PLAN DE ASIGNATURA": [1],
+            "PLAN DE ASIGNATURA": [hasTeachingPlan],
             "TÍTULO ACADÉMICO": [academicTitleIndexed],
             "TÍTULO EN PROVICIÓN NACIONAL": [academicNTitleIndexed],
             "DIPLOMADO EN EDUCACIÓN SUPERIOR": [teachingTitle],
@@ -227,7 +229,7 @@ export class JobApplyService {
             "EXPERIENCIA PROFESIONAL": [hasProfessionalTimeExperience],
             "EXPERIENCIA DOCENTE UNIVERISATRIA": [hasTeachingTiemExperience]
         }
-        const data = await firstValueFrom(this.httpService.post('http://127.0.0.1:5000/logistic-regresion', dataToPedict)
+        const data = await firstValueFrom(this.httpService.post('http://127.0.0.1:5000/random-forest', dataToPedict)
             .pipe(map(resp => resp.data)));
         return data.prediction;
 
