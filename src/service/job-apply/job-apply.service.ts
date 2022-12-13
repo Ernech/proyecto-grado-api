@@ -168,8 +168,8 @@ export class JobApplyService {
             let teacherAcademicTraining = (apply.applyTPersonalData.teachingTitleFile && apply.applyTPersonalData.teachingTitleFileName && apply.applyTPersonalData.teachingTitleFileName != '' && apply.applyTPersonalData.teachingTitleFileInstitution != '')
                 ? `Diplomado en educación superior - ${apply.applyTPersonalData.teachingTitleFileInstitution}` : 'NO'
            // let  requiredKnowledges = this.cvEvaluationService.getRequiredKnowledges(requiredKnowledgesArray)===''? 'NO' : this.cvEvaluationService.getRequiredKnowledges(requiredKnowledgesArray)
-            let professionalExperience = this.cvEvaluationService.getProfessionalExperienceTime(mainTitle.degreeDate)
-            let teachingExperienceYears = this.cvEvaluationService.getTeachingExperienceTime(apply.applyTPersonalData.teachingStartYear.toString())
+            let professionalExperience = mainTitle ? this.cvEvaluationService.getProfessionalExperienceTime(mainTitle.degreeDate):'NO'
+            let teachingExperienceYears = apply.applyTPersonalData.teachingStartYear ? this.cvEvaluationService.getTeachingExperienceTime(apply.applyTPersonalData.teachingStartYear.toString()):'NO'
             let cvFormat = 'SI'
             let teachingPlan = this.cvEvaluationService.teachingPlanIndexed(apply.applyTPersonalData) ? 'SI' : 'NO'
             let professionalTitleIndexed = getAcademicParams['TÍTULO ACADÉMICO'][0] === 1 ? 'SI' : 'NO'
@@ -193,7 +193,6 @@ export class JobApplyService {
         const teachingTitle = this.cvEvaluationService.teachingTitleIndexed(teacherApply.applyTPersonalData)
         const personalIdFile = this.cvEvaluationService.personalIdIndexed(teacherApply.applyTPersonalData)
         const hasTeachingTiemExperience = this.cvEvaluationService.hasTeachingExperience(teacherApply.applyTPersonalData)
-
         const dataToPedict = {
             "HOJA DE VIDA": [1],
             "PLAN DE ASIGNATURA": [1],
