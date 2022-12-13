@@ -169,7 +169,7 @@ export class JobApplyService {
                 ? `Diplomado en educación superior - ${apply.applyTPersonalData.teachingTitleFileInstitution}` : 'NO'
            // let  requiredKnowledges = this.cvEvaluationService.getRequiredKnowledges(requiredKnowledgesArray)===''? 'NO' : this.cvEvaluationService.getRequiredKnowledges(requiredKnowledgesArray)
             let professionalExperience = mainTitle ? this.cvEvaluationService.getProfessionalExperienceTime(mainTitle.degreeDate):'NO'
-            let teachingExperienceYears = apply.applyTPersonalData.teachingStartYear ? this.cvEvaluationService.getTeachingExperienceTime(apply.applyTPersonalData.teachingStartYear.toString()):'NO'
+            let teachingExperienceYears = (apply.applyTPersonalData.teachingStartYear && apply.applyTPersonalData.teachingStartYear>0) ? this.cvEvaluationService.getTeachingExperienceTime(apply.applyTPersonalData.teachingStartYear.toString()):'NO'
             let cvFormat = 'SI'
             let teachingPlan = this.cvEvaluationService.teachingPlanIndexed(apply.applyTPersonalData) ? 'SI' : 'NO'
             let professionalTitleIndexed = getAcademicParams['TÍTULO ACADÉMICO'][0] === 1 ? 'SI' : 'NO'
