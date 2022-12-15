@@ -63,7 +63,7 @@ export class JobApplyService {
             newTeacherApply.teacherJobCall = jobcall,
             newTeacherApply.applyTPersonalData = newApplyPersonalData,
             newTeacherApply.applyTCVData = newApplyTCVData
-        const result = await this.prediction(newTeacherApply)
+        const result = await this.prediction(newTeacherApply,jobcall.collegeClass.code.toLowerCase())
         newTeacherApply.applyStatus = result === 1 ? 'ACEPTED' : 'REJECTED'
         return this.teacherApplyRepository.save(newTeacherApply)
 
@@ -159,7 +159,7 @@ export class JobApplyService {
             const mainTitle = apply.applyTCVData.find(obj => obj.dataType === 'ACADEMIC_TRAINING' && obj.degree === 'Licenciatura')
             //let secondAcademicTrainings = apply.applyTCVData.filter(obj => obj.dataType === 'ACADEMIC_TRAINING' && obj.degree==='Postgrado')
             //let requiredKnowledgesArray = apply.applyTCVData.filter(obj => (obj.dataType === 'ACADEMIC_TRAINING' || obj.dataType=== 'LANGUAGE') && obj.degree !== 'Licenciatura')
-            let getAcademicParams = await this.getAcademicParams(apply)
+            let getAcademicParams = await this.getAcademicParams(apply,teacherJobCall.collegeClass.code.toLowerCase())
             let candidateName = `${apply.applyTPersonalData.name} ${apply.applyTPersonalData.firstLastName} ${apply.applyTPersonalData.secondLastName}`
             let candidateBirthDay = apply.applyTPersonalData.birthDate
             let candidateAge = this.cvEvaluationService.calculateAge(apply.applyTPersonalData.birthDate.toString())
@@ -188,8 +188,8 @@ export class JobApplyService {
         return { code: teacherJobCall.collegeClass.code, name: teacherJobCall.collegeClass.name, candidates }
     }
 
-    async getAcademicParams(teacherApply: TeacherApplyEntity) {
-        const { hasAcademicTraining, academicTitleIndexed, academicNTitleIndexed, hasProfessionalTimeExperience } = await this.cvEvaluationService.academicTrainingParams(teacherApply.applyTCVData)
+    async getAcademicParams(teacherApply: TeacherApplyEntity,classCode:string) {
+        const { hasAcademicTraining, academicTitleIndexed, academicNTitleIndexed, hasProfessionalTimeExperience } = await this.cvEvaluationService.academicTrainingParams(teacherApply.applyTCVData,classCode)
         const teachingTitle = this.cvEvaluationService.teachingTitleIndexed(teacherApply.applyTPersonalData)
         const personalIdFile = this.cvEvaluationService.personalIdIndexed(teacherApply.applyTPersonalData)
         const hasTeachingTiemExperience = this.cvEvaluationService.hasTeachingExperience(teacherApply.applyTPersonalData)
@@ -207,11 +207,11 @@ export class JobApplyService {
         return dataToPedict
     }
 
-    async prediction(teacherApply: TeacherApplyEntity): Promise<number> {
+    async prediction(teacherApply: TeacherApplyEntity,classCode:string): Promise<number> {
 
 
 
-        const { hasAcademicTraining, academicTitleIndexed, academicNTitleIndexed, hasProfessionalTimeExperience } = await this.cvEvaluationService.academicTrainingParams(teacherApply.applyTCVData)
+        const { hasAcademicTraining, academicTitleIndexed, academicNTitleIndexed, hasProfessionalTimeExperience } = await this.cvEvaluationService.academicTrainingParams(teacherApply.applyTCVData,classCode)
         const teachingTitle = this.cvEvaluationService.teachingTitleIndexed(teacherApply.applyTPersonalData)
         const personalIdFile = this.cvEvaluationService.personalIdIndexed(teacherApply.applyTPersonalData)
         const hasTeachingTiemExperience = this.cvEvaluationService.hasTeachingExperience(teacherApply.applyTPersonalData)

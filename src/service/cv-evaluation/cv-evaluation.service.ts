@@ -32,7 +32,7 @@ export class CvEvaluationService {
         return data
     }
 
-    async academicTrainingParams(applyTCVDataArray: ApplyTCVDataEntity[]): Promise<AcademicParamsDTO> {
+    async academicTrainingParams(applyTCVDataArray: ApplyTCVDataEntity[],classCode:string): Promise<AcademicParamsDTO> {
         //Licenciatura
 
         const mainTitle: ApplyTCVDataEntity = applyTCVDataArray.find(obj => obj.dataType == 'ACADEMIC_TRAINING' && obj.degree === 'Licenciatura')
