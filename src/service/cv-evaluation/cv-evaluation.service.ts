@@ -37,7 +37,7 @@ export class CvEvaluationService {
 
         const mainTitle: ApplyTCVDataEntity = applyTCVDataArray.find(obj => obj.dataType == 'ACADEMIC_TRAINING' && obj.degree === 'Licenciatura')
         if (mainTitle) {
-            const data = await firstValueFrom(this.httpService.post('http://127.0.0.1:5000/params', { "param": mainTitle.title })
+            const data = await firstValueFrom(this.httpService.post(`http://127.0.0.1:5000/params/${classCode}`, { "param": mainTitle.title })
                 .pipe(map(resp => {
                     let hasAcademicTraining: number = 0
                     let academicTitleIndexed: number = 0

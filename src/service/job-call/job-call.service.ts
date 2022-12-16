@@ -253,7 +253,15 @@ export class JobCallService {
 
     async getTeacherJobCallEntityById(id: string) {
 
-        const teacherJobCallEntity: TeacherJobCallEntity = await this.teacherJobCallRepository.findOneBy({ id, status: 1 })
+        const teacherJobCallEntity: TeacherJobCallEntity = await this.teacherJobCallRepository.createQueryBuilder('teacherJobCall').select([
+            'teacherJobCall.id',
+            'teacherJobCall.requiredNumber',
+            'teacherJobCall.jobCallCode'
+        ]).innerJoinAndSelect('teacherJobCall.collegeClass','collegeClass')
+        .where('teacherJobCall.status=:status',{status:1}).
+        andWhere('collegeClass.status=:status',{status:1})
+        .andWhere('teacherJobCall.id=:id',{id})
+        .getOne()
         if (!teacherJobCallEntity) {
             throw new NotFoundException('Convocatoria no encontrada')
         }
@@ -312,19 +320,20 @@ export class JobCallService {
     async publishJobCall(id: string) {
         const jobCall: JobCallEntity = await this.getJobCallById(id);
         const today = new Date()
-        today.setHours(today.getHours() - 4)
         if (jobCall.openingDate < today) {
             throw new BadRequestException("Fecha de apertura incorrecta")
         }
         else if (jobCall.openingDate === today) {
             jobCall.jobCallStatus = JobCallStatusEnum.OPEN
+            await this.jobCallRepository.save(jobCall)
+        
         }
         else if (jobCall.openingDate > today) {
             jobCall.jobCallStatus = JobCallStatusEnum.PENDING
+            await this.jobCallRepository.save(jobCall)
             this.openJobCall(jobCall.openingDate, jobCall.id)
             this.closeJobCall(jobCall.closingDate, jobCall.id)
         }
-        await this.jobCallRepository.save(jobCall)
 
 
     };
@@ -382,6 +391,7 @@ export class JobCallService {
         openJobCall.start()
     }
     closeJobCall(closingDate: Date, jobCallId: string) {
+       
         const closeJobCall = new CronJob(closingDate, async () => {
             await this.closeJobCallById(jobCallId)
         })
