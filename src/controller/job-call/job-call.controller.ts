@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Post, Put, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { Param, Patch } from '@nestjs/common/decorators';
 import { ParseUUIDPipe } from '@nestjs/common/pipes';
 import { Authorization } from 'src/decorator/auth.decorator';
@@ -9,6 +9,7 @@ import { NewTeacherJobCallDTO } from 'src/dto/new-teacher-job-call.dto';
 import { RoleType } from 'src/persistence/enum/role-type.enum';
 import { JobCallService } from 'src/service/job-call/job-call.service';
 import { JobCallStatusEnum } from '../../persistence/enum/job-call-status.enum'
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('job-call')
 export class JobCallController {
@@ -17,7 +18,9 @@ export class JobCallController {
 
     @Post()
     @Roles(RoleType.RECRUITER)
-    async createJobCall(@Body() jobCallDTO: JobCallDTO) {
+    @UseInterceptors(FileInterceptor('jobManualFile'))
+    async createJobCall(@Body() jobCallDTO: JobCallDTO, @UploadedFile() file) {
+        console.log(file);
         return await this.jobCallService.newJobCall(jobCallDTO)
     }
     @Post('/teacher')
@@ -28,8 +31,8 @@ export class JobCallController {
 
     @Put('/teacher/:id')
     @Roles(RoleType.RECRUITER)
-    async editTeacherJobCall(@Param('id', new ParseUUIDPipe()) id: string,@Body() jobCallDTO: NewTeacherJobCallDTO) {
-        return await this.jobCallService.editTeacherJobCall(id,jobCallDTO)
+    async editTeacherJobCall(@Param('id', new ParseUUIDPipe()) id: string, @Body() jobCallDTO: NewTeacherJobCallDTO) {
+        return await this.jobCallService.editTeacherJobCall(id, jobCallDTO)
     }
 
     @Patch('/teacher/:id')
@@ -141,7 +144,7 @@ export class JobCallController {
     async editJobCall(
         @Param('id', new ParseUUIDPipe()) id: string,
         @Body() jobcallDto: JobCallDTO) {
-
+        
         return await this.jobCallService.editJobCall(id, jobcallDto)
     }
     @Patch('pending/:id')
@@ -171,3 +174,5 @@ export class JobCallController {
         await this.jobCallService.publishTeacherJobCall(id)
     }
 }
+
+

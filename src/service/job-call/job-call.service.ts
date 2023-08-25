@@ -211,6 +211,7 @@ export class JobCallService {
                 'teacherJobCall.jobCallCode',
             ]).innerJoinAndSelect('teacherJobCall.requirements', 'requirement')
             .innerJoinAndSelect('teacherJobCall.collegeClass', 'collegeClass')
+            .innerJoinAndSelect('teacherJobCall.jobCall','jobCall')
             .where('teacherJobCall.id=:id', { id })
             .andWhere('collegeClass.status=:status', { status: 1 })
             .andWhere('teacherJobCall.status=:status', { status: 1 })

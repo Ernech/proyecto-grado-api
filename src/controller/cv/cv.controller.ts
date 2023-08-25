@@ -12,6 +12,7 @@ export class CvController {
 
     @Post(':id/candidate')
     @Roles(RoleType.CANDIDATE)
+
     async createCV(@Param('id', new ParseUUIDPipe()) candidateId: string, @Body() cvInfoDTO: CVInfoDTO) {
 
         return this.cvService.saveCV(candidateId, cvInfoDTO);
