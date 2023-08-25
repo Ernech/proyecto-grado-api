@@ -1,0 +1,147 @@
+###Crear CV
+
+POST http://localhost:3000/cv/8b6b0105-1189-4679-b62f-b96f1ff17650/candidate
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQ0FORElEQVRFIiwiaWQiOiI4YjZiMDEwNS0xMTg5LTQ2NzktYjYyZi1iOTZmMWZmMTc2NTAiLCJlbWFpbCI6ImRhbmlrQGdtYWlsLmNvbSIsImlhdCI6MTY2NjY3MTE3NSwiZXhwIjoxNjY2Njc4Mzc1fQ.99MSs2IEBBBVbvcaiscE7XO0MJAYgoKcERNwnruHcBI
+
+{
+    "personalData":{   
+    "firstLastName": "Rivas",
+    "secondLastName": "Rojas",
+    "name": "Daniel",
+    "marriedLastName":"", 
+    "personalIdNumber":"6166849",
+    "issued":"LP", 
+    "idType":"CI", 
+    "gender":"Masculino",
+    "civilStatus":"Soltero", 
+    "birthDate": "1990-09-05", 
+    "placeOfBirth":"Santa Cruz", 
+    "nationality": "Boliviano", 
+    "address": "Calle 13 de Calacoto Av. Ballivian", 
+    "zone": "Achumani", 
+    "afp": "AFP Retiros", 
+    "cuaNumber": "5234",
+    "homePhone": "2789648", 
+    "cellPhone": "77159641", 
+    "email":"danik@gmail.com", 
+    "personalIdFile": "CI.pdf", 
+    "teachingStartYear":2018,
+    "teachingUCBStartYear":2020,
+    "professionalStartYear": 2015
+    },
+    "cvData":[
+       {
+        "dataType":"ACADEMIC_TRAINING",
+        "title":"Ingeniería de sistemas",
+        "institution":"Universidad Privada de Bolivia",
+        "degree":"Pregrado",
+        "degreeDate":"2020-12",
+        "professionalTitleFile":"Título.pdf",
+        "professionalNTitleFile":"Título provición nacional.pdf"
+        },
+         {
+        "dataType":"LANGUAGE",
+        "language":"Inglés",
+        "writing":"Avanzado",
+        "reading":"Medio",
+        "speacking":"Medio" 
+        },
+         {
+        "dataType":"LANGUAGE",
+        "language":"Francés",
+        "writing":"Medio",
+        "reading":"Avanzado",
+        "speacking":"Medio"
+        },
+        {
+        "dataType":"PROFESSIONAL_EXPERIENCE",
+        "institution":"Assuresoft",
+        "position":"QA",
+        "startDate":"2021-12",
+        "finishDate":"2022-02"    
+        }
+    ]
+}
+
+###Obtener CV de candidato
+
+GET http://localhost:3000/cv/candidate/716016bb-fa06-42e6-8b53-db71567c88d4
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQ0FORElEQVRFIiwiaWQiOiI0ZjhjMzRkOC1mN2U3LTRlYzctYjYyNC1jNDMzNWFjZWJiNTAiLCJlbWFpbCI6ImRhbmllcmxyZ0BnbWFpbC5jb20iLCJpYXQiOjE2NzAyODczNDAsImV4cCI6MTY3MDI5NDU0MH0.vLRWmKepgJyEfbuuGWmyZQpy_vqjM-lXxwq_kkhy75Q
+###Editar CV
+
+PUT http://localhost:3000/cv/a470f6a3-743c-4942-af20-694f630125be/candidate
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQ0FORElEQVRFIiwiaWQiOiJhNDcwZjZhMy03NDNjLTQ5NDItYWYyMC02OTRmNjMwMTI1YmUiLCJlbWFpbCI6InBlcGVAZ21haWwuY29tIiwiaWF0IjoxNjY3MjUxNjA2LCJleHAiOjE2NjcyNTg4MDZ9.2Nc6qk0DCVoyJgzX8OzA_QKG51ra4eR2Pc4RefKPSPA
+
+{
+    "personalData":{   
+    "firstLastName": "Sanz",
+    "secondLastName": "Rodriguez",
+    "name": "Pepe",
+    "marriedLastName":"", 
+    "personalIdNumber":"6154789",
+    "issued":"Cochabamba", 
+    "idType":"CI", 
+    "gender":"Masculino",
+    "civilStatus":"Divorciado", 
+    "birthDate": "1994-09-05", 
+    "placeOfBirth":"La Paz", 
+    "nationality": "Boliviano", 
+    "address": "Obrajes Calle 5 av. 14 de septiembre.", 
+    "zone": "Obrajes", 
+    "afp": "AFP Retiros", 
+    "cuaNumber": "5254",
+    "homePhone": "2712348", 
+    "cellPhone": "79158651", 
+    "email":"pepe@gmail.com",  
+    "teachingStartYear":2018,
+    "teachingUCBStartYear":2020,
+    "professionalStartYear": 2017
+    },
+    "cvData":[
+       {
+        "dataType":"ACADEMIC_TRAINING",
+        "title":"Informática avanzada",
+        "institution":"Universidad Católica Boliviana",
+        "degree":"Licenciatura",
+        "degreeDate":"2019-12"
+        },
+         {
+        "dataType":"LANGUAGE",
+        "language":"Inglés",
+        "writing":"Avanzado",
+        "reading":"Medio",
+        "speacking":"Medio" 
+        },
+          {
+        "dataType":"LANGUAGE",
+        "language":"Alemán",
+        "writing":"Avanzado",
+        "reading":"Medio",
+        "speacking":"Medio" 
+        },
+         {
+        "dataType":"LANGUAGE",
+        "language":"Francés",
+        "writing":"Medio",
+        "reading":"Avanzado",
+        "speacking":"Medio"
+        },
+        {
+        "dataType":"PROFESSIONAL_EXPERIENCE",
+        "institution":"Assuresoft",
+        "position":"QA",
+        "startDate":"2021-12",
+        "finishDate":"2022-02"    
+        },
+        {
+        "dataType":"PROFESSIONAL_EXPERIENCE",
+        "institution":"Jalasoft",
+        "position":"Desarrolador",
+        "startDate":"2019-12",
+        "finishDate":"2020-02"    
+        }
+    ]
+}

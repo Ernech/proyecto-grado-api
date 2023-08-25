@@ -1,0 +1,47 @@
+GET http://localhost:3000
+
+
+### Login User
+
+POST http://localhost:3000/user/token
+Content-Type: application/json
+
+{
+    "email":"admin@test.com",
+    "password":"1234abcd"
+}
+
+### Create new User
+
+POST http://localhost:3000/user
+Content-Type: application/json
+
+{
+    "name":"Ernesto",
+    "lastName":"Vilela Montero",
+    "position":"Desarrollador",
+    "email":"admin@test.com",
+    "password":"1234abcd"
+}
+
+### Create new candidate
+
+POST http://localhost:3000/user/candidate
+Content-Type: application/json
+
+{
+    "name":"Daniel",
+    "lastName":"Rivas Rojas",
+    "email":"danik@gmail.com",
+    "password":"1234abcd"
+}
+
+### Login candidate
+
+POST http://localhost:3000/user/candidate/token
+Content-Type: application/json
+
+{
+    "email":"danierlrg@gmail.com",
+    "password":"1234abcd"
+}

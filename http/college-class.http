@@ -1,0 +1,19 @@
+
+### Get career classes
+
+GET http://localhost:3000/college-class
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiUkVDUlVJVEVSIiwiaWQiOiJmMGQ5OTI3Ni1jMzMxLTQ2NjAtOGU2YS1mZTg1ZGQ4ZDFlYmYiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwiaWF0IjoxNjY0NjYzMzUyLCJleHAiOjE2NjQ2NzA1NTJ9.q55aXTkhunIYlDNoihPHvyQG_xVD_73y-hT7kxZXhC4
+
+
+### Create college class
+
+POST http://localhost:3000/job-call/career-class/0dce4783-8a48-4101-827c-30837bdfc2ff
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiUkVDUlVJVEVSIiwiaWQiOiJmMGQ5OTI3Ni1jMzMxLTQ2NjAtOGU2YS1mZTg1ZGQ4ZDFlYmYiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwiaWF0IjoxNjY1MzYzNzE3LCJleHAiOjE2NjUzNzA5MTd9.Gm-xkHHA3K6KN2HDWc7Ck6XhNgqnwCYH9eEsw8nIShM
+
+
+{
+    "code":"SIS-112",
+    "name":"Programación 1"
+}

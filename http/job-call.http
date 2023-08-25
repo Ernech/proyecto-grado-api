@@ -1,0 +1,616 @@
+
+
+### Get saved job calls
+
+
+GET http://localhost:3000/job-call/saved
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiUkVDUlVJVEVSIiwiaWQiOiJmMGQ5OTI3Ni1jMzMxLTQ2NjAtOGU2YS1mZTg1ZGQ4ZDFlYmYiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwiaWF0IjoxNjg3NjU2MTI2LCJleHAiOjE2ODc2NjMzMjZ9.ALGFUVPM4oOaaMFZH_tqhqQ_O8sHVaXvmxUq09Mx4PE
+### Get pending job calls
+
+
+GET http://localhost:3000/job-call/pending
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiUkVDUlVJVEVSIiwiaWQiOiJmMGQ5OTI3Ni1jMzMxLTQ2NjAtOGU2YS1mZTg1ZGQ4ZDFlYmYiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwiaWF0IjoxNjY0NDg2NzY3LCJleHAiOjE2NjQ0OTM5Njd9.lnqltPfAHBExfwR1GZX7YgBE3BkBZ5YID-VquTrkOak
+
+
+
+#### Create job call
+
+
+POST http://localhost:3000/job-call
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiUkVDUlVJVEVSIiwiaWQiOiJmMGQ5OTI3Ni1jMzMxLTQ2NjAtOGU2YS1mZTg1ZGQ4ZDFlYmYiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwiaWF0IjoxNjY1MDkzMDc2LCJleHAiOjE2NjUxMDAyNzZ9.rg-Q3aqSKIZI4X7pY7EC4NqYWlJz37iADeAjG2Ekxnk
+
+{
+	"jobCallName": "ASISTENTE PARA LABORATORIO DE FÍSICA",
+	"jobCallNumber": "15/2022",
+	"jobCallObj": "Apoyar a los estudiantes con las prácticas del laboratorio de física",
+	"jobManualFile": "Manual.docx",
+	"jobInfoFile": "Info.pfd",
+	"openingDate": "2022-12-23T18:25:43.511Z",
+	"closingDate": "2022-12-24T18:25:43.511Z",
+	"experiences": [{
+		"yearsOfExperience": 4,
+		"description": "Desarrollo web con php",
+		"requirement": "Indispensable",
+		"type": "Especifico"
+	}],
+	"jobFunctions": [{
+			"jobFunction": "Mantenimiento del sistema académico actual."
+		},
+		{
+			"jobFunction": "Apoyar el desarrollo de nuevos módulos."
+		}
+	],
+	"academicTrainings": [{
+		"training": "Egreso o Licenciatura en Ingeniería de sistemas, Informática o ramas afines"
+	}],
+	"requiredKnowledge": [
+		{
+			"description": "Conocimiento de inglés",
+			"requiredLevel": "Intermedio",
+			"required": "Deseable"
+		},
+		{
+			"description": "Conocimiento de php",
+			"requiredLevel": "Avanzado",
+			"required": "Indispensable"
+		}
+	],
+	"aptitudes": [{
+			"aptitude": "Trabajar bajo presion",
+			"aptitudeType": "General",
+			"desiredLevel": "Alto"
+		},
+		{
+			"aptitude": "Liderazgo",
+			"aptitudeType": "General",
+			"desiredLevel": "Bajo"
+		}
+	]
+
+}
+
+
+#### Edit job call
+
+
+PUT http://localhost:3000/job-call/90871513-9a10-46b5-a521-6b7e71e44042
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiUkVDUlVJVEVSIiwiaWQiOiJmMGQ5OTI3Ni1jMzMxLTQ2NjAtOGU2YS1mZTg1ZGQ4ZDFlYmYiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwiaWF0IjoxNjY2MDY1NzExLCJleHAiOjE2NjYwNzI5MTF9.Y-t9SNrSxH1DprwWOtZya2VxgqO5YBCbM5xLonXR2VM
+
+{
+	"jobCallName": "SECRETARIO DE BILIOTECA",
+	"jobCallNumber": "48/2022",
+	"jobCallObj": "Apoyar las labores de la bilbioteca central",
+	"jobManualFile": "Manual.docx",
+	"jobInfoFile": "Info.pfd",
+	"openingDate": "2012-04-23T18:25:43.511Z",
+	"closingDate": "2012-06-23T18:25:43.511Z",
+	"experiences": [{
+		"yearsOfExperience": 4,
+		"description": "Desarrollo web con php",
+		"requirement": "Indispensable",
+		"type": "Especifico"
+	}],
+	"jobFunctions": [{
+			"jobFunction": "Mantenimiento del sistema académico actual."
+		},
+		{
+			"jobFunction": "Apoyar el desarrollo de nuevos módulos."
+		}
+	],
+	"academicTrainings": [{
+		"training": "Egreso o Licenciatura en Ingeniería de sistemas, Informática o ramas afines"
+	}],
+	"requiredKnowledge": [
+		{
+			"description": "Conocimiento de inglés",
+			"requiredLevel": "Intermedio",
+			"required": "Deseable"
+		},
+		{
+			"description": "Conocimiento de php",
+			"requiredLevel": "Avanzado",
+			"required": "Indispensable"
+		}
+	],
+	"aptitudes": [{
+			"aptitude": "Trabajar bajo presion",
+			"aptitudeType": "General",
+			"desiredLevel": "Alto"
+		},
+		{
+			"aptitude": "Liderazgo",
+			"aptitudeType": "General",
+			"desiredLevel": "Bajo"
+		}
+	]
+
+}
+
+
+
+###Publicar convocatoria
+
+PATCH  http://localhost:3000/job-call/pending/142b2f8e-f590-42ee-9494-7f0337c19563
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiUkVDUlVJVEVSIiwiaWQiOiIyMTEzZDAxMy0zYmFjLTRkNDEtOGMxMC05MDg2YzMyMzg4MzQiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwiaWF0IjoxNjYyNjEwNjE1LCJleHAiOjE2NjI2MTc4MTV9.Waz2RLcK74Q7i1rLm2gfZLdSkmdRGboCELaONleW-pg
+
+###Publicar convocatoria docente
+
+PATCH  http://localhost:3000/job-call/pending/teacher/7c086aec-5c14-4810-8868-5978fb65d843
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiUkVDUlVJVEVSIiwiaWQiOiJmMGQ5OTI3Ni1jMzMxLTQ2NjAtOGU2YS1mZTg1ZGQ4ZDFlYmYiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwiaWF0IjoxNjY4MjAwNjc0LCJleHAiOjE2NjgyMDc4NzR9.xEOJ6GpNbAMleibT4tqHMITIE6eq7HuJW6FdEzHFcaE
+
+###Abrir convocatoria
+
+PATCH  http://localhost:3000/job-call/opened/67bab653-5857-4346-91b7-387ecd2bc20d
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiUkVDUlVJVEVSIiwiaWQiOiJmMGQ5OTI3Ni1jMzMxLTQ2NjAtOGU2YS1mZTg1ZGQ4ZDFlYmYiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwiaWF0IjoxNjY1MDkzMDc2LCJleHAiOjE2NjUxMDAyNzZ9.rg-Q3aqSKIZI4X7pY7EC4NqYWlJz37iADeAjG2Ekxnk
+
+
+###Obtener convocatorias abiertas
+
+GET  http://localhost:3000/job-call/opened
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiUkVDUlVJVEVSIiwiaWQiOiJmMGQ5OTI3Ni1jMzMxLTQ2NjAtOGU2YS1mZTg1ZGQ4ZDFlYmYiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwiaWF0IjoxNjY2NjY4ODc4LCJleHAiOjE2NjY2NzYwNzh9.XWD__ZrLx4IW8z1DhvMKW6Cbh_eAdmeShgHYxsUamyY
+
+###Obtener convocatorias cerradas
+
+GET  http://localhost:3000/job-call/closed
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiUkVDUlVJVEVSIiwiaWQiOiJmMGQ5OTI3Ni1jMzMxLTQ2NjAtOGU2YS1mZTg1ZGQ4ZDFlYmYiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwiaWF0IjoxNjY2NjY4ODc4LCJleHAiOjE2NjY2NzYwNzh9.XWD__ZrLx4IW8z1DhvMKW6Cbh_eAdmeShgHYxsUamyY
+
+###Obtener candidatos postulados a una convocatoria abierta
+
+GET  http://localhost:3000/job-call/opened/candidates/fc50d61d-aabd-45e4-866b-e552a5759414
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiUkVDUlVJVEVSIiwiaWQiOiJmMGQ5OTI3Ni1jMzMxLTQ2NjAtOGU2YS1mZTg1ZGQ4ZDFlYmYiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwiaWF0IjoxNjY3Nzk0NjY2LCJleHAiOjE2Njc4MDE4NjZ9.55SwMEqdu0ntMoIXP6EpXLGMJfRFyK6JCHe9_eXpcGE
+
+###Obtener candidatos postulados a una convocatoria cerrada
+
+GET http://localhost:3000/job-call/closed/candidates/9e1cb665-e25d-41e6-9e20-da13356e834d
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiUkVDUlVJVEVSIiwiaWQiOiJmMGQ5OTI3Ni1jMzMxLTQ2NjAtOGU2YS1mZTg1ZGQ4ZDFlYmYiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwiaWF0IjoxNjY4MTM5OTUzLCJleHAiOjE2NjgxNDcxNTN9.NDxeyNXsFV1kjLfuGdbBRhm2yBgdauumRrxowXwApbk
+
+###Obtener candidatos postulados a una convocatoria para docente
+
+GET  http://localhost:3000/job-call/candiates/teacher/04b44546-a4db-4062-ba75-e3d48d0b8e5f
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiUkVDUlVJVEVSIiwiaWQiOiJmMGQ5OTI3Ni1jMzMxLTQ2NjAtOGU2YS1mZTg1ZGQ4ZDFlYmYiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwiaWF0IjoxNjcwNzAzMDUwLCJleHAiOjE2NzA3MTAyNTB9.SCdgPJomR5uPc1v_vDZg3QyjHmN_8_8PWm4dVeu8rt8
+
+###Crear convocatoria para docente
+
+POST http://localhost:3000/job-call/teacher
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiUkVDUlVJVEVSIiwiaWQiOiJmMGQ5OTI3Ni1jMzMxLTQ2NjAtOGU2YS1mZTg1ZGQ4ZDFlYmYiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwiaWF0IjoxNjY1MDExOTcyLCJleHAiOjE2NjUwMTkxNzJ9.3cEzR7QPa6-OfeH_Qa9JmtIuPeaS2IIKP_1KodHHGSs
+
+{
+	"teacherJobCall":{
+		"jobCallName": "DOCENTE TIEMPO HORARIO",
+		"jobCallNumber": "16",
+		"jobManualFile": "Manual.docx",
+		"jobInfoFile": "Info.pfd",
+		"openingDate": "2022-10-23T18:25:43.511Z",
+		"closingDate": "2022-11-23T18:25:43.511Z"
+	},
+	"newCareerClass":[
+		{
+			"id":"9f98053c-4791-411d-b4ba-d608c93edd07",
+			"requiredNumber":1,
+			"jobCallCode":"16A",
+			"requirements":[
+				{
+					"requirementType":"ACADEMIC_TRAINING",
+					"description":"Licenciatura en Estadística",
+    				"desiredLevel":"Indispensable"
+   					
+				},
+				{
+					"requirementType":"ACADEMIC_TRAINING",
+					"description":"Maestría en Ciencias (MSc) en Estadística concedida por Universidad acreditada internacionalmente.",
+    				"desiredLevel":"Deseable"
+				},
+					{
+					"requirementType":"ACADEMIC_TRAINING",
+					"description":"Diplomado en educación superior o equivalente.",
+    				"desiredLevel":"Indispensable"
+   					
+				},
+				{
+					"requirementType":"REQUIRED_KNOWLEDGE",
+					"description":"Solvencia demostrable en Álgebra por Computadoras (R, Python, Minitab, otros)."
+   					
+				},
+					{
+					"requirementType":"REQUIRED_KNOWLEDGE",
+					"description":"Haber cursado la materia."
+   					
+				},
+				{
+					"requirementType":"PROFESSIONAL_EXPERIENCE",
+					"description":"Experiencia profesional general",
+    				"desiredLevel":"Indispensable",
+    				"yearsOfExperience":3,
+    				"experienceType":"General"
+   					
+				},
+					{
+					"requirementType":"PROFESSIONAL_EXPERIENCE",
+					"description":"Experiencia docente universitaria general",
+    				"desiredLevel":"Indispensable",
+    				"yearsOfExperience":2,
+    				"experienceType":"General"
+   					
+				}
+			]
+		},
+		{
+			"id":"f1bc98a5-94a6-4ff2-8820-5d8783f09818",
+			"requiredNumber":2,
+			"jobCallCode":"16B",
+			"requirements":[
+				{
+					"requirementType":"ACADEMIC_TRAINING",
+					"description":"Licenciatura en Derechoa",
+    				"desiredLevel":"Indispensable"
+   					
+				},
+				{
+					"requirementType":"ACADEMIC_TRAINING",
+					"description":"Postgrado relacionado a la materia.",
+    				"desiredLevel":"Deseable"
+   					
+				},
+					{
+					"requirementType":"ACADEMIC_TRAINING",
+					"description":"Arbitraje",
+    				"desiredLevel":"Indispensable"
+   					
+				},
+				{
+					"requirementType":"REQUIRED_KNOWLEDGE",
+					"description":"Idioma Inglés"
+   					
+				},
+				{
+					"requirementType":"PROFESSIONAL_EXPERIENCE",
+					"description":"Experiencia profesional general",
+    				"desiredLevel":"Indispensable",
+    				"yearsOfExperience":3,
+    				"experienceType":"General"
+   					
+				},
+					{
+					"requirementType":"PROFESSIONAL_EXPERIENCE",
+					"description":"Experiencia docente universitaria general",
+    				"desiredLevel":"Indispensable",
+    				"yearsOfExperience":2,
+    				"experienceType":"General"
+   					
+				}
+			]
+		}
+	]
+}
+
+###Editar convocatoria docente
+
+PUT http://localhost:3000/job-call/teacher/bf46f3b8-e573-401e-8447-bd56a11531fb
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiUkVDUlVJVEVSIiwiaWQiOiJmMGQ5OTI3Ni1jMzMxLTQ2NjAtOGU2YS1mZTg1ZGQ4ZDFlYmYiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwiaWF0IjoxNjY3Njg3MTk0LCJleHAiOjE2Njc2OTQzOTR9.55ytVYGhlEdEUwQh1uxxJDl8YFSfynF_beMMpRcvxC8
+
+{
+	"teacherJobCall":{
+		"jobCallName": "DOCENTE TIEMPO HORARIO",
+		"jobCallNumber": "14",
+		"jobManualFile": "Manual.docx",
+		"openingDate": "2022-11-06T18:30:43.511Z",
+		"closingDate": "2022-11-11T18:30:43.511Z"
+	},
+	"newCareerClass":[
+		{
+			"id":"9f98053c-4791-411d-b4ba-d608c93edd07",
+			"requiredNumber":1,
+			"jobCallCode":"14A",
+			"requirements":[
+				{
+					"requirementType":"ACADEMIC_TRAINING",
+					"description":"Licenciatura en Estadística",
+    				"desiredLevel":"Indispensable"
+   					
+				},
+				{
+					"requirementType":"ACADEMIC_TRAINING",
+					"description":"Maestría en Ciencias (MSc) en Estadística concedida por Universidad acreditada internacionalmente.",
+    				"desiredLevel":"Deseable"
+				},
+					{
+					"requirementType":"ACADEMIC_TRAINING",
+					"description":"Diplomado en educación superior o equivalente.",
+    				"desiredLevel":"Indispensable"
+   					
+				},
+				{
+					"requirementType":"REQUIRED_KNOWLEDGE",
+					"description":"Solvencia demostrable en Álgebra por Computadoras (R, Python, Minitab, otros)."
+   					
+				},
+					{
+					"requirementType":"REQUIRED_KNOWLEDGE",
+					"description":"Haber cursado la materia."
+   					
+				},
+				{
+					"requirementType":"PROFESSIONAL_EXPERIENCE",
+					"description":"Experiencia profesional general",
+    				"desiredLevel":"Indispensable",
+    				"yearsOfExperience":3,
+    				"experienceType":"General"
+   					
+				},
+					{
+					"requirementType":"PROFESSIONAL_EXPERIENCE",
+					"description":"Experiencia docente universitaria general",
+    				"desiredLevel":"Indispensable",
+    				"yearsOfExperience":2,
+    				"experienceType":"General"
+   					
+				}
+			]
+		},
+		{
+			"id":"f1bc98a5-94a6-4ff2-8820-5d8783f09818",
+			"requiredNumber":2,
+			"jobCallCode":"14B",
+			"requirements":[
+				{
+					"requirementType":"ACADEMIC_TRAINING",
+					"description":"Licenciatura en Derechoa",
+    				"desiredLevel":"Indispensable"
+   					
+				},
+				{
+					"requirementType":"ACADEMIC_TRAINING",
+					"description":"Postgrado relacionado a la materia.",
+    				"desiredLevel":"Deseable"
+   					
+				},
+					{
+					"requirementType":"ACADEMIC_TRAINING",
+					"description":"Arbitraje",
+    				"desiredLevel":"Indispensable"
+   					
+				},
+				{
+					"requirementType":"REQUIRED_KNOWLEDGE",
+					"description":"Idioma Inglés"
+   					
+				},
+				{
+					"requirementType":"PROFESSIONAL_EXPERIENCE",
+					"description":"Experiencia profesional general",
+    				"desiredLevel":"Indispensable",
+    				"yearsOfExperience":3,
+    				"experienceType":"General"
+   					
+				},
+					{
+					"requirementType":"PROFESSIONAL_EXPERIENCE",
+					"description":"Experiencia docente universitaria general",
+    				"desiredLevel":"Indispensable",
+    				"yearsOfExperience":2,
+    				"experienceType":"General"
+   					
+				}
+			]
+		},
+		{
+			"id":"dd60a257-b20c-4fd2-a0a7-728be32eda0a",
+			"requiredNumber":2,
+			"jobCallCode":"14C",
+			"requirements":[
+				{
+					"requirementType":"ACADEMIC_TRAINING",
+					"description":"Licenciatura en Derecho",
+    				"desiredLevel":"Indispensable"
+   					
+				},
+				{
+					"requirementType":"ACADEMIC_TRAINING",
+					"description":"Postgrado relacionado a la materia.",
+    				"desiredLevel":"Deseable"
+   					
+				},
+				{
+					"requirementType":"REQUIRED_KNOWLEDGE",
+					"description":"Contratos comerciales"
+   					
+				},
+				{
+					"requirementType":"PROFESSIONAL_EXPERIENCE",
+					"description":"Experiencia profesional general",
+    				"desiredLevel":"Indispensable",
+    				"yearsOfExperience":3,
+    				"experienceType":"General"
+   					
+				},
+					{
+					"requirementType":"PROFESSIONAL_EXPERIENCE",
+					"description":"Experiencia docente universitaria general",
+    				"desiredLevel":"Indispensable",
+    				"yearsOfExperience":2,
+    				"experienceType":"General"
+   					
+				}
+			]
+		}
+	]
+}
+
+### Agregar materias a convocatoria docente
+
+PATCH  http://localhost:3000/job-call/teacher/ead476f5-5077-411b-8ce5-ce77bd443cbc
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiUkVDUlVJVEVSIiwiaWQiOiJmMGQ5OTI3Ni1jMzMxLTQ2NjAtOGU2YS1mZTg1ZGQ4ZDFlYmYiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwiaWF0IjoxNjY4Mzk3NzA0LCJleHAiOjE2Njg0MDQ5MDR9.Sps11MFFDiMGlh-tnklGYxNBXkkgJXeTkjVMU4G5AzA
+
+{
+	"newCareerClass":[
+		{
+			"id":"dd60a257-b20c-4fd2-a0a7-728be32eda0a",
+			"requiredNumber":2,
+			"jobCallCode":"14C",
+			"requirements":[
+				{
+					"requirementType":"ACADEMIC_TRAINING",
+					"description":"Licenciatura en Derecho",
+    				"desiredLevel":"Indispensable"
+   					
+				},
+				{
+					"requirementType":"ACADEMIC_TRAINING",
+					"description":"Maestría en contratos comerciales",
+    				"desiredLevel":"Deseable"
+				},
+					{
+					"requirementType":"ACADEMIC_TRAINING",
+					"description":"Diplomado en educación superior o equivalente.",
+    				"desiredLevel":"Indispensable"
+   					
+				},
+				{
+					"requirementType":"REQUIRED_KNOWLEDGE",
+					"description":"Teoría de contratos comerciales"
+   					
+				},
+					{
+					"requirementType":"REQUIRED_KNOWLEDGE",
+					"description":"Haber cursado la materia."
+   					
+				},
+				{
+					"requirementType":"PROFESSIONAL_EXPERIENCE",
+					"description":"Experiencia profesional general",
+    				"desiredLevel":"Indispensable",
+    				"yearsOfExperience":3,
+    				"experienceType":"General"
+   					
+				},
+					{
+					"requirementType":"PROFESSIONAL_EXPERIENCE",
+					"description":"Experiencia docente universitaria general",
+    				"desiredLevel":"Indispensable",
+    				"yearsOfExperience":2,
+    				"experienceType":"General"
+   					
+				}
+			]
+		},
+		{
+			"id":"b241214d-15fa-4988-8cec-8e84ba3bb44a",
+			"requiredNumber":2,
+			"jobCallCode":"14D",
+			"requirements":[
+				{
+					"requirementType":"ACADEMIC_TRAINING",
+					"description":"Licenciatura en Derechoa",
+    				"desiredLevel":"Indispensable"
+   					
+				},
+				{
+					"requirementType":"ACADEMIC_TRAINING",
+					"description":"Postgrado relacionado a la materia.",
+    				"desiredLevel":"Deseable"
+   					
+				},
+					{
+					"requirementType":"ACADEMIC_TRAINING",
+					"description":"Teoría del estado",
+    				"desiredLevel":"Indispensable"
+   					
+				},
+				{
+					"requirementType":"REQUIRED_KNOWLEDGE",
+					"description":"Idioma Inglés"
+   					
+				},
+				{
+					"requirementType":"PROFESSIONAL_EXPERIENCE",
+					"description":"Experiencia profesional general",
+    				"desiredLevel":"Indispensable",
+    				"yearsOfExperience":3,
+    				"experienceType":"General"
+   					
+				},
+					{
+					"requirementType":"PROFESSIONAL_EXPERIENCE",
+					"description":"Experiencia docente universitaria general",
+    				"desiredLevel":"Indispensable",
+    				"yearsOfExperience":2,
+    				"experienceType":"General"
+   					
+				}
+			]
+		}
+	]
+}
+
+### Get opened teacher job calls
+
+
+GET http://localhost:3000/job-call/opened/teacher/jc
+Content-Type: application/json
+#Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiUkVDUlVJVEVSIiwiaWQiOiJmMGQ5OTI3Ni1jMzMxLTQ2NjAtOGU2YS1mZTg1ZGQ4ZDFlYmYiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwiaWF0IjoxNjY2NDE0NzEyLCJleHAiOjE2NjY0MjE5MTJ9.Wh_eloJrTpLNefP_mZYagrJQm_9qzfFswNKLiR1WLOY
+
+### Get saved teacher job calls
+
+GET http://localhost:3000/job-call/saved/teacher
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiUkVDUlVJVEVSIiwiaWQiOiJmMGQ5OTI3Ni1jMzMxLTQ2NjAtOGU2YS1mZTg1ZGQ4ZDFlYmYiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwiaWF0IjoxNjY3NTE0OTE3LCJleHAiOjE2Njc1MjIxMTd9.SZefYg7foH8g_3f9qbwaUccO1HSVhCFIDuPP3uARcBg
+
+### Get closed teacher job calls
+
+
+GET http://localhost:3000/job-call/closed/teacher
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiUkVDUlVJVEVSIiwiaWQiOiJmMGQ5OTI3Ni1jMzMxLTQ2NjAtOGU2YS1mZTg1ZGQ4ZDFlYmYiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwiaWF0IjoxNjY2MzI5NjQ2LCJleHAiOjE2NjYzMzY4NDZ9.EBNi3nPp0fj27X4N5dfxA3dLk-c6xVLPhvg3R2hRi70
+
+### Get pending teacher job calls
+
+
+GET http://localhost:3000/job-call/pending/teacher
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiUkVDUlVJVEVSIiwiaWQiOiJmMGQ5OTI3Ni1jMzMxLTQ2NjAtOGU2YS1mZTg1ZGQ4ZDFlYmYiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwiaWF0IjoxNjY2MjE1NDg2LCJleHAiOjE2NjYyMjI2ODZ9.9twU4isKgMwnt3wcMly4YLdy4_kTFXqUvYGJD9PaVX4
+
+
+
+### Get teacher job call info
+
+GET http://localhost:3000/job-call/teacher/34f8b67d-b7b9-4db6-b5c1-e04fa35e41ad
+Content-Type: application/json
+
+
+### Get teacher job-call by id
+
+
+GET http://localhost:3000/job-call/teacher-jc/7c086aec-5c14-4810-8868-5978fb65d843
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiUkVDUlVJVEVSIiwiaWQiOiJmMGQ5OTI3Ni1jMzMxLTQ2NjAtOGU2YS1mZTg1ZGQ4ZDFlYmYiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwiaWF0IjoxNjY4NzI1NTYxLCJleHAiOjE2Njg3MzI3NjF9.4tQCNsZI6ewiqdhUkD0bHNuHz9-SjC8dUrxfzrhNLeE
+
+### Obtener carreras
+
+GET http://localhost:3000/job-call/college-career
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiUkVDUlVJVEVSIiwiaWQiOiJmMGQ5OTI3Ni1jMzMxLTQ2NjAtOGU2YS1mZTg1ZGQ4ZDFlYmYiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwiaWF0IjoxNjY1MzYzNTI0LCJleHAiOjE2NjUzNzA3MjR9.EJb_8wVKgayIDmZa5tWd8LEdx1ZCv69t0tMiMqACE8Y
+
+### Crear carreras
+
+POST http://localhost:3000/job-call/college-career
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiUkVDUlVJVEVSIiwiaWQiOiJmMGQ5OTI3Ni1jMzMxLTQ2NjAtOGU2YS1mZTg1ZGQ4ZDFlYmYiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwiaWF0IjoxNjY1MzYzNTI0LCJleHAiOjE2NjUzNzA3MjR9.EJb_8wVKgayIDmZa5tWd8LEdx1ZCv69t0tMiMqACE8Y
+
+{
+	"careerName":"Ingeniería civil"
+}

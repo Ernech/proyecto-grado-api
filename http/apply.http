@@ -1,0 +1,60 @@
+
+### Postular a convocatoria
+
+POST http://localhost:3000/job-apply
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQ0FORElEQVRFIiwiaWQiOiJhNDcwZjZhMy03NDNjLTQ5NDItYWYyMC02OTRmNjMwMTI1YmUiLCJlbWFpbCI6InBlcGVAZ21haWwuY29tIiwiaWF0IjoxNjY1MDk2OTIwLCJleHAiOjE2NjUxMDQxMjB9.898oO8P6L5WupKKZGxZv_G7Nd7NzvSwggxMkjZc_jTQ
+
+{
+    "candidateId":"a470f6a3-743c-4942-af20-694f630125be",
+    "jobCallId":"67bab653-5857-4346-91b7-387ecd2bc20d"  
+}
+
+
+### Postular a convocatoria docente
+
+POST http://localhost:3000/job-apply/teacher
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQ0FORElEQVRFIiwiaWQiOiJhNDcwZjZhMy03NDNjLTQ5NDItYWYyMC02OTRmNjMwMTI1YmUiLCJlbWFpbCI6InBlcGVAZ21haWwuY29tIiwiaWF0IjoxNjY2MzkwNDk0LCJleHAiOjE2NjYzOTc2OTR9.naA5xd_4phydfhsbNP8s9-5GVU-IWPJCA7QQ7P1nERo
+
+{
+    "candidateId":"a470f6a3-743c-4942-af20-694f630125be",
+    "jobCallId":"8d5e19bd-1472-4eb8-9f08-4a28a9af0ec8"  
+}
+
+### Obtener postulaciones a cargos administrativos
+
+GET http://localhost:3000/job-apply/candidate/716016bb-fa06-42e6-8b53-db71567c88d4
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQ0FORElEQVRFIiwiaWQiOiI3MTYwMTZiYi1mYTA2LTQyZTYtOGI1My1kYjcxNTY3Yzg4ZDQiLCJlbWFpbCI6ImVybmVjaEBnbWFpbC5jb20iLCJpYXQiOjE2NjkwOTE1NzQsImV4cCI6MTY2OTA5ODc3NH0.YsUMNP9m4ozB7-pNYXX_Vj9Lrsc9MJ4LNA6Hhhyu4yw
+
+### Obtener postulaciones a docente
+
+GET http://localhost:3000/job-apply/teacher/candidate/04b44546-a4db-4062-ba75-e3d48d0b8e5f
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiUkVDUlVJVEVSIiwiaWQiOiJmMGQ5OTI3Ni1jMzMxLTQ2NjAtOGU2YS1mZTg1ZGQ4ZDFlYmYiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwiaWF0IjoxNjcwNjkyOTEzLCJleHAiOjE2NzA3MDAxMTN9.Q52sgnnZ_ZmKtX1A1XY4-1zsZ2hDAj5LEO_Yt_kSeDY
+
+### Obtener postulación por id
+
+GET http://localhost:3000/job-apply/ab40eb0e-d98b-4585-ad69-a1638d282450
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiUkVDUlVJVEVSIiwiaWQiOiJmMGQ5OTI3Ni1jMzMxLTQ2NjAtOGU2YS1mZTg1ZGQ4ZDFlYmYiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwiaWF0IjoxNjY4MDU0NDAzLCJleHAiOjE2NjgwNjE2MDN9.oCQgbPTwdYA46jO1a8n0FXyKmg6F_IxekbA7oWv9b08
+
+### Obtener postulación a docente por id
+
+GET http://localhost:3000/job-apply/teacher/73805dc4-1544-4c3a-9a26-99a8bf2c7eab
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiUkVDUlVJVEVSIiwiaWQiOiJmMGQ5OTI3Ni1jMzMxLTQ2NjAtOGU2YS1mZTg1ZGQ4ZDFlYmYiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwiaWF0IjoxNjcwNTY0ODg4LCJleHAiOjE2NzA1NzIwODh9.tFrFxxHeaPN5zEL4nVMCLRTaEoaZVY7gxI_MCFMCVws
+
+### Prueba predicción
+
+GET http://localhost:3000/job-apply/prediction
+#Content-Type: application/json
+#Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiUkVDUlVJVEVSIiwiaWQiOiJmMGQ5OTI3Ni1jMzMxLTQ2NjAtOGU2YS1mZTg1ZGQ4ZDFlYmYiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwiaWF0IjoxNjcwMzg0ODI0LCJleHAiOjE2NzAzOTIwMjR9.f-AooML21cCM_bibx-tAl4rvLnNIcEzUlcA84YNZTzk
+
+
+###Obtener reporte de candidatos  postulados a una convocatoria para docente
+
+GET http://localhost:3000/job-apply/teacher/candidates-report/04b44546-a4db-4062-ba75-e3d48d0b8e5f
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiUkVDUlVJVEVSIiwiaWQiOiJmMGQ5OTI3Ni1jMzMxLTQ2NjAtOGU2YS1mZTg1ZGQ4ZDFlYmYiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwiaWF0IjoxNjcwODE5NjA0LCJleHAiOjE2NzA4MjY4MDR9.dVuljVPDp013nL8YWpXT2YA1oS9-c4ZMbGpaf0JI2tM
