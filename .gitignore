@@ -1,6 +1,10 @@
 # compiled output
 /dist
 /node_modules
+<<<<<<< HEAD
+=======
+/http
+>>>>>>> develop-1
 .env
 # Logs
 logs
