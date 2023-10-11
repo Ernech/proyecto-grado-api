@@ -39,3 +39,4 @@ With the following JSON structure
 [Vue Js App (Recruiter - Admin)](https://github.com/Ernech/proyecto-grado-web)
 
 [Vue Js App (Candidate)](https://github.com/Ernech/proyecto-grado-web-candidate)
+
