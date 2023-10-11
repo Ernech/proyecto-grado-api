@@ -2,7 +2,7 @@
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
 
-# Proyecto de grado - 2023
+# Proyecto de grado - 2022
 1. Copy the ```.env.example``` and rename it to ```.env```
 2. Set your enviroment variables in the ```.env``` file.
 3. Execute 
