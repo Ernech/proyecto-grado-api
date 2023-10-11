@@ -21,7 +21,7 @@ npm run start:dev
 ```
 localhost:5433
 ```
-7. Create a new user admin sond a POST request to
+7. Create a new user admin by sending a POST request to
 ```
 http://localhost:3000/user
 ```
