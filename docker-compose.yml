@@ -5,9 +5,9 @@ services:
     image: postgres:12
     container_name: database-project
     environment:
-      POSTGRES_DB: ucb-rrhh
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: proyecto-grado-2022
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - /var/lib/postgresql/data
     ports:
@@ -16,8 +16,8 @@ services:
     image: dpage/pgadmin4:latest
     container_name: pgAdmin
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@proyecto.com
-      PGADMIN_DEFAULT_PASSWORD: proyecto-grado-2022
+      PGADMIN_DEFAULT_EMAIL: ${PG_ADM_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${proyecto-grado-2022}
       PGADMIN_LISTEN_PORT: 5433
     ports:
       - 5433:5433

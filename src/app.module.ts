@@ -13,11 +13,11 @@ import { ScheduleModule } from '@nestjs/schedule';
     TypeOrmModule.forRoot({
       name: 'postgres',
       type: DataBaseEnum.ORACLE,
-      host: 'localhost',
+      host: process.env.DB_HOST,
       port: 5432,
-      username: 'admin',
-      password: 'proyecto-grado-2022',
-      database: 'ucb-rrhh',
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
       autoLoadEntities: true,
       synchronize: true,
       entities: [__dirname + '/persistence/*.entity{.ts,.js}']
